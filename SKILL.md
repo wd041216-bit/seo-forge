@@ -7,7 +7,7 @@ description: >-
   competitor analysis, keyword density tuning, authority references, and
   auto-pushes finished blog to GitHub / Vercel.
   Combines expert-distiller pipeline patterns with industrial-grade SEO
-  optimization distilled from production APOB AI SEO Optimizer.
+  optimization distilled from production-grade SEO systems.
   TRIGGER when: user says "seo blog", "write blog", "blog forge",
   "auto blog", "seo optimize", "keyword research blog", "generate article",
   or provides a company/industry name wanting SEO content.

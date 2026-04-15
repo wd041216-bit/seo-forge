@@ -83,7 +83,7 @@ After:  Experience=X'/10, Expertise=Y'/10, Authoritativeness=Z'/10, Trustworthin
 ## Anti-Patterns to Avoid
 
 1. **Marketing Speak**: "Revolutionary", "game-changing", "best ever" → Use specific facts
-2. **Vague Claims**: "High quality" → "4K resolution at 60fps"
+2. **Vague Claims**: "High quality" → "verified 99.5% accuracy in benchmark tests"
 3. **No Alternatives**: Always mention competing options
 4. **Hidden Affiliation**: Always disclose relationship with the company
 5. **Over-CTA**: More than 3 CTA buttons feels spammy

@@ -97,7 +97,7 @@ The skill supports these blog platforms:
 ### CMS Platforms
 - **WordPress**: Via REST API or XML-RPC
 - **Ghost**: Via Admin API
-- **Framer CMS**: Via CSV import (35-field format)
+- **Framer CMS**: Via CSV import
 
 ### Output Formats
 - **Markdown with Frontmatter** (default)
