@@ -1,0 +1,97 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SEO Forge Blog Configuration",
+  "description": "Universal blog configuration template for any company and industry",
+  "type": "object",
+  "required": ["company_name", "industry", "site_url"],
+  "properties": {
+    "company_name": {
+      "type": "string",
+      "description": "Your company name",
+      "examples": ["Acme Corp", "TechStart AI", "GreenEnergy Solutions"]
+    },
+    "industry": {
+      "type": "string",
+      "description": "Your industry vertical",
+      "examples": ["AI/SaaS", "fintech", "healthtech", "e-commerce", "edtech", "cleantech"]
+    },
+    "site_url": {
+      "type": "string",
+      "format": "uri",
+      "description": "Your company website URL"
+    },
+    "blog_path": {
+      "type": "string",
+      "description": "Blog URL path on your site",
+      "default": "/blog"
+    },
+    "competitors": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Real competitor domain names for comparison sections",
+      "examples": [["competitor1.com", "competitor2.com", "competitor3.com"]]
+    },
+    "target_keywords": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Primary keywords to target in blog content"
+    },
+    "language": {
+      "type": "string",
+      "default": "en",
+      "description": "Default output language for articles",
+      "enum": ["en", "zh", "es", "fr", "de", "ja", "ko", "pt"]
+    },
+    "cta_url": {
+      "type": "string",
+      "format": "uri",
+      "description": "URL for CTA buttons in articles"
+    },
+    "author_bio": {
+      "type": "string",
+      "description": "Author bio for article attribution"
+    },
+    "brand_voice": {
+      "type": "string",
+      "description": "Description of your brand's writing voice and tone",
+      "default": "Professional but approachable. Evidence-based. Honest about limitations."
+    },
+    "trusted_reference_domains": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Domains approved for reference links",
+      "default": ["wikipedia.org", "reuters.com", "techcrunch.com", "wired.com", "hbr.org"]
+    },
+    "blog_platform": {
+      "type": "string",
+      "description": "Target blog platform for output formatting",
+      "enum": ["nextjs", "astro", "hugo", "gatsby", "wordpress", "ghost", "framer", "generic"],
+      "default": "generic"
+    },
+    "articles_per_week": {
+      "type": "integer",
+      "description": "Target article output frequency",
+      "default": 2,
+      "minimum": 1,
+      "maximum": 7
+    },
+    "auto_push": {
+      "type": "boolean",
+      "description": "Automatically commit and push to GitHub",
+      "default": false
+    },
+    "seo_rules": {
+      "type": "object",
+      "description": "Customizable SEO optimization parameters",
+      "properties": {
+        "keyword_density_min": { "type": "number", "default": 1.0 },
+        "keyword_density_max": { "type": "number", "default": 2.0 },
+        "eeat_target_score": { "type": "number", "default": 8.0 },
+        "min_word_count": { "type": "integer", "default": 1500 },
+        "faq_min_questions": { "type": "integer", "default": 6 },
+        "competitor_count": { "type": "integer", "default": 3 },
+        "max_cta_buttons": { "type": "integer", "default": 3 }
+      }
+    }
+  }
+}
