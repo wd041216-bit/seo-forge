@@ -1,7 +1,17 @@
 node_modules/
 dist/
 .env
+.env.*
 .seo-forge-state.json
 __pycache__/
 *.pyc
+*.pyo
 .DS_Store
+*.egg-info/
+build/
+.seo-forge-data/
+pipeline_state.json
+*.cover
+.coverage
+htmlcov/
+.pytest_cache/
