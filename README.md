@@ -69,8 +69,36 @@ seo-forge "Your Company" --auto-push
 ### Prerequisites
 
 - Python 3.8+
-- [Claude Code](https://docs.anthropic.com/en/docs/claude-code) or compatible AI agent runtime
-- MCP tools: `web-search-prime`, `web-reader`, `zread` (for web research)
+- [Claude Code](https://docs.anthropic.com/en/docs/claude-code) or [opencode](https://opencode.ai) or compatible AI agent runtime
+- MCP tools (see below)
+
+### MCP Tools
+
+SEO Forge 通过 MCP 工具进行网页搜索、内容抓取和 GitHub 仓库读取。
+
+**默认方案：🏷️ GLM (智谱 AI)** — 三个工具共用一个 API Key，配置最简单：
+
+| MCP Server | 工具 | 用途 | 来源 |
+|------------|------|------|------|
+| `web-search-prime` | `web_search_prime` | 关键词发现、趋势分析、SERP 研究 | 🏷️ GLM |
+| `web-reader` | `webReader` | 抓取网页内容、读取竞品文章、验证参考链接 | 🏷️ GLM |
+| `zread` | `read_file`, `get_repo_structure`, `search_doc` | 读取 GitHub 仓库文件和目录结构 | 🏷️ GLM |
+
+**配置方法：**
+
+1. 在 [open.bigmodel.cn](https://open.bigmodel.cn) 获取 API Key
+2. 设置环境变量：`export ZHIPU_API_KEY="你的密钥"`
+3. 本项目已包含 `.mcp.json`，使用 `${ZHIPU_API_KEY}` 占位
+
+**平替方案：** 不想用 GLM？支持替换为：
+
+| 平替 | 搜索 | 抓取 | GitHub | 需要 Key |
+|------|:----:|:----:|:------:|:-------:|
+| [Tavily](https://github.com/tavily-ai/tavily-mcp) (1.8k ⭐) | ✅ | ✅ | ❌ | 是 |
+| [Exa](https://github.com/exa-labs/exa-mcp-server) (4.3k ⭐) | ✅ | ✅ | ❌ | 是 |
+| [Fetch MCP](https://github.com/modelcontextprotocol/servers) (83.8k ⭐) | ❌ | ✅ | ❌ | 否 |
+
+详细配置步骤、参数说明和平替方案对比见 **[docs/mcp-tools.md](docs/mcp-tools.md)**。
 
 ### Installation
 

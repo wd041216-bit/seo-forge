@@ -1,0 +1,23 @@
+{
+  "web-search-prime": {
+    "type": "remote",
+    "url": "https://open.bigmodel.cn/api/mcp/web_search_prime/mcp",
+    "headers": {
+      "Authorization": "Bearer ${ZHIPU_API_KEY}"
+    }
+  },
+  "web-reader": {
+    "type": "remote",
+    "url": "https://open.bigmodel.cn/api/mcp/web_reader/mcp",
+    "headers": {
+      "Authorization": "Bearer ${ZHIPU_API_KEY}"
+    }
+  },
+  "zread": {
+    "type": "remote",
+    "url": "https://open.bigmodel.cn/api/mcp/zread/mcp",
+    "headers": {
+      "Authorization": "Bearer ${ZHIPU_API_KEY}"
+    }
+  }
+}
