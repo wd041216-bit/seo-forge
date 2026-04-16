@@ -7,9 +7,9 @@
 _Turn any company or industry into a blog content machine — powered by AI agents._
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Python 3.9+](https://img.shields.io/badge/Python-3.9%2B-blue.svg)](https://www.python.org/downloads/)
-[![Zero Dependencies](https://img.shields.io/badge/Dependencies-Zero-green.svg)](https://github.com/seo-forge/seo-forge)
-[![E-E-A-T](https://img.shields.io/badge/Google-E--E--A--T%20Compliant-brightgreen.svg)](https://developers.google.com/search/docs/fundamentals/creating-helpful-content)
+[![Python 3.8+](https://img.shields.io/badge/Python-3.8%2B-blue.svg)](https://www.python.org/downloads/)
+[![Zero Dependencies](https://img.shields.io/badge/Dependencies-Zero-green.svg)](https://github.com/wd041216-bit/seo-forge)
+[![E-E-A-T Aligned](https://img.shields.io/badge/E--E--A--T-Aligned-brightgreen.svg)](https://developers.google.com/search/docs/fundamentals/creating-helpful-content)
 [![PRs Welcome](https://img.shields.io/badge/PRs-Welcome-brightgreen.svg)](CONTRIBUTING.md)
 
 [Features](#-features) • [Quick Start](#-quick-start) • [How It Works](#-how-it-works) • [Architecture](#-architecture) • [CLI](#-cli) • [Templates](#-templates) • [Contributing](CONTRIBUTING.md)
@@ -20,17 +20,16 @@ _Turn any company or industry into a blog content machine — powered by AI agen
 
 ## The Problem
 
-Writing SEO blog content is **slow**, **expensive**, and **hard to scale**:
+Writing SEO blog content is **slow** and **hard to scale**:
 
-- ❌ Hiring writers costs $200-500+ per article
-- ❌ Keyword research takes hours per topic
-- ❌ E-E-A-T compliance requires expert knowledge
+- ❌ Researching keywords and writing a quality article takes hours
+- ❌ Maintaining E-E-A-T compliance across all articles requires attention to detail
 - ❌ Quality is inconsistent across articles
 - ❌ Publishing workflow is manual and error-prone
 
 ## The Solution
 
-SEO Forge is a **fully autonomous 10-phase pipeline** that goes from a company name to a published, SEO-optimized blog article — with zero human intervention.
+SEO Forge is a **10-phase autonomous pipeline** that goes from a company name to a published, SEO-optimized blog article, orchestrated by AI agents.
 
 ```bash
 # One command. That's it.
@@ -52,8 +51,8 @@ seo-forge "Your Company" --auto-push
 
 | Feature | Description |
 |---------|-------------|
-| 🌍 **Universal** | Works for any company, any industry, any language |
-| 🎯 **E-E-A-T First** | Google Experience, Expertise, Authoritativeness, Trustworthiness compliant |
+| 🌍 **Universal** | Works for any company, any industry, supports 8 languages |
+| 🎯 **E-E-A-T First** | Content aligned with Google's Experience, Expertise, Authoritativeness, Trustworthiness guidelines |
 | 📊 **4-Axis Scoring** | SEO Quality, E-E-A-T, Content Depth, Reference Authority |
 | 🔄 **8 Templates** | Reviewer, Tutorial, Analyst, Problem-Solver, Beginner's Guide, Storyteller, Comparison, Case Study |
 | 🔍 **Keyword Intelligence** | SERP analysis, intent classification, competition scoring, opportunity windows |
@@ -69,7 +68,7 @@ seo-forge "Your Company" --auto-push
 
 ### Prerequisites
 
-- Python 3.9+
+- Python 3.8+
 - [Claude Code](https://docs.anthropic.com/en/docs/claude-code) or compatible AI agent runtime
 - MCP tools: `web-search-prime`, `web-reader`, `zread` (for web research)
 
@@ -77,7 +76,7 @@ seo-forge "Your Company" --auto-push
 
 ```bash
 # Clone the repo
-git clone https://github.com/your-username/seo-forge.git
+git clone https://github.com/wd041216-bit/seo-forge.git
 cd seo-forge
 
 # No pip install needed — zero dependencies!
@@ -274,7 +273,7 @@ Final Score = (0.30 × Potential) + (0.20 × Validation) - (0.50 × Difficulty) 
 | Who | How |
 |-----|-----|
 | **Startups** | Generate SEO blog content from day one, no writing team needed |
-| **Marketing Teams** | Scale content production 10x with consistent quality |
+| **Marketing Teams** | Scale content production with consistent quality |
 | **SEO Agencies** | Deliver articles for multiple clients in parallel |
 | **Developers** | Auto-publish technical blog posts to your static site |
 | **Solo Founders** | Compete with bigger companies on content marketing |
@@ -286,8 +285,8 @@ Final Score = (0.30 × Potential) + (0.20 × Validation) - (0.50 × Difficulty) 
 We love contributions! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 
 **Ways to contribute:**
-- 🐛 Report bugs via [Issues](https://github.com/your-username/seo-forge/issues)
-- 💡 Suggest features via [Discussions](https://github.com/your-username/seo-forge/discussions)
+- 🐛 Report bugs via [Issues](https://github.com/wd041216-bit/seo-forge/issues)
+- 💡 Suggest features via [Discussions](https://github.com/wd041216-bit/seo-forge/discussions)
 - 🔧 Submit pull requests
 - ⭐ Star the repo if you find it useful!
 

@@ -16,7 +16,7 @@ First off, thank you for considering contributing to SEO Forge! It's people like
 
 **Before submitting a bug:**
 
-1. Search existing [Issues](https://github.com/your-username/seo-forge/issues) to avoid duplicates
+1. Search existing [Issues](https://github.com/wd041216-bit/seo-forge/issues) to avoid duplicates
 2. Verify you're using the latest version
 3. Collect relevant information: Python version, OS, error messages
 
@@ -32,7 +32,7 @@ First off, thank you for considering contributing to SEO Forge! It's people like
 
 We welcome feature requests! Please:
 
-1. Check existing [Issues](https://github.com/your-username/seo-forge/issues) and [Discussions](https://github.com/your-username/seo-forge/discussions) first
+1. Check existing [Issues](https://github.com/wd041216-bit/seo-forge/issues) and [Discussions](https://github.com/wd041216-bit/seo-forge/discussions) first
 2. Describe the use case and why it's valuable
 3. If possible, suggest how it might work
 
@@ -73,7 +73,7 @@ chore: update CI workflow
 
 ```bash
 # Clone your fork
-git clone https://github.com/your-username/seo-forge.git
+git clone https://github.com/wd041216-bit/seo-forge.git
 cd seo-forge
 
 # Run the CLI to verify setup
@@ -181,7 +181,7 @@ Be respectful, constructive, and inclusive. We're all here to make SEO Forge bet
 
 ## Questions?
 
-Open a [Discussion](https://github.com/your-username/seo-forge/discussions) for questions, ideas, or general chat about SEO Forge.
+Open a [Discussion](https://github.com/wd041216-bit/seo-forge/discussions) for questions, ideas, or general chat about SEO Forge.
 
 ---
 
