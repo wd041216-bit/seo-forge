@@ -246,6 +246,37 @@ Every reference MUST follow this exact format:
 - At least 2-3 references required per article
 - Place after FAQ, before final CTA
 
+## Table Format (ALL Templates)
+
+Every comparison or data table MUST use proper HTML structure:
+
+```html
+<table>
+  <thead>
+    <tr>
+      <th>Parameter</th>
+      <th>Column A</th>
+      <th>Column B</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Row Label</td>
+      <td>Value A</td>
+      <td>Value B</td>
+    </tr>
+  </tbody>
+</table>
+```
+
+**Rules**:
+- ALWAYS include `<thead>` with `<th>` cells
+- ALWAYS include `<tbody>` with `<td>` cells
+- First column contains the parameter/label name
+- For numeric comparison tables, put the best value in `<strong>` tags
+- Keep tables concise: max 12 rows per table. Split larger tables into multiple with subheadings
+- Add a brief summary paragraph before each table explaining what it compares
+
 ## FAQ Requirements (ALL Templates)
 
 - At least 6 questions
