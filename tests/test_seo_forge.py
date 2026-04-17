@@ -1754,3 +1754,142 @@ class TestCmdDraft:
 
         result = cmd_draft(Args())
         assert result["template"] == "tutorial"
+
+
+class TestEndToEndPipeline:
+    def test_draft_score_validate_publish(self, tmp_path):
+        config_path = str(tmp_path / "config.json")
+        save_json(
+            config_path,
+            {
+                "site_url": "https://example.com",
+                "industry": "Technology",
+                "seo_rules": {"min_word_count": 500, "faq_min_questions": 2},
+            },
+        )
+
+        # Step 1: Draft
+        draft_path = str(tmp_path / "draft.md")
+        draft_args = type(
+            "Args",
+            (),
+            {
+                "keyword": "AI writing tools",
+                "template": None,
+                "config": config_path,
+                "output": draft_path,
+            },
+        )()
+        draft_result = cmd_draft(draft_args)
+        assert draft_result["template"] == "reviewer"
+        assert os.path.exists(draft_path)
+
+        # Step 2: Score
+        article_content = read_file(draft_path)
+        config = load_json(config_path)
+        scores = compute_article_scores(article_content, "AI writing tools", config)
+        assert scores["total"] > 0
+
+        # Step 3: Validate (should pass with relaxed thresholds)
+        validate_args = type(
+            "Args",
+            (),
+            {
+                "article": draft_path,
+                "keyword": "AI writing tools",
+                "config": config_path,
+                "check_urls": False,
+                "output": None,
+            },
+        )()
+        cmd_validate(validate_args)
+
+        # Step 4: Publish (dry-run)
+        publish_path = str(tmp_path / "published.md")
+        publish_args = type(
+            "Args",
+            (),
+            {
+                "article": draft_path,
+                "platform": "nextjs",
+                "dry_run": True,
+                "output": publish_path,
+                "require_review": False,
+            },
+        )()
+        cmd_publish(publish_args)
+        published = read_file(publish_path)
+        assert "title:" in published
+        assert "seo_title:" in published
+        assert "description:" in published
+
+    def test_draft_to_schema_pipeline(self, tmp_path):
+        draft_path = str(tmp_path / "draft.md")
+        draft_args = type(
+            "Args",
+            (),
+            {
+                "keyword": "best project management software",
+                "template": "comparison",
+                "config": None,
+                "output": draft_path,
+            },
+        )()
+        cmd_draft(draft_args)
+
+        schema_path = str(tmp_path / "schema.json")
+        schema_args = type(
+            "Args",
+            (),
+            {
+                "article": draft_path,
+                "config": None,
+                "output": schema_path,
+            },
+        )()
+        cmd_schema(schema_args)
+        schema_output = load_json(schema_path)
+        article_schema = schema_output["schemas"][0]
+        assert article_schema["@type"] == "Article"
+        assert "headline" in article_schema
+
+    def test_draft_editorial_review_pipeline(self, tmp_path):
+        config_path = str(tmp_path / "config.json")
+        save_json(
+            config_path,
+            {
+                "site_url": "https://example.com",
+                "brand_voice_keywords": ["experience", "tested", "methodology"],
+                "seo_rules": {"min_word_count": 100, "faq_min_questions": 1},
+            },
+        )
+
+        draft_path = str(tmp_path / "draft.md")
+        draft_args = type(
+            "Args",
+            (),
+            {
+                "keyword": "how to build a website",
+                "template": None,
+                "config": config_path,
+                "output": draft_path,
+            },
+        )()
+        cmd_draft(draft_args)
+
+        review_path = str(tmp_path / "review.json")
+        review_args = type(
+            "Args",
+            (),
+            {
+                "article": draft_path,
+                "keyword": "how to build a website",
+                "config": config_path,
+                "output": review_path,
+            },
+        )()
+        cmd_editorial_review(review_args)
+        review = load_json(review_path)
+        assert "decision" in review
+        assert "checklist" in review
+        assert "brandVoice" in review["checklist"]

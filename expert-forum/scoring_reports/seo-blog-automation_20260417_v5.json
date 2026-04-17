@@ -1,0 +1,173 @@
+{
+  "domain": "seo-blog-automation",
+  "artifact_path": "/Users/dawei/playground/seo-forge",
+  "iteration": 5,
+  "previous_iteration_score": 79,
+  "council_id": "seo-blog-automation-main-council",
+  "debate_rounds": [
+    {
+      "round": 1,
+      "title": "Chair Initial Assessment",
+      "expert": "aleyda-solis",
+      "statement": "Iteration 5 closes two significant gaps. The cmd_draft command provides article scaffolding generation with 8 templates, intent-based auto-selection, and structured output format (TITLE, SEO_TITLE, SLUG, META, ALT, COVER_IMAGE_URL, CONTENT). This directly addresses the 'no content generation capability' gap from iteration 4. The brand voice keyword check in cmd_editorial_review automates the last previously-unautomated editorial review category, using brand_voice_keywords from config with a ≥50% match threshold. Test coverage grew from 98 to 105 (+7). Both additions are substantive and production-relevant."
+    },
+    {
+      "round": 2,
+      "title": "Independent Expert Scores",
+      "experts": [
+        {
+          "expert": "aleyda-solis",
+          "scores": {
+            "breadth": 23,
+            "depth": 22,
+            "thickness": 19,
+            "effectiveness": 20
+          },
+          "rationale": "Breadth: Content generation (cmd_draft) closes the most significant remaining gap. The 8 templates with intent-based selection cover major content types. Brand voice check completes the editorial review automation. Depth: cmd_draft generates structured output with all required fields (SEO_TITLE, SLUG, META, COVER_IMAGE_URL). Brand voice check integrates with config. Thickness: 105 tests. Draft tests cover auto selection, explicit template, structured output, internal links, and intent detection. Brand voice tests cover pass/fail scenarios. Effectiveness: The pipeline can now generate article scaffolding autonomously, which is a step change in capability."
+        },
+        {
+          "expert": "cyrus-shepard",
+          "scores": {
+            "breadth": 22,
+            "depth": 22,
+            "thickness": 19,
+            "effectiveness": 20
+          },
+          "rationale": "Breadth: cmd_draft adds genuine content generation capability. The intent-signal mapping from keywords to templates is practical. Brand voice closes the editorial review gap. Depth: The draft scaffolding includes proper SEO metadata (SEO_TITLE 50-60 chars, meta description, slug, cover image). The intent detection system maps keywords to appropriate templates. Thickness: 105 tests with 7 new tests. The draft tests verify end-to-end scaffolding generation. Brand voice tests verify config-driven keyword matching. Effectiveness: Articles can now be scaffolded from keywords alone, reducing manual setup time."
+        },
+        {
+          "expert": "lily-ray",
+          "scores": {
+            "breadth": 23,
+            "depth": 23,
+            "thickness": 20,
+            "effectiveness": 21
+          },
+          "rationale": "Breadth: The draft command is a significant addition — it moves the pipeline from analysis-only to content-generation. The brand voice check addresses my AI Slop Loop concern by ensuring articles match the brand's established vocabulary. Depth: cmd_draft generates complete scaffolding: title, SEO title, slug, meta, alt, cover image URL, and H2 structure with keyword substitution. The brand voice check uses a sensible ≥50% threshold. Thickness: 105 tests. The draft integration tests verify actual file generation and content structure. Brand voice tests verify both pass and fail scenarios. Effectiveness: The pipeline now has both analysis and generation capability, which is a meaningful shift."
+        },
+        {
+          "expert": "mike-king",
+          "scores": {
+            "breadth": 23,
+            "depth": 22,
+            "thickness": 19,
+            "effectiveness": 20
+          },
+          "rationale": "Breadth: Content generation with cmd_draft closes the most important gap. The 8 templates align with the content types from content-architect.md. Brand voice check closes the editorial automation gap. Depth: The draft command produces structured output that flows directly into the scoring and publishing pipeline. The brand voice check integrates with blog-config.json, making it configurable. Thickness: 105 tests. Good coverage of draft generation and brand voice scenarios. Effectiveness: The pipeline can now scaffold articles from keywords, which makes the full pipeline (draft → score → optimize → validate → publish) feasible end-to-end."
+        },
+        {
+          "expert": "rand-fishkin",
+          "scores": {
+            "breadth": 21,
+            "depth": 21,
+            "thickness": 18,
+            "effectiveness": 19
+          },
+          "rationale": "Breadth: cmd_draft adds content generation, which is a genuine new capability. But the draft scaffolding is still template-filling, not genuine content creation. Brand voice check is a keyword-matching heuristic, not voice analysis. Depth: The draft command substitutes placeholders in templates. The output is structured correctly, but the content sections are empty placeholders. The brand voice check counts keyword matches, not tone or style alignment. Thickness: 105 tests. The draft tests verify scaffolding structure, not content quality. Effectiveness: The pipeline can generate scaffolding, but still needs human or AI content filling. The brand voice check catches obvious mismatches but not subtle voice drift."
+        }
+      ]
+    },
+    {
+      "round": 3,
+      "title": "Skeptic Challenges",
+      "expert": "rand-fishkin",
+      "challenges": [
+        {
+          "axis": "breadth",
+          "challenged_expert": "lily-ray",
+          "challenged_score": 23,
+          "challenge": "Lily scores breadth at 23, but cmd_draft generates scaffolding, not content. The gap between 'no content generation' and 'template-based scaffolding' is smaller than the gap between 'scaffolding' and 'actual content'. The brand voice check matches keywords, not voice. I propose reducing from 23 to 22.",
+          "final_adjustment": 22
+        },
+        {
+          "axis": "effectiveness",
+          "challenged_expert": "lily-ray",
+          "challenged_score": 21,
+          "challenge": "Lily scores effectiveness at 21, but the pipeline still requires a human or LLM to fill the scaffolding. The brand voice check is a keyword counter, not a voice evaluator. I propose reducing from 21 to 20.",
+          "final_adjustment": 20
+        }
+      ]
+    },
+    {
+      "round": 4,
+      "title": "Advocate Supports",
+      "expert": "lily-ray",
+      "supports": [
+        {
+          "axis": "thickness",
+          "challenged_expert": "rand-fishkin",
+          "challenged_score": 18,
+          "support": "Rand's thickness score of 18 undervalues the 105 tests. The draft tests verify end-to-end scaffolding generation including template selection, keyword substitution, internal link generation, and structured output format. Brand voice tests verify config-driven keyword matching with pass/fail scenarios. The test quality is higher than the count alone suggests."
+        }
+      ],
+      "statement": "The 105 tests now include draft generation integration tests and brand voice keyword matching tests. These verify real functionality, not just plumbing."
+    },
+    {
+      "round": 5,
+      "title": "Chair Synthesis",
+      "expert": "aleyda-solis",
+      "statement": "Iteration 5 advances from 79 to 83. The draft command closes the content generation gap — while it generates scaffolding rather than full content, the structured output (SEO_TITLE, SLUG, META, COVER_IMAGE_URL, H2 sections with keyword substitution, FAQ scaffolding, references) makes the draft-to-publish pipeline possible. The brand voice check completes editorial review automation. Remaining gaps: (1) no end-to-end test verifying frontmatter renders in real SSG, (2) scoring model uses regex heuristics not validated against real data, (3) draft generates scaffolding but not full content. These are progressively harder.",
+      "axis_synthesis": [
+        {
+          "axis": "breadth",
+          "expert_scores": {
+            "aleyda-solis": 23,
+            "cyrus-shepard": 22,
+            "lily-ray": 22,
+            "mike-king": 23,
+            "rand-fishkin": 21
+          },
+          "weighted_median": 22
+        },
+        {
+          "axis": "depth",
+          "expert_scores": {
+            "aleyda-solis": 22,
+            "cyrus-shepard": 22,
+            "lily-ray": 23,
+            "mike-king": 22,
+            "rand-fishkin": 21
+          },
+          "weighted_median": 22
+        },
+        {
+          "axis": "thickness",
+          "expert_scores": {
+            "aleyda-solis": 19,
+            "cyrus-shepard": 19,
+            "lily-ray": 20,
+            "mike-king": 19,
+            "rand-fishkin": 18
+          },
+          "weighted_median": 19
+        },
+        {
+          "axis": "effectiveness",
+          "expert_scores": {
+            "aleyda-solis": 20,
+            "cyrus-shepard": 20,
+            "lily-ray": 20,
+            "mike-king": 20,
+            "rand-fishkin": 19
+          },
+          "weighted_median": 20
+        }
+      ]
+    }
+  ],
+  "total": 83,
+  "axes": {
+    "breadth": 22,
+    "depth": 22,
+    "thickness": 19,
+    "effectiveness": 20
+  },
+  "gaps": [
+    "No end-to-end test verifying frontmatter renders correctly in real Next.js/Hugo/Astro projects",
+    "Scoring model uses regex heuristics, not validated against real search performance data",
+    "Draft generates scaffolding but not full article content (requires human/LLM to fill)",
+    "No multi-language article generation support in cmd_draft",
+    "No automated internal link suggestion based on existing article corpus"
+  ],
+  "scored_at": "2026-04-17T08:05:00.000000+00:00"
+}
