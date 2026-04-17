@@ -4,6 +4,8 @@ SEO Forge — Universal Autonomous Blog Engine CLI
 Provides state management, pipeline coordination, validation, optimization, and publishing.
 """
 
+from __future__ import annotations
+
 import argparse
 import json
 import logging
@@ -656,11 +658,11 @@ def _check_image_alt_and_dimensions(md: str) -> dict:
     for img in imgs:
         if not re.search(r'alt=["\']', img, re.IGNORECASE):
             issues.append("missing alt attribute")
-        if not re.search(r'width=', img, re.IGNORECASE):
+        if not re.search(r"width=", img, re.IGNORECASE):
             issues.append("missing width attribute")
-        if not re.search(r'height=', img, re.IGNORECASE):
+        if not re.search(r"height=", img, re.IGNORECASE):
             issues.append("missing height attribute")
-        if not re.search(r'loading=', img, re.IGNORECASE):
+        if not re.search(r"loading=", img, re.IGNORECASE):
             issues.append("missing loading attribute")
     return {"total_images": len(imgs), "issues": issues}
 
@@ -733,7 +735,7 @@ def _parse_structured_content(md: str) -> dict:
         result["seo_title"] = (t[:57] + "...") if len(t) > 60 else t
     content_match = re.search(r"^CONTENT:\s*\n", md, re.MULTILINE)
     if content_match:
-        body = md[content_match.end():]
+        body = md[content_match.end() :]
         body = re.sub(
             r"^(TITLE|SEO_TITLE|SLUG|META|ALT|COVER_IMAGE_URL|IMAGES|SVG|YOUTUBE):\s*.*\n?",
             "",
@@ -896,7 +898,9 @@ def compute_article_scores(md: str, keyword: str, config: dict | None = None) ->
     # media_richness (0-3)
     mr_score = _media_richness_score(md)
 
-    content_depth = wc_score + faq_score + extract_score + ev_score + nm_score + il_score + mr_score
+    content_depth = (
+        wc_score + faq_score + extract_score + ev_score + nm_score + il_score + mr_score
+    )
 
     # Reference Authority (0-25)
     # source_count (0-7)
@@ -1062,7 +1066,11 @@ def cmd_validate(args):
     }
 
     # Heading hierarchy
-    heading_pass = not details["h1_in_body"] and details["h2_count"] >= 1 and details["h3_count"] >= 1
+    heading_pass = (
+        not details["h1_in_body"]
+        and details["h2_count"] >= 1
+        and details["h3_count"] >= 1
+    )
     checks["heading_hierarchy"] = {
         "h1_in_body": details["h1_in_body"],
         "has_h2": details["h2_count"] >= 1,
@@ -1186,7 +1194,9 @@ def cmd_validate(args):
     # Include sub-score breakdown when --detailed
     detailed = getattr(args, "detailed", False)
     if detailed:
-        quality_scores["seo_quality"]["sub_scores"] = quality["seo_quality"]["sub_scores"]
+        quality_scores["seo_quality"]["sub_scores"] = quality["seo_quality"][
+            "sub_scores"
+        ]
         quality_scores["eeat_compliance"]["sub_scores"] = quality["eeat_compliance"][
             "sub_scores"
         ]
@@ -1294,7 +1304,9 @@ def cmd_verify(args):
     checks["canonical_tag"] = {
         "pass": canonical_match is not None,
         "canonical_url": canonical_url,
-        "suggestion": "" if canonical_match else "No canonical tag found in page source",
+        "suggestion": ""
+        if canonical_match
+        else "No canonical tag found in page source",
     }
 
     # hreflang tags (required for multilingual configs)
@@ -1801,7 +1813,7 @@ def cmd_publish(args):
     # Build frontmatter for each platform
     if platform == "nextjs":
         frontmatter = (
-            f'---\n'
+            f"---\n"
             f'title: "{parsed["title"]}"\n'
             f'seo_title: "{parsed["seo_title"]}"\n'
             f'date: "{date_str}"\n'
@@ -1809,23 +1821,23 @@ def cmd_publish(args):
             f'description: "{parsed["meta_description"]}"\n'
             f'cover_image: "{parsed["cover_image"]}"\n'
             f'cover_alt: "{parsed["cover_alt"]}"\n'
-            f'---\n\n'
+            f"---\n\n"
         )
     elif platform == "hugo":
         frontmatter = (
-            f'---\n'
+            f"---\n"
             f'title: "{parsed["title"]}"\n'
             f'seo_title: "{parsed["seo_title"]}"\n'
-            f'date: {date_str}\n'
+            f"date: {date_str}\n"
             f'slug: "{parsed["slug"]}"\n'
             f'description: "{parsed["meta_description"]}"\n'
             f'cover_image: "{parsed["cover_image"]}"\n'
             f'cover_alt: "{parsed["cover_alt"]}"\n'
-            f'---\n\n'
+            f"---\n\n"
         )
     elif platform == "astro":
         frontmatter = (
-            f'---\n'
+            f"---\n"
             f'title: "{parsed["title"]}"\n'
             f'seo_title: "{parsed["seo_title"]}"\n'
             f'pubDate: "{date_str}"\n'
@@ -1833,11 +1845,11 @@ def cmd_publish(args):
             f'description: "{parsed["meta_description"]}"\n'
             f'cover_image: "{parsed["cover_image"]}"\n'
             f'cover_alt: "{parsed["cover_alt"]}"\n'
-            f'---\n\n'
+            f"---\n\n"
         )
     else:
         frontmatter = (
-            f'---\n'
+            f"---\n"
             f'title: "{parsed["title"]}"\n'
             f'seo_title: "{parsed["seo_title"]}"\n'
             f'slug: "{parsed["slug"]}"\n'
@@ -1845,7 +1857,7 @@ def cmd_publish(args):
             f'description: "{parsed["meta_description"]}"\n'
             f'cover_image: "{parsed["cover_image"]}"\n'
             f'cover_alt: "{parsed["cover_alt"]}"\n'
-            f'---\n\n'
+            f"---\n\n"
         )
 
     output_md = frontmatter + body
@@ -2032,10 +2044,14 @@ def main():
     )
 
     # verify
-    p = sub.add_parser("verify", help="Verify post-deployment status of a published article")
+    p = sub.add_parser(
+        "verify", help="Verify post-deployment status of a published article"
+    )
     p.add_argument("--url", required=True, help="Published article URL to verify")
     p.add_argument("--config", default=None, help="Path to blog config JSON")
-    p.add_argument("--output", default=None, help="Path to save verification report JSON")
+    p.add_argument(
+        "--output", default=None, help="Path to save verification report JSON"
+    )
 
     # schema
     p = sub.add_parser("schema", help="Generate JSON-LD schema markup")

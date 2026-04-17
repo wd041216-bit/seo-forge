@@ -968,10 +968,10 @@ class TestCmdPublish:
         assert os.path.exists(output_path)
         content = read_file(output_path)
         assert 'title: "My Article"' in content
-        assert 'seo_title:' in content
-        assert 'description:' in content
-        assert 'cover_image:' in content
-        assert 'cover_alt:' in content
+        assert "seo_title:" in content
+        assert "description:" in content
+        assert "cover_image:" in content
+        assert "cover_alt:" in content
 
     def test_dry_run_hugo(self, tmp_path, capsys):
         article_path = str(tmp_path / "article.md")
@@ -991,8 +991,8 @@ class TestCmdPublish:
         content = read_file(output_path)
         assert "title:" in content
         assert "date:" in content
-        assert 'seo_title:' in content
-        assert 'description:' in content
+        assert "seo_title:" in content
+        assert "description:" in content
 
     def test_dry_run_astro(self, tmp_path, capsys):
         article_path = str(tmp_path / "article.md")
@@ -1187,14 +1187,20 @@ class TestSchemaGeneration:
 
 
 class TestCmdVerify:
-    def _mock_html(self, has_jsonld=True, has_canonical=True, has_meta=True, has_hreflang=False):
+    def _mock_html(
+        self, has_jsonld=True, has_canonical=True, has_meta=True, has_hreflang=False
+    ):
         parts = ["<html><head>"]
         if has_jsonld:
-            parts.append('<script type="application/ld+json">{"@type":"Article"}</script>')
+            parts.append(
+                '<script type="application/ld+json">{"@type":"Article"}</script>'
+            )
         if has_canonical:
             parts.append('<link rel="canonical" href="https://example.com/article" />')
         if has_meta:
-            parts.append('<meta name="description" content="A comprehensive guide to testing AI writing tools with detailed methodology, benchmarking results, and practical recommendations for content teams evaluating solutions" />')
+            parts.append(
+                '<meta name="description" content="A comprehensive guide to testing AI writing tools with detailed methodology, benchmarking results, and practical recommendations for content teams evaluating solutions" />'
+            )
         if has_hreflang:
             parts.append('<link hreflang="en" href="https://example.com/en/article" />')
             parts.append('<link hreflang="es" href="https://example.com/es/article" />')
@@ -1212,8 +1218,10 @@ class TestCmdVerify:
         mock_conn.getresponse.return_value = mock_resp
 
         with patch("scripts.seo_forge.HTTPSConnection", return_value=mock_conn):
+
             class Args:
                 pass
+
             Args.url = "https://example.com/article"
             Args.config = None
             Args.output = None
@@ -1238,8 +1246,10 @@ class TestCmdVerify:
         mock_conn.getresponse.return_value = mock_resp
 
         with patch("scripts.seo_forge.HTTPSConnection", return_value=mock_conn):
+
             class Args:
                 pass
+
             Args.url = "https://example.com/article"
             Args.config = None
             Args.output = None
@@ -1253,9 +1263,14 @@ class TestCmdVerify:
     def test_verify_connection_failure(self, capsys):
         from unittest.mock import patch
 
-        with patch("scripts.seo_forge.HTTPSConnection", side_effect=Exception("Connection refused")):
+        with patch(
+            "scripts.seo_forge.HTTPSConnection",
+            side_effect=Exception("Connection refused"),
+        ):
+
             class Args:
                 pass
+
             Args.url = "https://example.com/article"
             Args.config = None
             Args.output = None
@@ -1278,8 +1293,10 @@ class TestCmdVerify:
         output_path = str(tmp_path / "verify.json")
 
         with patch("scripts.seo_forge.HTTPSConnection", return_value=mock_conn):
+
             class Args:
                 pass
+
             Args.url = "https://example.com/article"
             Args.config = None
             Args.output = output_path
@@ -1383,7 +1400,7 @@ class TestParseStructuredContent:
         assert "Content here." in parsed["content"]
 
     def test_parse_plain_markdown(self):
-        md = "---\ndescription: \"My meta\"\n---\n# My Title\n\nBody text."
+        md = '---\ndescription: "My meta"\n---\n# My Title\n\nBody text.'
         parsed = _parse_structured_content(md)
         assert parsed["title"] == "My Title"
         assert parsed["slug"] == "my-title"
