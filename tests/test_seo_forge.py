@@ -53,6 +53,7 @@ from scripts.seo_forge import (
     _validate_frontmatter,
     _suggest_internal_links,
     LANG_PHRASES,
+    _score_benchmark,
 )
 
 FIXTURES = os.path.join(os.path.dirname(__file__), "fixtures")
@@ -2289,3 +2290,68 @@ class TestCLISmoke:
             cwd=PROJECT_ROOT,
         )
         assert result.returncode == 0
+
+
+class TestScoreBenchmark:
+    def test_benchmark_all_pass(self):
+        result = _score_benchmark()
+        assert result["all_passed"] is True
+        for bm in result["benchmarks"]:
+            assert bm["passed"], f"Benchmark {bm['name']} failed: {bm['description']}"
+
+    def test_empty_article_benchmark(self):
+        result = _score_benchmark()
+        empty = [b for b in result["benchmarks"] if b["name"] == "empty_article"][0]
+        assert empty["score"] <= 15
+
+    def test_keyword_dense_benchmark(self):
+        result = _score_benchmark()
+        dense = [
+            b for b in result["benchmarks"] if b["name"] == "keyword_dense_article"
+        ][0]
+        assert dense["score"] >= 50
+
+
+class TestEdgeCases:
+    def test_article_with_only_headings(self):
+        md = "# Title\n\n## H2 One\n\n## H2 Two\n\n## H2 Three\n\n### H3 One"
+        scores = compute_article_scores(md, "test")
+        assert scores["total"] > 0
+        assert scores["content_depth"]["score"] < 15
+
+    def test_article_with_special_characters(self):
+        md = "# AI & Machine Learning: What's New in 2026?\n\n## AI/ML Tools\n\nContent here."
+        scores = compute_article_scores(md, "AI & Machine Learning")
+        assert scores["total"] >= 0
+
+    def test_article_with_html_tags(self):
+        md = (
+            "# SEO Guide\n\n"
+            "## Best Practices\n\n"
+            '<p>We recommend <a href="https://example.com">this tool</a> for SEO.</p>\n\n'
+            '<img src="https://example.com/img.jpg" alt="SEO diagram" width="800" height="400" loading="lazy">\n\n'
+            "## FAQ\n\n### What is SEO?\nOptimization.\n"
+        )
+        scores = compute_article_scores(md, "SEO Guide")
+        assert scores["total"] > 0
+
+    def test_very_long_article(self):
+        section = (
+            "This is a paragraph with meaningful content about AI writing tools "
+            "and how we use them. " * 20
+        )
+        md = (
+            "# AI Writing Tools Guide\n\n"
+            f"## Introduction\n\n{section}\n\n"
+            f"## Features\n\n{section}\n\n"
+            f"## Comparison\n\n{section}\n\n"
+            "## FAQ\n\n### Q1?\nA1\n\n### Q2?\nA2\n\n"
+            "## References\n\n- https://arxiv.org/abs/2401.0001\n"
+        )
+        scores = compute_article_scores(md, "AI writing tools")
+        assert scores["content_depth"]["score"] > 10
+
+    def test_unicode_content(self):
+        md = "# AI写作工具评测\n\n## 最佳AI写作工具\n\n我们测试了多个AI写作工具。"
+        scores = compute_article_scores(md, "AI写作工具")
+        assert scores["total"] >= 0

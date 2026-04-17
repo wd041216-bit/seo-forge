@@ -139,6 +139,76 @@ def check_url_head(url: str) -> bool:
 # ── Original Commands ──────────────────────────────────────────────────────
 
 
+def _score_benchmark() -> dict:
+    """Run scoring benchmarks against known inputs to validate scoring model."""
+    benchmarks = [
+        {
+            "name": "empty_article",
+            "md": "",
+            "keyword": "test",
+            "expected_max": 15,
+            "description": "Empty article should score very low",
+        },
+        {
+            "name": "keyword_dense_article",
+            "md": (
+                "# AI Writing Tools Guide\n\n"
+                "## Best AI Writing Tools\n\n"
+                "AI writing tools are essential for content creators. "
+                "I use AI writing tools daily. We tested AI writing tools extensively. "
+                "Our team evaluated AI writing tools. My experience with AI writing tools was positive.\n\n"
+                "## How AI Writing Tools Work\n\n"
+                "AI writing tools use language models. AI writing tools help with drafting. "
+                "In my testing, AI writing tools performed well. We found AI writing tools reliable.\n\n"
+                "### AI Writing Tools Features\n\n"
+                "The best AI writing tools offer grammar checking. "
+                "AI writing tools also provide tone suggestions.\n\n"
+                "## AI Writing Tools Comparison\n\n"
+                "We compared AI writing tools. AI writing tools vary in quality.\n\n"
+                "## AI Writing Tools FAQ\n\n"
+                "### What are AI writing tools?\nAnswer here.\n\n"
+                "### How much do AI writing tools cost?\nAnswer.\n\n"
+                "### Are AI writing tools accurate?\nYes.\n\n"
+                "### Can AI writing tools replace humans?\nNo.\n\n"
+                "### Which AI writing tools are best?\nIt depends.\n\n"
+                "### How to use AI writing tools?\nFollow the guide.\n\n"
+                "## References\n\n"
+                "- https://arxiv.org/abs/2401.0001\n"
+                "- https://www.nature.com/articles/s41586-024-0001\n"
+                "- https://www.reuters.com/article/ai-writing\n"
+                "- https://nist.gov/publication/ai-framework\n"
+            ),
+            "keyword": "AI writing tools",
+            "expected_min": 50,
+            "description": "Keyword-dense article should score moderately",
+        },
+        {
+            "name": "minimal_article",
+            "md": "# Test\n\nShort.",
+            "keyword": "test",
+            "expected_max": 20,
+            "description": "Minimal article should score low",
+        },
+    ]
+    results = []
+    for bm in benchmarks:
+        scores = compute_article_scores(bm["md"], bm["keyword"])
+        passed = True
+        if "expected_max" in bm:
+            passed = scores["total"] <= bm["expected_max"]
+        if "expected_min" in bm:
+            passed = scores["total"] >= bm["expected_min"]
+        results.append(
+            {
+                "name": bm["name"],
+                "score": scores["total"],
+                "passed": passed,
+                "description": bm["description"],
+            }
+        )
+    return {"benchmarks": results, "all_passed": all(r["passed"] for r in results)}
+
+
 def cmd_init(args):
     root = args.root
     domain = generate_id(args.domain)
