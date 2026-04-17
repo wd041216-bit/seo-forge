@@ -50,6 +50,7 @@ from scripts.seo_forge import (
     cmd_draft,
     _validate_frontmatter,
     _suggest_internal_links,
+    LANG_PHRASES,
 )
 
 FIXTURES = os.path.join(os.path.dirname(__file__), "fixtures")
@@ -1757,6 +1758,44 @@ class TestCmdDraft:
         result = cmd_draft(Args())
         assert result["template"] == "tutorial"
 
+    def test_chinese_draft(self, tmp_path):
+        output = str(tmp_path / "draft.md")
+        config_path = str(tmp_path / "config.json")
+        save_json(config_path, {"language": "zh", "site_url": "https://example.com"})
+
+        class Args:
+            pass
+
+        Args.keyword = "AI写作工具"
+        Args.template = None
+        Args.config = config_path
+        Args.output = output
+
+        result = cmd_draft(Args())
+        assert result["language"] == "zh"
+        content = read_file(output)
+        assert "我们花了" in content or "评估" in content
+        assert "参考资料" in content
+
+    def test_spanish_draft(self, tmp_path):
+        output = str(tmp_path / "draft.md")
+        config_path = str(tmp_path / "config.json")
+        save_json(config_path, {"language": "es"})
+
+        class Args:
+            pass
+
+        Args.keyword = "herramientas de escritura AI"
+        Args.template = None
+        Args.config = config_path
+        Args.output = output
+
+        result = cmd_draft(Args())
+        assert result["language"] == "es"
+        content = read_file(output)
+        assert "Hemos pasado" in content or "evaluando" in content
+        assert "Referencias" in content
+
 
 class TestEndToEndPipeline:
     def test_draft_score_validate_publish(self, tmp_path):
@@ -2033,3 +2072,64 @@ class TestSuggestInternalLinks:
         )
         assert len(links) >= 1
         assert links[0]["slug"] == "ai-writing-tools-review"
+
+
+class TestLangPhrases:
+    def test_all_languages_have_required_keys(self):
+        required_keys = [
+            "introduction",
+            "disclosure",
+            "content_placeholder",
+            "faq_question",
+            "faq_answer",
+            "references",
+            "learn_more",
+            "guide_title",
+            "guide_meta",
+        ]
+        for lang, phrases in LANG_PHRASES.items():
+            for key in required_keys:
+                assert key in phrases, f"Missing {key} in {lang}"
+
+    def test_keyword_placeholder_present(self):
+        for lang, phrases in LANG_PHRASES.items():
+            assert "{keyword}" in phrases["introduction"]
+            assert "{keyword}" in phrases["guide_title"]
+
+
+class TestScoringCalibration:
+    def test_valid_article_scores_consistently(self):
+        article_path = os.path.join(FIXTURES, "valid_article.md")
+        md = read_file(article_path)
+        scores1 = compute_article_scores(md, "AI writing tools")
+        scores2 = compute_article_scores(md, "AI writing tools")
+        assert scores1["total"] == scores2["total"]
+        assert scores1["total"] >= 90
+
+    def test_empty_article_scores_low(self):
+        scores = compute_article_scores("", "test")
+        assert scores["total"] < 30
+
+    def test_score_axes_sum_to_total(self):
+        md = "# Test Article\n\n## Section\n\nContent about AI writing tools here."
+        scores = compute_article_scores(md, "AI writing tools")
+        axis_sum = (
+            scores["seo_quality"]["score"]
+            + scores["eeat_compliance"]["score"]
+            + scores["content_depth"]["score"]
+            + scores["reference_authority"]["score"]
+        )
+        assert axis_sum == scores["total"]
+
+    def test_score_deterministic(self):
+        md = "# Test\n\n## Section\n\nContent."
+        for _ in range(5):
+            s1 = compute_article_scores(md, "test")
+            s2 = compute_article_scores(md, "test")
+            assert s1["total"] == s2["total"]
+
+    def test_keyword_affects_seo_score(self):
+        base_md = "# AI Writing Tools Guide\n\n## Best AI Writing Tools\n\nContent about tools.\n\n## How to Use\n\nMore content."
+        high_kw = compute_article_scores(base_md, "AI writing tools")
+        no_kw = compute_article_scores(base_md, "quantum computing")
+        assert high_kw["seo_quality"]["score"] >= no_kw["seo_quality"]["score"]

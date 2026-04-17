@@ -1932,6 +1932,64 @@ INTENT_SIGNALS = {
     "problem_solver": ["fix", "solve", "problem", "troubleshoot", "solution"],
 }
 
+LANG_PHRASES = {
+    "en": {
+        "introduction": "We have spent months evaluating {keyword} to compile this guide. In our experience, these tools change how we approach content creation. I personally tested the leading options and documented our findings below.",
+        "disclosure": "Some tools mentioned offer affiliate partnerships. Our recommendations are based solely on testing results, not affiliate arrangements.",
+        "content_placeholder": "[Content for this section about {keyword}]",
+        "faq_question": "{keyword} FAQ question {n}?",
+        "faq_answer": "Concise answer to FAQ question {n} about {keyword}.",
+        "references": "References",
+        "learn_more": "Learn more about {keyword} on our site",
+        "guide_title": "{keyword}: A Complete Guide",
+        "guide_meta": "A comprehensive guide to {keyword} with practical tips, methodology, and real results.",
+    },
+    "zh": {
+        "introduction": "我们花了几个月时间评估{keyword}，整理了这份指南。根据我们的经验，这些工具改变了我们处理内容创建的方式。我亲自测试了主要选项，并在下方记录了我们的发现。",
+        "disclosure": "提及的部分工具提供联盟合作关系。我们的推荐完全基于测试结果，而非联盟安排。",
+        "content_placeholder": "[关于{keyword}的本节内容]",
+        "faq_question": "{keyword}常见问题{n}？",
+        "faq_answer": "关于{keyword}的常见问题{n}的简要回答。",
+        "references": "参考资料",
+        "learn_more": "了解更多关于{keyword}的信息",
+        "guide_title": "{keyword}：完整指南",
+        "guide_meta": "关于{keyword}的全面指南，包含实用技巧、方法和真实结果。",
+    },
+    "es": {
+        "introduction": "Hemos pasado meses evaluando {keyword} para compilar esta guía. En nuestra experiencia, estas herramientas cambian cómo abordamos la creación de contenido. Probé personalmente las opciones principales y documenté nuestros hallazgos.",
+        "disclosure": "Algunas herramientas mencionadas ofrecen asociaciones de afiliados. Nuestras recomendaciones se basan únicamente en resultados de pruebas, no en acuerdos de afiliados.",
+        "content_placeholder": "[Contenido para esta sección sobre {keyword}]",
+        "faq_question": "Pregunta frecuente {n} sobre {keyword}?",
+        "faq_answer": "Respuesta concisa a la pregunta frecuente {n} sobre {keyword}.",
+        "references": "Referencias",
+        "learn_more": "Más información sobre {keyword}",
+        "guide_title": "{keyword}: Guía completa",
+        "guide_meta": "Una guía completa sobre {keyword} con consejos prácticos, metodología y resultados reales.",
+    },
+    "de": {
+        "introduction": "Wir haben Monate damit verbracht, {keyword} zu evaluieren und diesen Leitfaden zusammenzustellen. Unserer Erfahrung nach verändern diese Tools, wie wir die Content-Erstellung angehen. Ich habe die führenden Optionen persönlich getestet.",
+        "disclosure": "Einige der genannten Tools bieten Affiliate-Partnerschaften an. Unsere Empfehlungen basieren ausschließlich auf Testergebnissen.",
+        "content_placeholder": "[Inhalt für diesen Abschnitt über {keyword}]",
+        "faq_question": "FAQ Frage {n} zu {keyword}?",
+        "faq_answer": "Kurze Antwort auf FAQ-Frage {n} zu {keyword}.",
+        "references": "Referenzen",
+        "learn_more": "Mehr über {keyword} erfahren",
+        "guide_title": "{keyword}: Ein vollständiger Leitfaden",
+        "guide_meta": "Ein umfassender Leitfaden zu {keyword} mit praktischen Tipps, Methodik und echten Ergebnissen.",
+    },
+    "ja": {
+        "introduction": "{keyword}を評価するために数ヶ月を費やし、このガイドを作成しました。私たちの経験では、これらのツールはコンテンツ作成のアプローチを変えます。主要なオプションを実際にテストし、結果を文書化しました。",
+        "disclosure": "紹介する一部のツールはアフィリエイト提携を提供しています。推奨はテスト結果のみに基づいています。",
+        "content_placeholder": "[{keyword}に関するこのセクションの内容]",
+        "faq_question": "{keyword}に関するよくある質問{n}？",
+        "faq_answer": "{keyword}に関するよくある質問{n}への簡潔な回答。",
+        "references": "参考文献",
+        "learn_more": "{keyword}について詳しくはこちら",
+        "guide_title": "{keyword}：完全ガイド",
+        "guide_meta": "{keyword}に関する実践的なヒント、手法、実際の結果を含む包括的なガイド。",
+    },
+}
+
 
 def cmd_draft(args):
     """Generate article scaffolding from keyword and template selection."""
@@ -1976,19 +2034,25 @@ def cmd_draft(args):
         h2_sections.append(section)
 
     # Generate structured content scaffolding
-    title = f"{keyword}: A Complete Guide"
+    lang = config.get("language", "en")
+    phrases = LANG_PHRASES.get(lang, LANG_PHRASES["en"])
+
+    kw_lower = keyword.lower()
+    title = phrases["guide_title"].replace("{keyword}", keyword)
     seo_title = f"{keyword}: Complete Guide ({year})"[:60]
     slug = generate_id(keyword)
-    meta = f"A comprehensive guide to {keyword.lower()} with practical tips, methodology, and real results."
+    meta = phrases["guide_meta"].replace("{keyword}", kw_lower)
     if len(meta) > 160:
         meta = meta[:157] + "..."
+    elif len(meta) < 120:
+        meta += " Read our detailed analysis and recommendations."
 
     content_lines = [
         f"# {title}",
         "",
-        f"We have spent months evaluating {keyword.lower()} to compile this guide. In our experience, these tools change how we approach content creation. I personally tested the leading options and documented our findings below.",
+        phrases["introduction"].replace("{keyword}", kw_lower),
         "",
-        "**Disclosure:** Some tools mentioned offer affiliate partnerships. Our recommendations are based solely on testing results, not affiliate arrangements.",
+        f"**Disclosure:** {phrases['disclosure']}",
         "",
     ]
 
@@ -1996,11 +2060,13 @@ def cmd_draft(args):
         content_lines.append(f"## {section}")
         content_lines.append("")
         if i < len(h2_sections) - 1:
-            content_lines.append(f"[Content for this section about {keyword.lower()}]")
+            content_lines.append(
+                phrases["content_placeholder"].replace("{keyword}", kw_lower)
+            )
             content_lines.append("")
         if site_url and i > 0 and i % 3 == 0:
             content_lines.append(
-                f'<a href="{site_url}">Learn more about {keyword.lower()} on our site</a>'
+                f'<a href="{site_url}">{phrases["learn_more"].replace("{keyword}", kw_lower)}</a>'
             )
             content_lines.append("")
 
@@ -2008,15 +2074,19 @@ def cmd_draft(args):
     faq_section = h2_sections[-2] if h2_sections else "Common Questions People Ask"
     if "Common Questions" in faq_section or "?" in faq_section:
         for j in range(6):
-            content_lines.append(f"### {keyword.lower()} FAQ question {j + 1}?")
+            content_lines.append(
+                f"### {phrases['faq_question'].replace('{keyword}', kw_lower).replace('{n}', str(j + 1))}"
+            )
             content_lines.append("")
             content_lines.append(
-                f"Concise answer to FAQ question {j + 1} about {keyword.lower()}."
+                phrases["faq_answer"]
+                .replace("{keyword}", kw_lower)
+                .replace("{n}", str(j + 1))
             )
             content_lines.append("")
 
     # Add references
-    content_lines.append("### References")
+    content_lines.append(f"### {phrases['references']}")
     content_lines.append("")
     content_lines.append(f"- https://en.wikipedia.org/wiki/{keyword.replace(' ', '_')}")
     if site_url:
@@ -2046,6 +2116,7 @@ def cmd_draft(args):
         "template": template_name,
         "template_name": template["name"],
         "voice": template["voice"],
+        "language": lang,
         "h2_count": len(h2_sections),
         "output": output_path,
         "has_internal_links": bool(site_url),
