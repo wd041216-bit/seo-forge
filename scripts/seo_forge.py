@@ -1315,20 +1315,25 @@ def cmd_verify(args):
     hreflang_matches = re.findall(
         r'<link[^>]+hreflang=["\']([^"\']+)["\']', html, re.IGNORECASE
     )
+    has_xdefault = any(h == "x-default" for h in hreflang_matches)
     if multilingual:
-        hreflang_pass = len(hreflang_matches) > 0
+        hreflang_pass = len(hreflang_matches) > 0 and has_xdefault
         checks["hreflang_tags"] = {
             "pass": hreflang_pass,
             "found": hreflang_matches,
+            "has_x_default": has_xdefault,
             "required": True,
             "suggestion": ""
             if hreflang_pass
-            else "No hreflang tags found — required for multilingual site",
+            else "No hreflang tags found"
+            if not hreflang_matches
+            else "Missing x-default hreflang tag",
         }
     else:
         checks["hreflang_tags"] = {
             "pass": True,
             "found": hreflang_matches,
+            "has_x_default": has_xdefault,
             "required": False,
             "suggestion": "",
         }
@@ -1353,6 +1358,27 @@ def cmd_verify(args):
         "suggestion": ""
         if meta_pass
         else f"Meta description too short or missing (found {len(meta_desc)} chars, need 120+)",
+    }
+
+    # JSON-LD schema validation (extract and validate embedded schemas)
+    schema_issues = []
+    jsonld_scripts = re.findall(
+        r'<script[^>]+type=["\']application/ld\+json["\'][^>]*>(.*?)</script>',
+        html,
+        re.IGNORECASE | re.DOTALL,
+    )
+    for script_content in jsonld_scripts:
+        try:
+            schema_obj = json.loads(script_content.strip())
+            issues = _validate_jsonld(schema_obj)
+            schema_issues.extend(issues)
+        except json.JSONDecodeError:
+            schema_issues.append("Invalid JSON-LD: malformed JSON in script tag")
+    checks["schema_validation"] = {
+        "pass": len(schema_issues) == 0,
+        "issues": schema_issues,
+        "schema_count": len(jsonld_scripts),
+        "suggestion": "" if not schema_issues else "; ".join(schema_issues),
     }
 
     overall = all(c["pass"] for c in checks.values())
@@ -1490,6 +1516,33 @@ def cmd_optimize(args):
     return opt_log
 
 
+def _validate_jsonld(schema_json: dict) -> list[str]:
+    """Validate a JSON-LD schema object for required fields. Returns list of issues."""
+    issues = []
+    schema_type = schema_json.get("@type", "")
+    if not schema_type:
+        issues.append("Missing @type field")
+        return issues
+
+    if schema_type == "Article":
+        for field in ("headline", "datePublished"):
+            if field not in schema_json:
+                issues.append(f"Article schema missing required field: {field}")
+    elif schema_type == "FAQPage":
+        if "mainEntity" not in schema_json:
+            issues.append("FAQPage schema missing required field: mainEntity")
+    elif schema_type == "BreadcrumbList":
+        if "itemListElement" not in schema_json:
+            issues.append(
+                "BreadcrumbList schema missing required field: itemListElement"
+            )
+
+    if "@context" not in schema_json:
+        issues.append(f"{schema_type} schema missing @context field")
+
+    return issues
+
+
 def cmd_schema(args):
     """Generate JSON-LD schema markup from article metadata."""
     article_path = args.article
@@ -1608,6 +1661,146 @@ def _check_editorial_gate() -> bool:
         return response in ("yes", "y")
     except (EOFError, KeyboardInterrupt):
         return False
+
+
+def cmd_editorial_review(args):
+    """Run automated editorial review checks on an article."""
+    article_path = args.article
+    keyword = args.keyword or ""
+
+    if not os.path.exists(article_path):
+        error_json(f"Article file not found: {article_path}", "ValidationError")
+
+    md = read_file(article_path)
+    config = {}
+    if getattr(args, "config", None) and os.path.exists(args.config):
+        config = load_json(args.config)
+    seo_rules = config.get("seo_rules", {})
+    kw_min = seo_rules.get("keyword_density_min", 1.0)
+    kw_max = seo_rules.get("keyword_density_max", 2.0)
+    min_words = seo_rules.get("min_word_count", 1000)
+    min_faqs = seo_rules.get("faq_min_questions", 6)
+
+    # Compute quality scores for data
+    quality = compute_article_scores(md, keyword, config)
+    details = quality["details"]
+
+    # Run checklist categories
+    checklist = {}
+
+    # Factual accuracy (automated: check source attributions and URLs)
+    attributions = _count_source_attributions(md)
+    urls = _extract_urls(md)
+    fact_pass = attributions >= 2 and len(urls) >= 4
+    checklist["factualAccuracy"] = {
+        "pass": fact_pass,
+        "notes": ""
+        if fact_pass
+        else f"Need 2+ source attributions (have {attributions}) and 4+ reference URLs (have {len(urls)})",
+    }
+
+    # E-E-A-T depth (use scoring sub-scores)
+    eeat = quality["eeat_compliance"]["sub_scores"]
+    eeat_pass = eeat["first_person"] >= 5 and eeat["experience_evidence"] >= 3
+    checklist["eeatDepth"] = {
+        "pass": eeat_pass,
+        "notes": ""
+        if eeat_pass
+        else f"First-person score {eeat['first_person']}/8, experience evidence {eeat['experience_evidence']}/7",
+    }
+
+    # AI slop detection (check superlatives, repetitive patterns)
+    superlatives = _count_superlatives(md)
+    ctas = _count_ctas(md)
+    slop_pass = superlatives < 10 and ctas <= 3
+    checklist["aiSlopDetection"] = {
+        "pass": slop_pass,
+        "notes": ""
+        if slop_pass
+        else f"Superlatives: {superlatives} (max 10), CTAs: {ctas} (max 3)",
+    }
+
+    # SEO compliance
+    density = details["keyword_density"]
+    seo_pass = (
+        kw_min <= density <= kw_max
+        and details["h2_count"] >= 2
+        and details["faq_count"] >= min_faqs
+        and details["word_count"] >= min_words
+    )
+    checklist["seoCompliance"] = {
+        "pass": seo_pass,
+        "notes": ""
+        if seo_pass
+        else f"Keyword density {density:.1f}%, H2s: {details['h2_count']}, FAQs: {details['faq_count']}, Words: {details['word_count']}",
+    }
+
+    # Technical checks (heading hierarchy, SEO title)
+    heading_ok = not details["h1_in_body"] and details["h2_count"] >= 1
+    seo_title = _extract_seo_title(md)
+    seo_title_ok = 50 <= len(seo_title) <= 60 if seo_title else False
+    tech_pass = heading_ok and seo_title_ok
+    checklist["technicalChecks"] = {
+        "pass": tech_pass,
+        "notes": ""
+        if tech_pass
+        else f"Heading OK: {heading_ok}, SEO title OK: {seo_title_ok} (len={len(seo_title)})",
+    }
+
+    # Structural integrity
+    max_ctas = seo_rules.get("max_cta_buttons", 3)
+    struct_pass = ctas <= max_ctas
+    checklist["structuralIntegrity"] = {
+        "pass": struct_pass,
+        "notes": "" if struct_pass else f"CTAs: {ctas} (max {max_ctas})",
+    }
+
+    # Content quality (word count, internal links, media)
+    site_url = config.get("site_url", "")
+    il_count, _ = _count_internal_links(md, site_url)
+    media = _media_richness_score(md)
+    content_pass = details["word_count"] >= min_words and il_count >= 2 and media >= 1
+    checklist["contentQuality"] = {
+        "pass": content_pass,
+        "notes": ""
+        if content_pass
+        else f"Words: {details['word_count']}, Internal links: {il_count}, Media: {media}/3",
+    }
+
+    # Overall decision
+    all_pass = all(c["pass"] for c in checklist.values())
+    any_blocked = checklist.get("factualAccuracy", {}).get("pass") is False
+
+    if all_pass:
+        decision = "approve"
+    elif any_blocked:
+        decision = "block"
+    else:
+        decision = "request_changes"
+
+    result = {
+        "article": article_path,
+        "keyword": keyword,
+        "decision": decision,
+        "reviewer": "editorial-reviewer",
+        "checklist": checklist,
+        "quality_scores": {
+            "total": quality["total"],
+            "seo_quality": quality["seo_quality"]["score"],
+            "eeat_compliance": quality["eeat_compliance"]["score"],
+            "content_depth": quality["content_depth"]["score"],
+            "reference_authority": quality["reference_authority"]["score"],
+        },
+        "timestamp": datetime.now(timezone.utc).isoformat(),
+    }
+
+    output_path = getattr(args, "output", None)
+    if output_path:
+        save_json(output_path, result)
+        logger.info("Editorial review saved: %s", output_path)
+
+    print(json.dumps(result, indent=2, ensure_ascii=False))
+    return result
 
 
 def cmd_run(args):
@@ -2043,6 +2236,16 @@ def main():
         help="Require editorial approval before publish",
     )
 
+    # editorial-review
+    p = sub.add_parser(
+        "editorial-review",
+        help="Run automated editorial review checks on an article",
+    )
+    p.add_argument("--article", required=True, help="Path to article markdown file")
+    p.add_argument("--keyword", default="", help="Target keyword for checks")
+    p.add_argument("--config", default=None, help="Path to blog config JSON")
+    p.add_argument("--output", default=None, help="Path to save review report JSON")
+
     # verify
     p = sub.add_parser(
         "verify", help="Verify post-deployment status of a published article"
@@ -2115,6 +2318,7 @@ def main():
         "optimize": cmd_optimize,
         "run": cmd_run,
         "schema": cmd_schema,
+        "editorial-review": cmd_editorial_review,
         "verify": cmd_verify,
         "publish": cmd_publish,
     }

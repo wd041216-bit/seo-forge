@@ -17,6 +17,7 @@ from scripts.seo_forge import (
     cmd_run,
     cmd_schema,
     cmd_verify,
+    cmd_editorial_review,
     cmd_publish,
     generate_id,
     ts,
@@ -45,6 +46,7 @@ from scripts.seo_forge import (
     _media_richness_score,
     _extract_seo_title,
     _parse_structured_content,
+    _validate_jsonld,
 )
 
 FIXTURES = os.path.join(os.path.dirname(__file__), "fixtures")
@@ -1193,7 +1195,7 @@ class TestCmdVerify:
         parts = ["<html><head>"]
         if has_jsonld:
             parts.append(
-                '<script type="application/ld+json">{"@type":"Article"}</script>'
+                '<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Test","datePublished":"2026-01-01"}</script>'
             )
         if has_canonical:
             parts.append('<link rel="canonical" href="https://example.com/article" />')
@@ -1204,6 +1206,9 @@ class TestCmdVerify:
         if has_hreflang:
             parts.append('<link hreflang="en" href="https://example.com/en/article" />')
             parts.append('<link hreflang="es" href="https://example.com/es/article" />')
+            parts.append(
+                '<link hreflang="x-default" href="https://example.com/article" />'
+            )
         parts.append("</head><body>Content</body></html>")
         return "".join(parts)
 
@@ -1410,3 +1415,174 @@ class TestParseStructuredContent:
         md = "# This Is a Very Long Title That Exceeds Sixty Characters For Sure\n\nContent."
         parsed = _parse_structured_content(md)
         assert len(parsed["seo_title"]) <= 60
+
+
+class TestCmdEditorialReview:
+    def test_editorial_review_valid_article(self, capsys):
+        article_path = os.path.join(FIXTURES, "valid_article.md")
+
+        class Args:
+            pass
+
+        Args.article = article_path
+        Args.keyword = "AI writing tools"
+        Args.config = None
+        Args.output = None
+
+        cmd_editorial_review(Args())
+        captured = capsys.readouterr()
+        report = json.loads(captured.out)
+        assert report["decision"] in ("approve", "request_changes")
+        assert report["checklist"]["seoCompliance"]["pass"] is True
+        assert report["quality_scores"]["total"] >= 90
+
+    def test_editorial_review_block_on_factual(self, tmp_path, capsys):
+        article_path = str(tmp_path / "weak.md")
+        write_file(article_path, "# Short\n\nNo sources here.")
+
+        class Args:
+            pass
+
+        Args.article = article_path
+        Args.keyword = "test"
+        Args.config = None
+        Args.output = None
+
+        cmd_editorial_review(Args())
+        captured = capsys.readouterr()
+        report = json.loads(captured.out)
+        assert report["decision"] in ("block", "request_changes")
+        assert report["checklist"]["factualAccuracy"]["pass"] is False
+
+    def test_editorial_review_saves_report(self, tmp_path, capsys):
+        article_path = os.path.join(FIXTURES, "valid_article.md")
+        output_path = str(tmp_path / "review.json")
+
+        class Args:
+            pass
+
+        Args.article = article_path
+        Args.keyword = "AI writing tools"
+        Args.config = None
+        Args.output = output_path
+
+        cmd_editorial_review(Args())
+        saved = load_json(output_path)
+        assert "decision" in saved
+        assert "checklist" in saved
+
+
+class TestSchemaValidation:
+    def test_valid_article_schema(self):
+        schema = {
+            "@context": "https://schema.org",
+            "@type": "Article",
+            "headline": "Test",
+            "datePublished": "2026-01-01",
+        }
+        issues = _validate_jsonld(schema)
+        assert issues == []
+
+    def test_missing_article_fields(self):
+        schema = {"@context": "https://schema.org", "@type": "Article"}
+        issues = _validate_jsonld(schema)
+        assert len(issues) >= 2
+
+    def test_missing_context(self):
+        schema = {"@type": "Article", "headline": "T", "datePublished": "2026-01-01"}
+        issues = _validate_jsonld(schema)
+        assert any("@context" in i for i in issues)
+
+    def test_missing_type(self):
+        schema = {"@context": "https://schema.org"}
+        issues = _validate_jsonld(schema)
+        assert any("@type" in i for i in issues)
+
+    def test_faq_schema(self):
+        schema = {"@context": "https://schema.org", "@type": "FAQPage"}
+        issues = _validate_jsonld(schema)
+        assert any("mainEntity" in i for i in issues)
+
+
+class TestPublishIntegration:
+    def test_full_publish_pipeline_nextjs(self, tmp_path):
+        article_path = str(tmp_path / "article.md")
+        write_file(
+            article_path,
+            "TITLE: Test Article\n"
+            "SEO_TITLE: Test Article: Complete Guide for Users\n"
+            "SLUG: test-article\n"
+            "META: A complete guide to testing articles with full SEO metadata\n"
+            "ALT: Test article cover\n"
+            "COVER_IMAGE_URL: https://images.unsplash.com/photo-test?w=1200\n"
+            "CONTENT:\n"
+            "## Introduction\n\nThis is a test article.\n\n"
+            "## Features\n\nSome features here.\n",
+        )
+        output_path = str(tmp_path / "out.md")
+
+        class Args:
+            pass
+
+        Args.article = article_path
+        Args.platform = "nextjs"
+        Args.dry_run = True
+        Args.output = output_path
+
+        cmd_publish(Args())
+        content = read_file(output_path)
+        assert 'title: "Test Article"' in content
+        assert "seo_title:" in content
+        assert "description:" in content
+        assert "cover_image:" in content
+        assert "cover_alt:" in content
+        assert "slug:" in content
+
+    def test_full_publish_pipeline_hugo(self, tmp_path):
+        article_path = str(tmp_path / "article.md")
+        write_file(
+            article_path,
+            "TITLE: Hugo Article\n"
+            "SEO_TITLE: Hugo Article: Best Practices for Developers\n"
+            "SLUG: hugo-article\n"
+            "META: Best practices for Hugo articles with proper metadata\n"
+            "ALT: Hugo article image\n"
+            "COVER_IMAGE_URL: https://example.com/cover.jpg\n"
+            "CONTENT:\n## Body\n\nContent.\n",
+        )
+        output_path = str(tmp_path / "out.md")
+
+        class Args:
+            pass
+
+        Args.article = article_path
+        Args.platform = "hugo"
+        Args.dry_run = True
+        Args.output = output_path
+
+        cmd_publish(Args())
+        content = read_file(output_path)
+        assert "title:" in content
+        assert "date:" in content
+        assert "description:" in content
+
+    def test_publish_with_plain_markdown_fallback(self, tmp_path):
+        article_path = str(tmp_path / "article.md")
+        write_file(
+            article_path,
+            '---\ndescription: "My test meta description"\n---\n\n# Plain Article\n\nBody text.',
+        )
+        output_path = str(tmp_path / "out.md")
+
+        class Args:
+            pass
+
+        Args.article = article_path
+        Args.platform = "generic"
+        Args.dry_run = True
+        Args.output = output_path
+
+        cmd_publish(Args())
+        content = read_file(output_path)
+        assert 'title: "Plain Article"' in content
+        assert "description:" in content
