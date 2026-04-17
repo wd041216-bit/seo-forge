@@ -1,5 +1,7 @@
 import json
 import os
+import subprocess
+import sys
 import tempfile
 
 import pytest
@@ -2133,3 +2135,154 @@ class TestScoringCalibration:
         high_kw = compute_article_scores(base_md, "AI writing tools")
         no_kw = compute_article_scores(base_md, "quantum computing")
         assert high_kw["seo_quality"]["score"] >= no_kw["seo_quality"]["score"]
+
+
+class TestPublishValidation:
+    def test_publish_then_validate_frontmatter(self, tmp_path):
+        article_path = str(tmp_path / "article.md")
+        write_file(
+            article_path,
+            "TITLE: Test Article\n"
+            "SEO_TITLE: Test Article: Complete Guide for Users\n"
+            "SLUG: test-article\n"
+            "META: A comprehensive guide to testing articles with full SEO metadata, structured data, and detailed examples for optimization\n"
+            "ALT: Test article cover\n"
+            "COVER_IMAGE_URL: https://images.unsplash.com/photo-test?w=1200\n"
+            "CONTENT:\n"
+            "## Introduction\n\nTest content here.\n\n"
+            "## Features\n\nSome features here.\n",
+        )
+
+        publish_path = str(tmp_path / "nextjs.md")
+        publish_args = type(
+            "Args",
+            (),
+            {
+                "article": article_path,
+                "platform": "nextjs",
+                "dry_run": True,
+                "output": publish_path,
+                "require_review": False,
+            },
+        )()
+        cmd_publish(publish_args)
+        published = read_file(publish_path)
+
+        issues = _validate_frontmatter(published, "nextjs")
+        assert issues == [], f"Frontmatter issues: {issues}"
+
+    def test_publish_then_validate_hugo(self, tmp_path):
+        article_path = str(tmp_path / "article.md")
+        write_file(
+            article_path,
+            "TITLE: Hugo Article\n"
+            "SEO_TITLE: Hugo Article: Best Practices for Developers\n"
+            "SLUG: hugo-article\n"
+            "META: Best practices for Hugo articles with proper metadata, structured data markup, and detailed configuration examples for developers\n"
+            "ALT: Hugo article image\n"
+            "COVER_IMAGE_URL: https://example.com/cover.jpg\n"
+            "CONTENT:\n## Body\n\nContent.\n",
+        )
+
+        publish_path = str(tmp_path / "hugo.md")
+        publish_args = type(
+            "Args",
+            (),
+            {
+                "article": article_path,
+                "platform": "hugo",
+                "dry_run": True,
+                "output": publish_path,
+                "require_review": False,
+            },
+        )()
+        cmd_publish(publish_args)
+        published = read_file(publish_path)
+
+        issues = _validate_frontmatter(published, "hugo")
+        assert issues == [], f"Frontmatter issues: {issues}"
+
+    def test_publish_then_validate_astro(self, tmp_path):
+        article_path = str(tmp_path / "article.md")
+        write_file(
+            article_path,
+            "TITLE: Astro Guide\n"
+            "SEO_TITLE: Astro Guide: Building Fast Websites with Examples\n"
+            "SLUG: astro-guide\n"
+            "META: A comprehensive guide to building fast websites with Astro framework, structured data, and performance optimization tips\n"
+            "ALT: Astro guide cover\n"
+            "COVER_IMAGE_URL: https://images.unsplash.com/photo-astro?w=1200\n"
+            "CONTENT:\n## Getting Started\n\nContent.\n",
+        )
+
+        publish_path = str(tmp_path / "astro.md")
+        publish_args = type(
+            "Args",
+            (),
+            {
+                "article": article_path,
+                "platform": "astro",
+                "dry_run": True,
+                "output": publish_path,
+                "require_review": False,
+            },
+        )()
+        cmd_publish(publish_args)
+        published = read_file(publish_path)
+
+        issues = _validate_frontmatter(published, "astro")
+        assert issues == [], f"Frontmatter issues: {issues}"
+
+
+class TestCLISmoke:
+    def test_cli_help_exits_cleanly(self):
+        result = subprocess.run(
+            [sys.executable, "scripts/seo_forge.py", "--help"],
+            capture_output=True,
+            text=True,
+            cwd="/Users/dawei/playground/seo-forge",
+        )
+        assert result.returncode == 0
+        assert "draft" in result.stdout
+        assert "validate" in result.stdout
+        assert "publish" in result.stdout
+        assert "score-article" in result.stdout
+
+    def test_cli_draft_command(self, tmp_path):
+        output = str(tmp_path / "draft.md")
+        result = subprocess.run(
+            [
+                sys.executable,
+                "scripts/seo_forge.py",
+                "draft",
+                "--keyword",
+                "test keyword",
+                "--output",
+                output,
+            ],
+            capture_output=True,
+            text=True,
+            cwd="/Users/dawei/playground/seo-forge",
+        )
+        assert result.returncode == 0
+        assert os.path.exists(output)
+
+    def test_cli_validate_command(self):
+        article = os.path.join(FIXTURES, "valid_article.md")
+        result = subprocess.run(
+            [
+                sys.executable,
+                "scripts/seo_forge.py",
+                "validate",
+                "--article",
+                article,
+                "--keyword",
+                "AI writing tools",
+                "--config",
+                "none",
+            ],
+            capture_output=True,
+            text=True,
+            cwd="/Users/dawei/playground/seo-forge",
+        )
+        assert result.returncode == 0
