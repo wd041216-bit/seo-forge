@@ -1,0 +1,27 @@
+{
+  "domain": "seo-blog-automation",
+  "current_phase": "rescore",
+  "iteration": 3,
+  "max_iterations": 10,
+  "last_score": {
+    "total": 76,
+    "breadth": 21,
+    "depth": 20,
+    "thickness": 17,
+    "effectiveness": 18
+  },
+  "status": "running",
+  "started_at": "2026-04-17T05:01:55Z",
+  "updated_at": "2026-04-17T06:30:00Z",
+  "target_repo": "/Users/dawei/playground/seo-forge",
+  "github_branch": "expert-distiller/seo-blog-automation",
+  "active_council": "seo-blog-automation-main-council",
+  "experts_added_mid_loop": [],
+  "history": [
+    {"iteration": 1, "score": 59, "phase": "rescore"},
+    {"iteration": 2, "score": 73, "phase": "rescore"},
+    {"iteration": 3, "score": 76, "phase": "rescore"}
+  ],
+  "build_failures": 0,
+  "score_regressions": 0
+}

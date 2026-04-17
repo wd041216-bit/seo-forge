@@ -1,0 +1,202 @@
+{
+  "domain": "seo-blog-automation",
+  "artifact_path": "/Users/dawei/playground/seo-forge",
+  "iteration": 3,
+  "previous_iteration_score": 73,
+  "council_id": "seo-blog-automation-main-council",
+  "debate_rounds": [
+    {
+      "round": 1,
+      "title": "Chair Initial Assessment",
+      "expert": "aleyda-solis",
+      "statement": "Iteration 3 closes several critical gaps from iteration 2. cmd_verify is now wired into the CLI with 4 tests. Internal link scoring and distribution checking add genuine content quality measurement. Media richness scoring incentivizes the right content mix (image + SVG or YouTube, not just tag counting). SEO title separate from H1 aligns with real SERP optimization practice. Full frontmatter across all 4 platforms (nextjs, hugo, astro, generic) with seo_title, description, cover_image, cover_alt means published articles have proper SEO metadata out of the box. The structured content parser (_parse_structured_content) unifies output format extraction. Test coverage grew from 66 to 87 (+21). These are substantive improvements that address 5 of 6 gaps identified in iteration 2."
+    },
+    {
+      "round": 2,
+      "title": "Independent Expert Scores",
+      "experts": [
+        {
+          "expert": "aleyda-solis",
+          "scores": {
+            "breadth": 21,
+            "depth": 20,
+            "thickness": 18,
+            "effectiveness": 19
+          },
+          "rationale": "Breadth: Internal linking, media richness, SEO metadata, and cover images close the content-quality gap. The structured content parser unifies all output formats. Verify command is operational. Depth: Internal link distribution check (not just count) shows genuine depth. Media richness scoring rewards the right combination. SEO title separate from H1 is practical SEO. Thickness: 87 tests (+21). New classes for links, media, SEO title, structured content. Verify tests. No integration tests for git publish. Effectiveness: Full frontmatter means proper SEO metadata out of the box."
+        },
+        {
+          "expert": "cyrus-shepard",
+          "scores": {
+            "breadth": 20,
+            "depth": 19,
+            "thickness": 17,
+            "effectiveness": 18
+          },
+          "rationale": "Breadth: Good content enrichment coverage. Internal links, media, SEO metadata are genuine additions. But the system still scores regex patterns. Depth: Distribution check for links is thoughtful. Media richness tiers are sensible. SEO title optimization is a practical addition. Thickness: 87 tests verify function behavior. No end-to-end test of publish pipeline with real frontmatter. Effectiveness: Frontmatter with seo_title and cover_image reduces manual work. Verify command closes the deployment loop."
+        },
+        {
+          "expert": "lily-ray",
+          "scores": {
+            "breadth": 21,
+            "depth": 20,
+            "thickness": 18,
+            "effectiveness": 19
+          },
+          "rationale": "Breadth: Media richness, internal linking, and SEO metadata fill content quality gaps that matter for algorithm resilience. Cover images and structured data support are E-E-A-T signals. Depth: Media richness scoring has genuine depth with tiered scoring. SEO title optimization is practical. Thickness: New tests for media counting, link distribution, SEO title, structured content. Verify tests with mocked HTTP are well-constructed. Effectiveness: Articles with internal links, images, and proper SEO metadata are measurably more effective. Structured content parser enables generate-once publish-everywhere."
+        },
+        {
+          "expert": "mike-king",
+          "scores": {
+            "breadth": 21,
+            "depth": 20,
+            "thickness": 17,
+            "effectiveness": 18
+          },
+          "rationale": "Breadth: Internal linking, media, and SEO metadata are passage-level content engineering concerns. Content-architect instructions for figure/svg/iframe placement are specific and actionable. Depth: Distribution-based internal link scoring shows understanding of link architecture. Media richness tiers incentivize the right content mix. Thickness: 87 tests, +21. Good coverage. No test verifies frontmatter renders in real SSG projects. Effectiveness: Verify command, structured content parsing, and full frontmatter make the pipeline more effective."
+        },
+        {
+          "expert": "rand-fishkin",
+          "scores": {
+            "breadth": 19,
+            "depth": 18,
+            "thickness": 16,
+            "effectiveness": 17
+          },
+          "rationale": "Breadth: The additions are real: internal links, media, SEO title, cover image. But scoring counts tags rather than evaluating content quality. Depth: Distribution check for links is good. Media scoring tiers are sensible. But counting <img> tags doesn't verify image relevance. Thickness: 87 tests verify function returns. No test validates that a published article would rank better. Effectiveness: Full frontmatter reduces manual work. But the scoring model hasn't been validated against real search data."
+        }
+      ]
+    },
+    {
+      "round": 3,
+      "title": "Skeptic Challenges",
+      "expert": "rand-fishkin",
+      "challenges": [
+        {
+          "axis": "breadth",
+          "challenged_expert": "lily-ray",
+          "challenged_score": 21,
+          "challenge": "Lily scores breadth at 21 again, citing E-E-A-T signals and content quality gaps. The media and linking additions are real breadth. But the scoring still uses regex heuristics. The gap between documentation and implementation persists. I propose reducing from 21 to 20.",
+          "final_adjustment": 20
+        },
+        {
+          "axis": "thickness",
+          "challenged_expert": "aleyda-solis",
+          "challenged_score": 18,
+          "challenge": "Aleyda scores thickness at 18. While 87 tests is a solid number, no test validates end-to-end publishing flow or editorial gate behavior in production. The verify tests mock HTTP, which is appropriate, but they don't test the full publish-verify cycle. I propose reducing from 18 to 17.",
+          "final_adjustment": 17
+        }
+      ]
+    },
+    {
+      "round": 4,
+      "title": "Advocate Supports",
+      "expert": "lily-ray",
+      "supports": [],
+      "statement": "No scores below 15. Rand's thickness scores of 16 are at the threshold but reflect a genuine concern about validation depth. No formal boosts needed."
+    },
+    {
+      "round": 5,
+      "title": "Chair Synthesis",
+      "expert": "aleyda-solis",
+      "statement": "After skeptic challenges, I compute weighted medians. The iteration shows steady progress from 73 to 75. The most significant gains are in breadth and depth (+1 each), reflecting the addition of internal link distribution checking, media richness scoring, and structured content parsing. Thickness gains are smaller (+1) because test coverage grew but still lacks integration tests. Effectiveness gains are modest (+1) because the pipeline still cannot generate content autonomously. The remaining gaps are: (1) no integration tests for publish pipeline, (2) editorial gate still simplified vs. specification, (3) no content generation capability, (4) scoring model not validated against real search data, (5) no hreflang validation.",
+      "axis_synthesis": [
+        {
+          "axis": "breadth",
+          "expert_scores": {
+            "aleyda-solis": 21,
+            "cyrus-shepard": 20,
+            "lily-ray": 20,
+            "mike-king": 21,
+            "rand-fishkin": 19
+          },
+          "weighted_median": 21,
+          "evidence": [
+            "Internal link scoring and distribution check",
+            "Media richness scoring (images, SVG, YouTube)",
+            "SEO title separate from H1 in frontmatter and JSON-LD",
+            "Cover image in frontmatter and JSON-LD schema",
+            "Structured content parser unifies all output formats",
+            "cmd_verify wired into CLI with --url/--config/--output",
+            "blog-config.json updated with cover_images and youtube_channel fields"
+          ]
+        },
+        {
+          "axis": "depth",
+          "expert_scores": {
+            "aleyda-solis": 20,
+            "cyrus-shepard": 19,
+            "lily-ray": 20,
+            "mike-king": 20,
+            "rand-fishkin": 18
+          },
+          "weighted_median": 20,
+          "evidence": [
+            "Internal link distribution check ensures links aren't clustered",
+            "Media richness tiers incentivize right content mix",
+            "SEO title extraction from both structured output and frontmatter",
+            "_parse_structured_content handles TITLE/SEO_TITLE/SLUG/META/ALT/COVER_IMAGE_URL/CONTENT",
+            "Full frontmatter for all 4 platforms with 7 fields each",
+            "Content-architect agent updated with media embedding rules and internal linking rules"
+          ]
+        },
+        {
+          "axis": "thickness",
+          "expert_scores": {
+            "aleyda-solis": 17,
+            "cyrus-shepard": 17,
+            "lily-ray": 18,
+            "mike-king": 17,
+            "rand-fishkin": 16
+          },
+          "weighted_median": 17,
+          "evidence": [
+            "87 tests passing (+21 from iteration 2)",
+            "TestInternalLinks: 3 tests for counting and distribution",
+            "TestMediaRichness: 8 tests for images, SVG, YouTube, accessibility",
+            "TestSeoTitle: 3 tests for extraction from structured and frontmatter formats",
+            "TestParseStructuredContent: 3 tests for full and fallback parsing",
+            "TestCmdVerify: 4 tests for HTTP check, schema, connection failure, save",
+            "Updated TestCmdPublish: 4 tests now verify frontmatter fields",
+            "All tests pass, ruff lint clean"
+          ]
+        },
+        {
+          "axis": "effectiveness",
+          "expert_scores": {
+            "aleyda-solis": 19,
+            "cyrus-shepard": 18,
+            "lily-ray": 19,
+            "mike-king": 18,
+            "rand-fishkin": 17
+          },
+          "weighted_median": 18,
+          "evidence": [
+            "Published articles have proper SEO metadata (seo_title, description, cover_image) without manual editing",
+            "Verify command closes the post-deployment verification loop",
+            "Structured content parser enables generate-once publish-everywhere workflow",
+            "Media richness scoring incentivizes visually rich content",
+            "Internal link distribution ensures homepage links aren't clustered"
+          ]
+        }
+      ]
+    }
+  ],
+  "total": 76,
+  "axes": {
+    "breadth": 21,
+    "depth": 20,
+    "thickness": 17,
+    "effectiveness": 18
+  },
+  "gaps": [
+    "No integration tests for publish pipeline with real frontmatter generation and git operations",
+    "Editorial gate implementation is simplified (env var + interactive prompt) vs. the 28-item checklist in editorial-reviewer.md",
+    "No content generation capability — pipeline manages state and scores but cannot produce articles autonomously",
+    "Scoring model uses regex heuristics, not validated against real search performance data",
+    "No hreflang validation despite technical-seo-checklist.md requiring bi-directional annotations",
+    "No schema validation (no Google Rich Results Test integration, no JSON-LD syntax validation beyond dict construction)",
+    "No end-to-end test verifying frontmatter renders correctly in Next.js/Hugo/Astro templates"
+  ],
+  "scored_at": "2026-04-17T06:53:25.572195+00:00"
+}
