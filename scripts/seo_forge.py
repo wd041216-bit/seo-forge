@@ -2044,6 +2044,24 @@ def cmd_editorial_review(args):
         else f"Words: {details['word_count']}, Internal links: {il_count}, Media: {media}/3",
     }
 
+    # Brand voice alignment
+    brand_keywords = config.get("brand_voice_keywords", [])
+    if brand_keywords:
+        md_lower = md.lower()
+        matched = [kw for kw in brand_keywords if kw.lower() in md_lower]
+        voice_pass = len(matched) >= max(1, len(brand_keywords) // 2)
+        checklist["brandVoice"] = {
+            "pass": voice_pass,
+            "notes": ""
+            if voice_pass
+            else f"Matched {len(matched)}/{len(brand_keywords)} brand voice keywords: {matched}",
+        }
+    else:
+        checklist["brandVoice"] = {
+            "pass": True,
+            "notes": "No brand_voice_keywords configured; skipped",
+        }
+
     # Overall decision
     all_pass = all(c["pass"] for c in checklist.values())
     any_blocked = checklist.get("factualAccuracy", {}).get("pass") is False

@@ -56,6 +56,12 @@
       "description": "Description of your brand's writing voice and tone",
       "default": "Professional but approachable. Evidence-based. Honest about limitations."
     },
+    "brand_voice_keywords": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Keywords that must appear in articles to match brand voice (at least half required to pass editorial review)",
+      "default": []
+    },
     "trusted_reference_domains": {
       "type": "array",
       "items": { "type": "string" },

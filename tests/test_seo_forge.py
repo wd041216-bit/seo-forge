@@ -1472,6 +1472,80 @@ class TestCmdEditorialReview:
         assert "decision" in saved
         assert "checklist" in saved
 
+    def test_editorial_review_brand_voice_pass(self, tmp_path, capsys):
+        article_path = str(tmp_path / "article.md")
+        write_file(
+            article_path,
+            "# AI Writing Tools Review\n\n"
+            "We are passionate about innovation and trustworthy AI tools. "
+            "Our expertise guides you through innovative and trustworthy solutions.\n\n"
+            "## Methodology\n\nWe tested thoroughly.\n\n"
+            "## Results\n\nExcellent findings here with expert analysis.\n\n"
+            "## References\n\n- https://arxiv.org/abs/2401.0001\n"
+            "- https://www.nature.com/articles/s41586-024-0001\n"
+            "- https://www.reuters.com/article/ai-writing\n"
+            "- https://nist.gov/publication/ai-framework\n\n"
+            "### FAQs\n\n#### What is AI writing?\nGreat tools.\n"
+            "#### How does it work?\nIt works well.\n"
+            "#### Is it free?\nSome are.\n"
+            "#### Best one?\nDepends.\n"
+            "#### Safe?\nMostly.\n"
+            "#### Accurate?\nFairly.\n",
+        )
+        config_path = str(tmp_path / "config.json")
+        save_json(
+            config_path,
+            {"brand_voice_keywords": ["innovation", "trustworthy", "expertise"]},
+        )
+
+        class Args:
+            pass
+
+        Args.article = article_path
+        Args.keyword = "AI writing tools"
+        Args.config = config_path
+        Args.output = None
+
+        cmd_editorial_review(Args())
+        captured = capsys.readouterr()
+        report = json.loads(captured.out)
+        assert report["checklist"]["brandVoice"]["pass"] is True
+
+    def test_editorial_review_brand_voice_fail(self, tmp_path, capsys):
+        article_path = str(tmp_path / "article.md")
+        write_file(
+            article_path,
+            "# Short Article\n\nSome generic text without any brand terms.\n\n"
+            "## Methodology\n\nWe tested.\n\n"
+            "## References\n\n- https://arxiv.org/abs/2401.0001\n"
+            "- https://www.nature.com/articles/s41586-024-0001\n",
+        )
+        config_path = str(tmp_path / "config.json")
+        save_json(
+            config_path,
+            {
+                "brand_voice_keywords": [
+                    "innovation",
+                    "trustworthy",
+                    "expertise",
+                    "precision",
+                ]
+            },
+        )
+
+        class Args:
+            pass
+
+        Args.article = article_path
+        Args.keyword = "test"
+        Args.config = config_path
+        Args.output = None
+
+        cmd_editorial_review(Args())
+        captured = capsys.readouterr()
+        report = json.loads(captured.out)
+        assert report["checklist"]["brandVoice"]["pass"] is False
+
 
 class TestSchemaValidation:
     def test_valid_article_schema(self):

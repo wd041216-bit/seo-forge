@@ -142,6 +142,7 @@ CONTENT:
 - [ ] 150-300 words per paragraph
 - [ ] Competitor comparison section
 - [ ] No self-referential links in References
+- [ ] Brand voice keywords present (from config `brand_voice_keywords`)
 - [ ] 2-4 internal links to site_url distributed across H2 sections
 - [ ] 1-2 inline images with alt text, width, height, loading="lazy"
 - [ ] 1 SVG diagram or 1 YouTube embed (optional but encouraged)
