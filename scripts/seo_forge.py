@@ -1543,6 +1543,122 @@ def _validate_jsonld(schema_json: dict) -> list[str]:
     return issues
 
 
+def _validate_frontmatter(frontmatter_text: str, platform: str) -> list[str]:
+    """Validate published frontmatter against SSG requirements."""
+    issues = []
+    required = {
+        "nextjs": [
+            "title",
+            "seo_title",
+            "date",
+            "slug",
+            "description",
+            "cover_image",
+            "cover_alt",
+        ],
+        "hugo": [
+            "title",
+            "seo_title",
+            "date",
+            "slug",
+            "description",
+            "cover_image",
+            "cover_alt",
+        ],
+        "astro": [
+            "title",
+            "seo_title",
+            "pubDate",
+            "slug",
+            "description",
+            "cover_image",
+            "cover_alt",
+        ],
+    }
+    fields = required.get(platform, required["nextjs"])
+    for field in fields:
+        pattern = rf"^{field}\s*:"
+        if not re.search(pattern, frontmatter_text, re.MULTILINE):
+            issues.append(f"Missing required field: {field}")
+
+    if "---" not in frontmatter_text:
+        issues.append("Missing frontmatter delimiters (---)")
+    elif frontmatter_text.strip().count("---") < 2:
+        issues.append("Frontmatter must have opening and closing --- delimiters")
+
+    date_field = "pubDate" if platform == "astro" else "date"
+    date_match = re.search(
+        rf"^{date_field}\s*:\s*\"?(\d{{4}}-\d{{2}}-\d{{2}})",
+        frontmatter_text,
+        re.MULTILINE,
+    )
+    if not date_match:
+        issues.append(f"Invalid date format in {date_field}")
+
+    slug_match = re.search(r'^slug\s*:\s*"?([^"\n]+)"?', frontmatter_text, re.MULTILINE)
+    if slug_match:
+        slug = slug_match.group(1).strip()
+        if " " in slug:
+            issues.append(f"Slug contains spaces: {slug}")
+    else:
+        issues.append("Missing slug field")
+
+    desc_match = re.search(r'^description\s*:\s*"(.+)"', frontmatter_text, re.MULTILINE)
+    if desc_match:
+        desc = desc_match.group(1)
+        if len(desc) < 120 or len(desc) > 160:
+            issues.append(f"Meta description length {len(desc)} outside 120-160 range")
+    return issues
+
+
+def _suggest_internal_links(
+    article_dir: str, site_url: str, keyword: str, max_suggestions: int = 5
+) -> list[dict]:
+    """Suggest internal links based on existing article corpus."""
+    if not os.path.isdir(article_dir):
+        return []
+
+    articles = []
+    keyword_lower = keyword.lower()
+    keyword_words = set(keyword_lower.split())
+
+    for fname in os.listdir(article_dir):
+        if not fname.endswith(".md"):
+            continue
+        fpath = os.path.join(article_dir, fname)
+        try:
+            content = read_file(fpath)
+        except Exception:
+            continue
+
+        title_match = re.search(r"^#\s+(.+)$", content, re.MULTILINE)
+        title = (
+            title_match.group(1).strip()
+            if title_match
+            else fname.replace(".md", "").replace("-", " ")
+        )
+
+        slug = fname.replace(".md", "")
+        word_count = len(content.split())
+
+        title_words = set(title.lower().split())
+        overlap = len(keyword_words & title_words)
+
+        if overlap > 0 or keyword_lower in content.lower():
+            articles.append(
+                {
+                    "title": title,
+                    "slug": slug,
+                    "url": f"{site_url.rstrip('/')}/{slug}",
+                    "relevance": overlap,
+                    "word_count": word_count,
+                }
+            )
+
+    articles.sort(key=lambda a: a["relevance"], reverse=True)
+    return articles[:max_suggestions]
+
+
 def cmd_schema(args):
     """Generate JSON-LD schema markup from article metadata."""
     article_path = args.article
@@ -1936,6 +2052,14 @@ def cmd_draft(args):
         "has_cover_image": True,
         "has_seo_title": True,
     }
+
+    articles_dir = config.get("articles_dir", "")
+    if articles_dir and site_url:
+        suggestions = _suggest_internal_links(articles_dir, site_url, keyword)
+        if suggestions:
+            draft_info["suggested_internal_links"] = suggestions
+            logger.info("Suggested %d internal links from corpus", len(suggestions))
+
     print(json.dumps(draft_info, indent=2, ensure_ascii=False))
     return draft_info
 
@@ -2349,6 +2473,10 @@ def cmd_publish(args):
         )
 
     output_md = frontmatter + body
+
+    fm_issues = _validate_frontmatter(frontmatter, platform)
+    if fm_issues:
+        logger.warning("Frontmatter issues for %s: %s", platform, fm_issues)
 
     output_path = args.output or article_path.replace(".md", f".{platform}.md")
     write_file(output_path, output_md)

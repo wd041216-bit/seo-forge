@@ -48,6 +48,8 @@ from scripts.seo_forge import (
     _parse_structured_content,
     _validate_jsonld,
     cmd_draft,
+    _validate_frontmatter,
+    _suggest_internal_links,
 )
 
 FIXTURES = os.path.join(os.path.dirname(__file__), "fixtures")
@@ -1893,3 +1895,141 @@ class TestEndToEndPipeline:
         assert "decision" in review
         assert "checklist" in review
         assert "brandVoice" in review["checklist"]
+
+
+class TestValidateFrontmatter:
+    def test_valid_nextjs_frontmatter(self):
+        fm = (
+            "---\n"
+            'title: "Test Article"\n'
+            'seo_title: "Test Article: Complete Guide"\n'
+            'date: "2026-04-17"\n'
+            'slug: "test-article"\n'
+            'description: "A comprehensive guide to testing articles with full SEO metadata, structured data markup, and detailed examples for content optimization"\n'
+            'cover_image: "https://example.com/img.jpg"\n'
+            'cover_alt: "Test image"\n'
+            "---\n"
+        )
+        issues = _validate_frontmatter(fm, "nextjs")
+        assert issues == []
+
+    def test_missing_required_field(self):
+        fm = '---\ntitle: "Test"\ndate: "2026-04-17"\n---\n'
+        issues = _validate_frontmatter(fm, "nextjs")
+        assert any("seo_title" in i for i in issues)
+
+    def test_slug_with_spaces(self):
+        fm = (
+            "---\n"
+            'title: "Test"\n'
+            'seo_title: "Test"\n'
+            'date: "2026-04-17"\n'
+            'slug: "test article slug"\n'
+            'description: "A comprehensive guide to testing articles with full SEO metadata, structured data markup, and detailed examples for content optimization"\n'
+            'cover_image: "https://example.com/img.jpg"\n'
+            'cover_alt: "Test"\n'
+            "---\n"
+        )
+        issues = _validate_frontmatter(fm, "nextjs")
+        assert any("spaces" in i for i in issues)
+
+    def test_invalid_date_format(self):
+        fm = (
+            "---\n"
+            'title: "Test"\n'
+            'seo_title: "Test"\n'
+            'date: "April 17 2026"\n'
+            'slug: "test"\n'
+            'description: "A comprehensive guide to testing articles with full SEO metadata, structured data markup, and detailed examples for content optimization"\n'
+            'cover_image: "https://example.com/img.jpg"\n'
+            'cover_alt: "Test"\n'
+            "---\n"
+        )
+        issues = _validate_frontmatter(fm, "nextjs")
+        assert any("date" in i.lower() for i in issues)
+
+    def test_astro_uses_pubdate(self):
+        fm = (
+            "---\n"
+            'title: "Test"\n'
+            'seo_title: "Test"\n'
+            'pubDate: "2026-04-17"\n'
+            'slug: "test"\n'
+            'description: "A comprehensive guide to testing articles with full SEO metadata, structured data markup, and detailed examples for content optimization"\n'
+            'cover_image: "https://example.com/img.jpg"\n'
+            'cover_alt: "Test"\n'
+            "---\n"
+        )
+        issues = _validate_frontmatter(fm, "astro")
+        assert issues == []
+
+    def test_description_length_out_of_range(self):
+        short_desc = "Too short"
+        fm = (
+            "---\n"
+            f'title: "Test"\n'
+            f'seo_title: "Test"\n'
+            f'date: "2026-04-17"\n'
+            f'slug: "test"\n'
+            f'description: "{short_desc}"\n'
+            f'cover_image: "https://example.com/img.jpg"\n'
+            f'cover_alt: "Test"\n'
+            f"---\n"
+        )
+        issues = _validate_frontmatter(fm, "nextjs")
+        assert any("description length" in i.lower() for i in issues)
+
+    def test_missing_delimiters(self):
+        fm = 'title: "Test"\ndate: "2026-04-17"\n'
+        issues = _validate_frontmatter(fm, "generic")
+        assert any("delimiter" in i.lower() for i in issues)
+
+
+class TestSuggestInternalLinks:
+    def test_suggest_from_corpus(self, tmp_path):
+        articles_dir = str(tmp_path / "articles")
+        os.makedirs(articles_dir)
+        write_file(
+            os.path.join(articles_dir, "ai-content-generation.md"),
+            "# AI Content Generation Guide\n\nAI writing tools help create content.",
+        )
+        write_file(
+            os.path.join(articles_dir, "seo-strategies.md"),
+            "# SEO Strategies for 2026\n\nBest SEO strategies.",
+        )
+
+        links = _suggest_internal_links(
+            articles_dir, "https://example.com", "AI writing tools", max_suggestions=5
+        )
+        assert len(links) >= 1
+        assert any("ai-content-generation" in lnk["slug"] for lnk in links)
+
+    def test_empty_directory(self, tmp_path):
+        empty_dir = str(tmp_path / "empty")
+        os.makedirs(empty_dir)
+        links = _suggest_internal_links(empty_dir, "https://example.com", "test")
+        assert links == []
+
+    def test_nonexistent_directory(self):
+        links = _suggest_internal_links(
+            "/nonexistent/path", "https://example.com", "test"
+        )
+        assert links == []
+
+    def test_relevance_sorting(self, tmp_path):
+        articles_dir = str(tmp_path / "articles")
+        os.makedirs(articles_dir)
+        write_file(
+            os.path.join(articles_dir, "ai-writing-tools-review.md"),
+            "# AI Writing Tools Review\n\nBest AI writing tools comparison.",
+        )
+        write_file(
+            os.path.join(articles_dir, "marketing-automation.md"),
+            "# Marketing Automation\n\nMarketing automation tips.",
+        )
+
+        links = _suggest_internal_links(
+            articles_dir, "https://example.com", "AI writing tools"
+        )
+        assert len(links) >= 1
+        assert links[0]["slug"] == "ai-writing-tools-review"
