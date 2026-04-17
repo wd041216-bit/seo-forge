@@ -80,6 +80,25 @@
       "description": "Automatically commit and push to GitHub",
       "default": false
     },
+    "cover_images": {
+      "type": "object",
+      "description": "Cover image configuration for articles",
+      "properties": {
+        "unsplash_collection": {
+          "type": "string",
+          "description": "Unsplash collection ID for auto-selecting cover images"
+        },
+        "fallback_url": {
+          "type": "string",
+          "format": "uri",
+          "description": "Default cover image URL when no specific image is provided"
+        }
+      }
+    },
+    "youtube_channel": {
+      "type": "string",
+      "description": "YouTube channel ID for finding relevant video embeds"
+    },
     "seo_rules": {
       "type": "object",
       "description": "Customizable SEO optimization parameters",

@@ -136,10 +136,13 @@ If post-deployment verification fails and the issue cannot be resolved within 30
 ### Markdown with Frontmatter (Default)
 ```markdown
 ---
-title: "Article Title"
+title: "On-page H1 Title"
+seo_title: "Shorter Keyword-Optimized Title 50-60 chars"
 slug: "article-slug"
 date: "2026-04-15"
-description: "Meta description here"
+description: "Meta description 120-160 chars with keyword in first 60 chars"
+cover_image: "https://images.unsplash.com/photo-xxx?w=1200&h=630&fit=crop"
+cover_alt: "Descriptive alt text for cover image"
 keywords: ["keyword1", "keyword2"]
 template: "template_reviewer"
 seoScore: 92
@@ -148,13 +151,62 @@ schema: |
   {
     "@context": "https://schema.org",
     "@type": "Article",
-    "headline": "Article Title",
+    "headline": "Shorter Keyword-Optimized Title 50-60 chars",
+    "image": "https://images.unsplash.com/photo-xxx?w=1200&h=630&fit=crop",
     ...
   }
   </script>
 ---
 
-[Article content in Markdown]
+[Article content in Markdown/HTML]
+```
+
+**seo_title vs title**: `seo_title` is the SERP-optimized title (50-60 chars, keyword-front-loaded). `title` is the on-page H1 heading (can be longer and more natural). If `seo_title` differs from `title`, the blog template should use `seo_title` for `<title>` and og:title tags.
+
+### Platform-Specific Frontmatter
+
+**Next.js**:
+```yaml
+title: "H1 title"
+seo_title: "Shorter title"
+date: "2026-04-16"
+slug: "article-slug"
+description: "Meta description"
+cover_image: "URL"
+cover_alt: "Alt text"
+```
+
+**Hugo**:
+```yaml
+title: "H1 title"
+seo_title: "Shorter title"
+date: 2026-04-16
+slug: "article-slug"
+description: "Meta description"
+cover_image: "URL"
+cover_alt: "Alt text"
+```
+
+**Astro**:
+```yaml
+title: "H1 title"
+seo_title: "Shorter title"
+pubDate: "2026-04-16"
+slug: "article-slug"
+description: "Meta description"
+cover_image: "URL"
+cover_alt: "Alt text"
+```
+
+**Generic**:
+```yaml
+title: "H1 title"
+seo_title: "Shorter title"
+slug: "article-slug"
+date: "2026-04-16"
+description: "Meta description"
+cover_image: "URL"
+cover_alt: "Alt text"
 ```
 
 ### HTML

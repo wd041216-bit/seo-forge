@@ -37,6 +37,14 @@ from scripts.seo_forge import (
     compute_article_scores,
     _is_ymyl,
     CTR_BASELINES,
+    _count_internal_links,
+    _count_images,
+    _count_svgs,
+    _count_youtube_embeds,
+    _check_image_alt_and_dimensions,
+    _media_richness_score,
+    _extract_seo_title,
+    _parse_structured_content,
 )
 
 FIXTURES = os.path.join(os.path.dirname(__file__), "fixtures")
@@ -960,6 +968,10 @@ class TestCmdPublish:
         assert os.path.exists(output_path)
         content = read_file(output_path)
         assert 'title: "My Article"' in content
+        assert 'seo_title:' in content
+        assert 'description:' in content
+        assert 'cover_image:' in content
+        assert 'cover_alt:' in content
 
     def test_dry_run_hugo(self, tmp_path, capsys):
         article_path = str(tmp_path / "article.md")
@@ -979,6 +991,8 @@ class TestCmdPublish:
         content = read_file(output_path)
         assert "title:" in content
         assert "date:" in content
+        assert 'seo_title:' in content
+        assert 'description:' in content
 
     def test_dry_run_astro(self, tmp_path, capsys):
         article_path = str(tmp_path / "article.md")
@@ -1014,7 +1028,9 @@ class TestCmdPublish:
         result = cmd_publish(Args())
         assert result["status"] == "dry_run"
         content = read_file(output_path)
-        assert "# Generic Post" in content
+        assert 'title: "Generic Post"' in content
+        assert "seo_title:" in content
+        assert "description:" in content
 
 
 class TestComputeScores:
@@ -1272,3 +1288,108 @@ class TestCmdVerify:
         saved = load_json(output_path)
         assert "overall_pass" in saved
         assert "checks" in saved
+
+
+class TestInternalLinks:
+    def test_count_internal_links_with_site_url(self):
+        md = '<p>Visit <a href="https://example.com/products">our products</a> and <a href="https://example.com/about">about us</a>.</p>'
+        count, sections = _count_internal_links(md, "https://example.com")
+        assert count == 2
+
+    def test_count_internal_links_no_matches(self):
+        md = '<a href="https://other.com">link</a>'
+        count, _ = _count_internal_links(md, "https://example.com")
+        assert count == 0
+
+    def test_count_internal_links_empty_url(self):
+        md = '<a href="https://example.com">link</a>'
+        count, _ = _count_internal_links(md, "")
+        assert count == 0
+
+
+class TestMediaRichness:
+    def test_count_images(self):
+        md = '<img src="a.jpg" alt="A"> text <img src="b.jpg" alt="B">'
+        assert _count_images(md) == 2
+
+    def test_count_svgs(self):
+        md = '<svg viewBox="0 0 100 100">content</svg>'
+        assert _count_svgs(md) == 1
+
+    def test_count_youtube_embeds(self):
+        md = '<iframe src="https://www.youtube.com/embed/abc123"></iframe>'
+        assert _count_youtube_embeds(md) == 1
+
+    def test_check_image_alt_and_dimensions(self):
+        md = '<img src="a.jpg" alt="A" width="800" height="450" loading="lazy">'
+        result = _check_image_alt_and_dimensions(md)
+        assert result["total_images"] == 1
+        assert result["issues"] == []
+
+    def test_check_image_missing_attrs(self):
+        md = '<img src="a.jpg">'
+        result = _check_image_alt_and_dimensions(md)
+        assert result["total_images"] == 1
+        assert len(result["issues"]) > 0
+
+    def test_media_richness_empty(self):
+        assert _media_richness_score("plain text") == 0
+
+    def test_media_richness_with_image(self):
+        md = '<img src="a.jpg" alt="A" width="800" height="450" loading="lazy">'
+        assert _media_richness_score(md) >= 1
+
+    def test_media_richness_with_image_and_youtube(self):
+        md = (
+            '<img src="a.jpg" alt="A" width="800" height="450">'
+            '<iframe src="https://www.youtube.com/embed/abc123"></iframe>'
+        )
+        assert _media_richness_score(md) >= 2
+
+
+class TestSeoTitle:
+    def test_extract_seo_title_structured(self):
+        md = "SEO_TITLE: My SEO Title Here\n# Real Title\nContent"
+        assert _extract_seo_title(md) == "My SEO Title Here"
+
+    def test_extract_seo_title_frontmatter(self):
+        md = "---\nseo_title: My Frontmatter Title\n---\n# Title\nContent"
+        assert _extract_seo_title(md) == "My Frontmatter Title"
+
+    def test_extract_seo_title_missing(self):
+        md = "# Title\nContent"
+        assert _extract_seo_title(md) == ""
+
+
+class TestParseStructuredContent:
+    def test_parse_full_structured(self):
+        md = (
+            "TITLE: AI Writing Tools Guide\n"
+            "SEO_TITLE: AI Writing Tools: Complete Guide\n"
+            "SLUG: ai-writing-tools-guide\n"
+            "META: A comprehensive guide to AI writing tools\n"
+            "ALT: AI tools comparison chart\n"
+            "COVER_IMAGE_URL: https://example.com/cover.jpg\n"
+            "CONTENT:\n"
+            "## Introduction\nContent here."
+        )
+        parsed = _parse_structured_content(md)
+        assert parsed["title"] == "AI Writing Tools Guide"
+        assert parsed["seo_title"] == "AI Writing Tools: Complete Guide"
+        assert parsed["slug"] == "ai-writing-tools-guide"
+        assert parsed["meta_description"] == "A comprehensive guide to AI writing tools"
+        assert parsed["cover_image"] == "https://example.com/cover.jpg"
+        assert parsed["cover_alt"] == "AI tools comparison chart"
+        assert "Content here." in parsed["content"]
+
+    def test_parse_plain_markdown(self):
+        md = "---\ndescription: \"My meta\"\n---\n# My Title\n\nBody text."
+        parsed = _parse_structured_content(md)
+        assert parsed["title"] == "My Title"
+        assert parsed["slug"] == "my-title"
+        assert parsed["meta_description"] == "My meta"
+
+    def test_parse_seo_title_truncation(self):
+        md = "# This Is a Very Long Title That Exceeds Sixty Characters For Sure\n\nContent."
+        parsed = _parse_structured_content(md)
+        assert len(parsed["seo_title"]) <= 60

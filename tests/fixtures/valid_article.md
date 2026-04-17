@@ -2,6 +2,8 @@
 description: "A practical guide to AI writing tools based on hands-on testing. Covers features, evaluation criteria, and usage data for choosing the right solution."
 ---
 
+SEO_TITLE: AI Writing Tools: Tested and Compared for Content Teams
+
 # AI Writing Tools: A Practical Guide
 
 We have spent three months researching these platforms to compile this guide. In our experience, these tools change how we create content daily. I personally tested over a dozen platforms to bring you our honest findings. Our team has been working in this space since 2022, and we have built expertise in evaluating these solutions.

@@ -618,6 +618,136 @@ def _count_experience_verbs(md: str) -> int:
     )
 
 
+def _count_internal_links(md: str, site_url: str) -> tuple[int, list[str]]:
+    """Count internal links to site_url and return (count, section_headers)."""
+    if not site_url:
+        return 0, []
+    pattern = re.compile(r'<a\s[^>]*href=["\']([^"\']+)["\'][^>]*>', re.IGNORECASE)
+    links = pattern.findall(md)
+    internal = [u for u in links if u.startswith(site_url)]
+    link_sections = []
+    sections = re.split(r"^#{1,3}\s+.+$", md, flags=re.MULTILINE)
+    for link in internal:
+        for section in sections:
+            if link in section:
+                header = re.match(r"^#{1,3}\s+(.+)$", section.strip(), re.MULTILINE)
+                if header:
+                    link_sections.append(header.group(1).strip())
+                break
+    return len(internal), link_sections
+
+
+def _count_images(md: str) -> int:
+    return len(re.findall(r"<img\s", md, re.IGNORECASE))
+
+
+def _count_svgs(md: str) -> int:
+    return len(re.findall(r"<svg\s", md, re.IGNORECASE))
+
+
+def _count_youtube_embeds(md: str) -> int:
+    return len(re.findall(r"youtube\.com/embed/", md, re.IGNORECASE))
+
+
+def _check_image_alt_and_dimensions(md: str) -> dict:
+    """Check images for alt text, width, height, and loading attributes."""
+    imgs = re.findall(r"<img\s[^>]*>", md, re.IGNORECASE)
+    issues = []
+    for img in imgs:
+        if not re.search(r'alt=["\']', img, re.IGNORECASE):
+            issues.append("missing alt attribute")
+        if not re.search(r'width=', img, re.IGNORECASE):
+            issues.append("missing width attribute")
+        if not re.search(r'height=', img, re.IGNORECASE):
+            issues.append("missing height attribute")
+        if not re.search(r'loading=', img, re.IGNORECASE):
+            issues.append("missing loading attribute")
+    return {"total_images": len(imgs), "issues": issues}
+
+
+def _media_richness_score(md: str) -> int:
+    """Score 0-3 for media variety in content."""
+    images = _count_images(md)
+    svgs = _count_svgs(md)
+    youtube = _count_youtube_embeds(md)
+    has_cover = bool(re.search(r"cover[_-]?image", md, re.IGNORECASE))
+    score = 0
+    if images >= 1:
+        score += 1
+    if images >= 1 and (svgs >= 1 or youtube >= 1):
+        score += 1
+    if has_cover and images >= 1 and (svgs >= 1 or youtube >= 1):
+        score += 1
+    return min(3, score)
+
+
+def _extract_seo_title(md: str) -> str:
+    """Extract SEO title from structured output or frontmatter."""
+    match = re.search(r"^SEO_TITLE:\s*(.+)$", md, re.MULTILINE)
+    if match:
+        return match.group(1).strip()
+    match = re.search(r"^seo_title:\s*(.+)$", md, re.MULTILINE)
+    if match:
+        return match.group(1).strip().strip('"').strip("'")
+    return ""
+
+
+def _parse_structured_content(md: str) -> dict:
+    """Parse content-architect structured output or plain markdown."""
+    result = {
+        "title": "",
+        "seo_title": "",
+        "slug": "",
+        "meta_description": "",
+        "cover_image": "",
+        "cover_alt": "",
+        "content": md,
+    }
+    title_match = re.search(r"^TITLE:\s*(.+)$", md, re.MULTILINE)
+    seo_title_match = re.search(r"^SEO_TITLE:\s*(.+)$", md, re.MULTILINE)
+    slug_match = re.search(r"^SLUG:\s*(.+)$", md, re.MULTILINE)
+    meta_match = re.search(r"^META:\s*(.+)$", md, re.MULTILINE)
+    alt_match = re.search(r"^ALT:\s*(.+)$", md, re.MULTILINE)
+    cover_match = re.search(r"^COVER_IMAGE_URL:\s*(.+)$", md, re.MULTILINE)
+    if title_match:
+        result["title"] = title_match.group(1).strip()
+    if seo_title_match:
+        result["seo_title"] = seo_title_match.group(1).strip()
+    if slug_match:
+        result["slug"] = slug_match.group(1).strip()
+    if meta_match:
+        result["meta_description"] = meta_match.group(1).strip()
+    if alt_match:
+        result["cover_alt"] = alt_match.group(1).strip()
+    if cover_match:
+        result["cover_image"] = cover_match.group(1).strip()
+    if not result["title"]:
+        h1 = re.search(r"^#\s+(.+)$", md, re.MULTILINE)
+        result["title"] = h1.group(1).strip() if h1 else "Untitled"
+    if not result["meta_description"]:
+        result["meta_description"] = _extract_meta_description(md)
+    if not result["slug"]:
+        result["slug"] = generate_id(result["title"])
+    if not result["seo_title"]:
+        t = result["title"]
+        result["seo_title"] = (t[:57] + "...") if len(t) > 60 else t
+    content_match = re.search(r"^CONTENT:\s*\n", md, re.MULTILINE)
+    if content_match:
+        body = md[content_match.end():]
+        body = re.sub(
+            r"^(TITLE|SEO_TITLE|SLUG|META|ALT|COVER_IMAGE_URL|IMAGES|SVG|YOUTUBE):\s*.*\n?",
+            "",
+            body,
+            flags=re.MULTILINE,
+        )
+        result["content"] = body
+    else:
+        body = re.sub(r"^---[\s\S]*?---", "", md).lstrip("\n")
+        body = re.sub(r"^# .+$", "", body, count=1, flags=re.MULTILINE).lstrip("\n")
+        result["content"] = body
+    return result
+
+
 def compute_article_scores(md: str, keyword: str, config: dict | None = None) -> dict:
     """Compute article scores from content. Returns dict with 4 axis scores (0-25 each)."""
     config = config or {}
@@ -710,9 +840,9 @@ def compute_article_scores(md: str, keyword: str, config: dict | None = None) ->
     eeat_compliance = fp_score + exp_score + ymyl_score + trust_score
 
     # Content Depth (0-25)
-    # word_count_score (0-5)
+    # word_count_score (0-4)
     wc_score = (
-        min(5, max(0, word_count * 5 // min_words)) if word_count < min_words else 5
+        min(4, max(0, word_count * 4 // min_words)) if word_count < min_words else 4
     )
 
     # faq_coverage (0-5)
@@ -747,7 +877,7 @@ def compute_article_scores(md: str, keyword: str, config: dict | None = None) ->
         + min(1, claims // 10),
     )
 
-    # needs_met (0-5)
+    # needs_met (0-4)
     has_faq_coverage = faq_count >= 3
     has_task_paths = bool(
         re.findall(
@@ -756,9 +886,17 @@ def compute_article_scores(md: str, keyword: str, config: dict | None = None) ->
             re.IGNORECASE,
         )
     )
-    nm_score = min(5, has_faq_coverage * 2 + has_task_paths * 2 + min(faq_count, 1))
+    nm_score = min(4, has_faq_coverage * 2 + has_task_paths * 1 + min(faq_count, 1))
 
-    content_depth = wc_score + faq_score + extract_score + ev_score + nm_score
+    # internal_links (0-3)
+    site_url = config.get("site_url", "") if config else ""
+    il_count, _ = _count_internal_links(md, site_url)
+    il_score = min(3, il_count)
+
+    # media_richness (0-3)
+    mr_score = _media_richness_score(md)
+
+    content_depth = wc_score + faq_score + extract_score + ev_score + nm_score + il_score + mr_score
 
     # Reference Authority (0-25)
     # source_count (0-7)
@@ -819,6 +957,8 @@ def compute_article_scores(md: str, keyword: str, config: dict | None = None) ->
                 "extractability": extract_score,
                 "evidence_density": ev_score,
                 "needs_met": nm_score,
+                "internal_links": il_score,
+                "media_richness": mr_score,
             },
         },
         "reference_authority": {
@@ -849,6 +989,8 @@ def compute_article_scores(md: str, keyword: str, config: dict | None = None) ->
             "verifiable_claims": claims,
             "superlatives": superlatives,
             "ctas": ctas,
+            "internal_link_count": il_count,
+            "media_richness": mr_score,
         },
         "scored_at": datetime.now(timezone.utc).isoformat(),
     }
@@ -980,6 +1122,49 @@ def cmd_validate(args):
         "results": url_results,
         "pass": all_urls_valid,
         "suggestion": "" if all_urls_valid else "Some reference URLs returned errors",
+    }
+
+    # Internal links
+    site_url = config.get("site_url", "")
+    il_count, il_sections = _count_internal_links(md, site_url)
+    il_pass = il_count >= 2 and len(set(il_sections)) >= 2 if site_url else True
+    checks["internal_links"] = {
+        "count": il_count,
+        "min": 2,
+        "sections": il_sections,
+        "pass": il_pass,
+        "suggestion": ""
+        if il_pass
+        else f"Add internal links to site_url (need 2+ across different sections, currently {il_count})"
+        if site_url
+        else "Set site_url in config to enable internal link checking",
+    }
+
+    # Image accessibility
+    img_check = _check_image_alt_and_dimensions(md)
+    img_pass = len(img_check["issues"]) == 0 or img_check["total_images"] == 0
+    checks["image_accessibility"] = {
+        "total_images": img_check["total_images"],
+        "issues": img_check["issues"],
+        "pass": img_pass,
+        "suggestion": ""
+        if img_pass
+        else "Images need alt, width, height, and loading attributes",
+    }
+
+    # SEO title
+    seo_title = _extract_seo_title(md)
+    seo_title_len = len(seo_title)
+    seo_title_pass = 50 <= seo_title_len <= 60 if seo_title else False
+    checks["seo_title"] = {
+        "value": seo_title_len,
+        "range": [50, 60],
+        "pass": seo_title_pass,
+        "suggestion": ""
+        if seo_title_pass
+        else f"SEO title should be 50-60 chars (currently {seo_title_len})"
+        if seo_title
+        else "Add SEO_TITLE field (50-60 chars, keyword-optimized)",
     }
 
     # Overall requires both structural checks pass AND total score >= 90
@@ -1320,12 +1505,22 @@ def cmd_schema(args):
         "headline": title,
         "datePublished": date_published,
     }
+    # Use SEO title as headline if available (more keyword-optimized)
+    seo_title = _extract_seo_title(md)
+    if seo_title:
+        article_schema["headline"] = seo_title
     if meta_desc:
         article_schema["description"] = meta_desc
     if org_name:
         article_schema["publisher"] = {"@type": "Organization", "name": org_name}
     if site_url:
         article_schema["url"] = site_url
+    # Cover image from structured output or frontmatter
+    cover_match = re.search(r"^COVER_IMAGE_URL:\s*(.+)$", md, re.MULTILINE)
+    if not cover_match:
+        cover_match = re.search(r"^cover_image:\s*(.+)$", md, re.MULTILINE)
+    if cover_match:
+        article_schema["image"] = cover_match.group(1).strip().strip('"').strip("'")
     schemas.append(article_schema)
 
     # FAQPage schema (if FAQ sections exist)
@@ -1599,33 +1794,61 @@ def cmd_publish(args):
         error_json(f"Article file not found: {article_path}", "PublishError")
 
     md = read_file(article_path)
+    parsed = _parse_structured_content(md)
+    date_str = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    body = parsed["content"]
 
-    # Convert markdown to platform format
+    # Build frontmatter for each platform
     if platform == "nextjs":
-        # Next.js: add frontmatter with date/slug
-        title_match = re.search(r"^#\s+(.+)$", md, re.MULTILINE)
-        title = title_match.group(1).strip() if title_match else "Untitled"
-        slug = generate_id(title)
-        frontmatter = f'---\ntitle: "{title}"\ndate: "{datetime.now(timezone.utc).strftime("%Y-%m-%d")}"\nslug: "{slug}"\n---\n\n'
-        output_md = frontmatter + re.sub(
-            r"^# .+$", "", md, count=1, flags=re.MULTILINE
-        ).lstrip("\n")
+        frontmatter = (
+            f'---\n'
+            f'title: "{parsed["title"]}"\n'
+            f'seo_title: "{parsed["seo_title"]}"\n'
+            f'date: "{date_str}"\n'
+            f'slug: "{parsed["slug"]}"\n'
+            f'description: "{parsed["meta_description"]}"\n'
+            f'cover_image: "{parsed["cover_image"]}"\n'
+            f'cover_alt: "{parsed["cover_alt"]}"\n'
+            f'---\n\n'
+        )
     elif platform == "hugo":
-        title_match = re.search(r"^#\s+(.+)$", md, re.MULTILINE)
-        title = title_match.group(1).strip() if title_match else "Untitled"
-        frontmatter = f'---\ntitle: "{title}"\ndate: {datetime.now(timezone.utc).strftime("%Y-%m-%d")}\n---\n\n'
-        output_md = frontmatter + re.sub(
-            r"^# .+$", "", md, count=1, flags=re.MULTILINE
-        ).lstrip("\n")
+        frontmatter = (
+            f'---\n'
+            f'title: "{parsed["title"]}"\n'
+            f'seo_title: "{parsed["seo_title"]}"\n'
+            f'date: {date_str}\n'
+            f'slug: "{parsed["slug"]}"\n'
+            f'description: "{parsed["meta_description"]}"\n'
+            f'cover_image: "{parsed["cover_image"]}"\n'
+            f'cover_alt: "{parsed["cover_alt"]}"\n'
+            f'---\n\n'
+        )
     elif platform == "astro":
-        title_match = re.search(r"^#\s+(.+)$", md, re.MULTILINE)
-        title = title_match.group(1).strip() if title_match else "Untitled"
-        frontmatter = f'---\ntitle: "{title}"\npubDate: "{datetime.now(timezone.utc).strftime("%Y-%m-%d")}"\n---\n\n'
-        output_md = frontmatter + re.sub(
-            r"^# .+$", "", md, count=1, flags=re.MULTILINE
-        ).lstrip("\n")
+        frontmatter = (
+            f'---\n'
+            f'title: "{parsed["title"]}"\n'
+            f'seo_title: "{parsed["seo_title"]}"\n'
+            f'pubDate: "{date_str}"\n'
+            f'slug: "{parsed["slug"]}"\n'
+            f'description: "{parsed["meta_description"]}"\n'
+            f'cover_image: "{parsed["cover_image"]}"\n'
+            f'cover_alt: "{parsed["cover_alt"]}"\n'
+            f'---\n\n'
+        )
     else:
-        output_md = md
+        frontmatter = (
+            f'---\n'
+            f'title: "{parsed["title"]}"\n'
+            f'seo_title: "{parsed["seo_title"]}"\n'
+            f'slug: "{parsed["slug"]}"\n'
+            f'date: "{date_str}"\n'
+            f'description: "{parsed["meta_description"]}"\n'
+            f'cover_image: "{parsed["cover_image"]}"\n'
+            f'cover_alt: "{parsed["cover_alt"]}"\n'
+            f'---\n\n'
+        )
+
+    output_md = frontmatter + body
 
     output_path = args.output or article_path.replace(".md", f".{platform}.md")
     write_file(output_path, output_md)
