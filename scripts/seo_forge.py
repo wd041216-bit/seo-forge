@@ -1663,6 +1663,283 @@ def _check_editorial_gate() -> bool:
         return False
 
 
+BLOG_TEMPLATES = {
+    "reviewer": {
+        "name": "Deep Reviewer",
+        "voice": "Professional reviewer — systematic, evidence-based, balanced",
+        "h2_sections": [
+            "What Is [KEYWORD] and Why I Started Testing It",
+            "My Testing Setup and Methodology",
+            "How to Get Started: Step-by-Step Guide",
+            "Performance Results: What I Actually Found",
+            "Honest Pros and Cons After [X] Weeks",
+            "How It Compares to [Competitor A] and [Competitor B]",
+            "Technical Specifications and Pricing",
+            "Common Questions People Ask",
+            "My Final Verdict: Who Should Use This",
+            "References",
+        ],
+    },
+    "tutorial": {
+        "name": "Tutorial Expert",
+        "voice": "Helpful instructor — clear, practical, encouraging",
+        "h2_sections": [
+            "Why [KEYWORD] Matters in [YEAR]",
+            "Getting Started with [KEYWORD]: Complete Setup Guide",
+            "Tutorial 1: Basic Use Case — Step by Step",
+            "Tutorial 2: Advanced Use Case — Pro Techniques",
+            "Tutorial 3: Creative Use Case — Pushing the Limits",
+            "Troubleshooting: Common Issues and Fixes",
+            "[KEYWORD] vs Alternatives: Which Tool Fits Your Workflow",
+            "Pricing Breakdown: Is It Worth the Cost",
+            "Common Questions People Ask",
+            "References",
+        ],
+    },
+    "analyst": {
+        "name": "Industry Analyst",
+        "voice": "Authoritative, data-driven, objective",
+        "h2_sections": [
+            "The State of [INDUSTRY] in [YEAR]: Market Overview",
+            "What Makes [KEYWORD] Different: Technical Analysis",
+            "Real-World Applications: Industries Using This Technology",
+            "Hands-On Analysis: Testing [KEYWORD] Across [X] Scenarios",
+            "Competitive Landscape: [KEYWORD] vs [Competitor A] vs [Competitor B]",
+            "Pricing Analysis: Cost Per Output Compared to Competitors",
+            "Limitations and Future Roadmap",
+            "Who Benefits Most: Use Case Breakdown",
+            "Common Questions People Ask",
+            "References",
+        ],
+    },
+    "problem_solver": {
+        "name": "Problem Solver",
+        "voice": "Empathetic, solution-focused, results-oriented",
+        "h2_sections": [
+            "The Problem: Why [Traditional Approach] No Longer Works",
+            "Discovering [KEYWORD]: My First Impressions",
+            "Solution 1: How [KEYWORD] Solves [Pain Point 1]",
+            "Solution 2: How [KEYWORD] Solves [Pain Point 2]",
+            "Solution 3: How [KEYWORD] Solves [Pain Point 3]",
+            "Before vs After: Real Results from My Projects",
+            "How [KEYWORD] Stacks Up Against [Competitors]",
+            "Pricing: Is the Investment Worth It",
+            "Common Questions People Ask",
+            "References",
+        ],
+    },
+    "beginners_guide": {
+        "name": "Beginner's Guide",
+        "voice": "Friendly mentor — approachable, encouraging, clear",
+        "h2_sections": [
+            "What Is [KEYWORD]? A Complete Introduction",
+            "Who Is [KEYWORD] For? (And Who It's Not For)",
+            "Getting Started: Your First Result in 5 Minutes",
+            "The Essential Features You Need to Know",
+            "5 Beginner Mistakes to Avoid",
+            "Leveling Up: Intermediate Tips and Tricks",
+            "[KEYWORD] vs Other Beginner-Friendly Tools",
+            "Pricing Guide: Which Plan Is Right for You",
+            "Common Questions People Ask",
+            "References",
+        ],
+    },
+    "storyteller": {
+        "name": "Storyteller",
+        "voice": "Personal narrative — authentic, emotional, relatable",
+        "h2_sections": [
+            "The Problem That Changed Everything: My [X]-Month Journey",
+            "Why I Almost Gave Up on [CATEGORY] Tools",
+            "The Moment I Discovered [KEYWORD]: First Impressions",
+            "My First Week: Honest Reactions and Real Surprises",
+            "Real Projects I've Completed: What I Actually Made",
+            "The Results That Surprised Me Most",
+            "How [KEYWORD] Compares to What I Used Before",
+            "Who Will Love This Tool (And Who Won't)",
+            "Common Questions People Ask",
+            "References",
+        ],
+    },
+    "comparison": {
+        "name": "Deep Comparison",
+        "voice": "Objective comparison — fair, data-driven, structured",
+        "h2_sections": [
+            "[KEYWORD] vs [Competitor]: The Ultimate Comparison",
+            "Quick Verdict: Which Tool Wins for Most Users",
+            "Feature-by-Feature Breakdown: What Each Tool Offers",
+            "Output Quality Comparison: Real Examples and Side-by-Side Tests",
+            "Pricing Comparison: True Cost Analysis of Each Tool",
+            "Speed and Performance: Head-to-Head Test Results",
+            "Ease of Use: Learning Curve and Interface Design",
+            "Use Case Matching: Which Tool Wins for Your Scenario",
+            "Common Questions People Ask",
+            "References",
+        ],
+    },
+    "case_study": {
+        "name": "Case Study",
+        "voice": "Results-focused, specific, credible",
+        "h2_sections": [
+            "Case Study: How [User Type] Used [KEYWORD] to [Achieve Result]",
+            "The Challenge: What They Were Trying to Solve",
+            "Why They Chose [KEYWORD] Over Alternatives",
+            "Implementation: How They Set Up Their Workflow",
+            "Results: Measurable Outcomes After [X] Weeks",
+            "Key Lessons: What Worked, What Didn't, and What Surprised Them",
+            "Replicating This Success: A Step-by-Step Framework",
+            "How [KEYWORD] Compares for This Use Case",
+            "Common Questions People Ask",
+            "References",
+        ],
+    },
+}
+
+INTENT_SIGNALS = {
+    "tutorial": ["how to", "tutorial", "guide", "step by step", "learn"],
+    "analyst": ["technical", "architecture", "specs", "analysis", "deep dive"],
+    "beginners_guide": [
+        "beginner",
+        "introduction",
+        "what is",
+        "getting started",
+        "basics",
+    ],
+    "comparison": ["vs", "compare", "alternative", "versus", "which is better"],
+    "case_study": [
+        "case study",
+        "how [x] used",
+        "real world",
+        "example",
+        "success story",
+    ],
+    "storyteller": ["journey", "story", "experience", "honest review", "my experience"],
+    "problem_solver": ["fix", "solve", "problem", "troubleshoot", "solution"],
+}
+
+
+def cmd_draft(args):
+    """Generate article scaffolding from keyword and template selection."""
+    keyword = args.keyword
+    template_name = args.template or "auto"
+    config = {}
+    if getattr(args, "config", None) and os.path.exists(args.config):
+        config = load_json(args.config)
+    site_url = config.get("site_url", "")
+
+    # Auto-select template based on keyword intent
+    if template_name == "auto":
+        keyword_lower = keyword.lower()
+        for tmpl_key, signals in INTENT_SIGNALS.items():
+            if any(s in keyword_lower for s in signals):
+                template_name = tmpl_key
+                break
+        else:
+            template_name = "reviewer"
+
+    template = BLOG_TEMPLATES.get(template_name, BLOG_TEMPLATES["reviewer"])
+    year = datetime.now(timezone.utc).year
+
+    # Generate H2 sections with keyword substituted
+    h2_sections = []
+    for section in template["h2_sections"]:
+        section = section.replace("[KEYWORD]", keyword)
+        section = section.replace("[YEAR]", str(year))
+        section = section.replace("[INDUSTRY]", config.get("industry", "Technology"))
+        section = section.replace("[X]", "3")
+        section = section.replace("[Competitor A]", "Alternative A")
+        section = section.replace("[Competitor B]", "Alternative B")
+        section = section.replace("[Competitors]", "Alternatives")
+        section = section.replace("[Competitor]", "Alternative")
+        section = section.replace("[Pain Point 1]", "Your Biggest Challenge")
+        section = section.replace("[Pain Point 2]", "Time and Resource Constraints")
+        section = section.replace("[Pain Point 3]", "Quality and Consistency Issues")
+        section = section.replace("[Traditional Approach]", "Manual Processes")
+        section = section.replace("[CATEGORY]", "This Type of")
+        section = section.replace("[User Type]", "a Team")
+        section = section.replace("[Achieve Result]", "Improve Results")
+        h2_sections.append(section)
+
+    # Generate structured content scaffolding
+    title = f"{keyword}: A Complete Guide"
+    seo_title = f"{keyword}: Complete Guide ({year})"[:60]
+    slug = generate_id(keyword)
+    meta = f"A comprehensive guide to {keyword.lower()} with practical tips, methodology, and real results."
+    if len(meta) > 160:
+        meta = meta[:157] + "..."
+
+    content_lines = [
+        f"# {title}",
+        "",
+        f"We have spent months evaluating {keyword.lower()} to compile this guide. In our experience, these tools change how we approach content creation. I personally tested the leading options and documented our findings below.",
+        "",
+        "**Disclosure:** Some tools mentioned offer affiliate partnerships. Our recommendations are based solely on testing results, not affiliate arrangements.",
+        "",
+    ]
+
+    for i, section in enumerate(h2_sections):
+        content_lines.append(f"## {section}")
+        content_lines.append("")
+        if i < len(h2_sections) - 1:
+            content_lines.append(f"[Content for this section about {keyword.lower()}]")
+            content_lines.append("")
+        if site_url and i > 0 and i % 3 == 0:
+            content_lines.append(
+                f'<a href="{site_url}">Learn more about {keyword.lower()} on our site</a>'
+            )
+            content_lines.append("")
+
+    # Add FAQ section
+    faq_section = h2_sections[-2] if h2_sections else "Common Questions People Ask"
+    if "Common Questions" in faq_section or "?" in faq_section:
+        for j in range(6):
+            content_lines.append(f"### {keyword.lower()} FAQ question {j + 1}?")
+            content_lines.append("")
+            content_lines.append(
+                f"Concise answer to FAQ question {j + 1} about {keyword.lower()}."
+            )
+            content_lines.append("")
+
+    # Add references
+    content_lines.append("### References")
+    content_lines.append("")
+    content_lines.append(f"- https://en.wikipedia.org/wiki/{keyword.replace(' ', '_')}")
+    if site_url:
+        content_lines.append(f"- {site_url}")
+
+    # Build structured output
+    output = [
+        f"TITLE: {title}",
+        f"SEO_TITLE: {seo_title}",
+        f"SLUG: {slug}",
+        f"META: {meta}",
+        f"ALT: Cover image showing {keyword.lower()} comparison and key features",
+        "COVER_IMAGE_URL: https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1200&h=630&fit=crop",
+        "CONTENT:",
+        "",
+    ]
+    output.extend(content_lines)
+
+    result = "\n".join(output)
+
+    output_path = args.output or f"{keyword.lower().replace(' ', '-')}-draft.md"
+    write_file(output_path, result)
+    logger.info("Draft generated: %s (template: %s)", output_path, template_name)
+
+    draft_info = {
+        "keyword": keyword,
+        "template": template_name,
+        "template_name": template["name"],
+        "voice": template["voice"],
+        "h2_count": len(h2_sections),
+        "output": output_path,
+        "has_internal_links": bool(site_url),
+        "has_cover_image": True,
+        "has_seo_title": True,
+    }
+    print(json.dumps(draft_info, indent=2, ensure_ascii=False))
+    return draft_info
+
+
 def cmd_editorial_review(args):
     """Run automated editorial review checks on an article."""
     article_path = args.article
@@ -2262,6 +2539,17 @@ def main():
     p.add_argument("--config", default=None, help="Path to blog config JSON")
     p.add_argument("--output", default=None, help="Path to save schema JSON")
 
+    # draft
+    p = sub.add_parser(
+        "draft", help="Generate article scaffolding from keyword and template"
+    )
+    p.add_argument("--keyword", required=True, help="Target keyword for the article")
+    p.add_argument(
+        "--template", default=None, help="Template name (auto-detected if omitted)"
+    )
+    p.add_argument("--config", default=None, help="Path to blog config JSON")
+    p.add_argument("--output", default=None, help="Path to save draft article")
+
     # publish
     p = sub.add_parser("publish", help="Format and publish an article")
     p.add_argument("--article", required=True, help="Path to article markdown file")
@@ -2320,6 +2608,7 @@ def main():
         "schema": cmd_schema,
         "editorial-review": cmd_editorial_review,
         "verify": cmd_verify,
+        "draft": cmd_draft,
         "publish": cmd_publish,
     }
     fn = cmds.get(args.command)

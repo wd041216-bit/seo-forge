@@ -47,6 +47,7 @@ from scripts.seo_forge import (
     _extract_seo_title,
     _parse_structured_content,
     _validate_jsonld,
+    cmd_draft,
 )
 
 FIXTURES = os.path.join(os.path.dirname(__file__), "fixtures")
@@ -1586,3 +1587,96 @@ class TestPublishIntegration:
         content = read_file(output_path)
         assert 'title: "Plain Article"' in content
         assert "description:" in content
+
+
+class TestCmdDraft:
+    def test_auto_template_selection(self, tmp_path):
+        output = str(tmp_path / "draft.md")
+
+        class Args:
+            pass
+
+        Args.keyword = "best AI writing tools"
+        Args.template = None
+        Args.config = None
+        Args.output = output
+
+        result = cmd_draft(Args())
+        assert result["template"] == "reviewer"
+        content = read_file(output)
+        assert "TITLE:" in content
+        assert "SEO_TITLE:" in content
+        assert "SLUG:" in content
+        assert "META:" in content
+        assert "COVER_IMAGE_URL:" in content
+        assert "CONTENT:" in content
+        assert "best ai writing tools" in content.lower()
+
+    def test_explicit_template(self, tmp_path):
+        output = str(tmp_path / "draft.md")
+
+        class Args:
+            pass
+
+        Args.keyword = "project management software"
+        Args.template = "comparison"
+        Args.config = None
+        Args.output = output
+
+        result = cmd_draft(Args())
+        assert result["template"] == "comparison"
+        content = read_file(output)
+        assert "project management software" in content.lower()
+
+    def test_structured_output_format(self, tmp_path):
+        output = str(tmp_path / "draft.md")
+
+        class Args:
+            pass
+
+        Args.keyword = "how to build a website"
+        Args.template = None
+        Args.config = None
+        Args.output = output
+
+        result = cmd_draft(Args())
+        assert result["has_seo_title"] is True
+        assert result["has_cover_image"] is True
+        assert result["h2_count"] > 0
+        content = read_file(output)
+        assert content.startswith("TITLE:")
+        lines = content.split("\n")
+        h2_lines = [ln for ln in lines if ln.startswith("## ")]
+        assert len(h2_lines) >= 4
+
+    def test_internal_links_with_site_url(self, tmp_path):
+        output = str(tmp_path / "draft.md")
+        config_path = str(tmp_path / "config.json")
+        save_json(config_path, {"site_url": "https://example.com"})
+
+        class Args:
+            pass
+
+        Args.keyword = "seo tools 2025"
+        Args.template = None
+        Args.config = config_path
+        Args.output = output
+
+        result = cmd_draft(Args())
+        assert result["has_internal_links"] is True
+        content = read_file(output)
+        assert 'href="https://example.com"' in content
+
+    def test_how_to_intent_detection(self, tmp_path):
+        output = str(tmp_path / "draft.md")
+
+        class Args:
+            pass
+
+        Args.keyword = "how to optimize images for web"
+        Args.template = None
+        Args.config = None
+        Args.output = output
+
+        result = cmd_draft(Args())
+        assert result["template"] == "tutorial"
