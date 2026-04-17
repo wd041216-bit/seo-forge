@@ -2234,13 +2234,16 @@ class TestPublishValidation:
         assert issues == [], f"Frontmatter issues: {issues}"
 
 
+PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+
 class TestCLISmoke:
     def test_cli_help_exits_cleanly(self):
         result = subprocess.run(
             [sys.executable, "scripts/seo_forge.py", "--help"],
             capture_output=True,
             text=True,
-            cwd="/Users/dawei/playground/seo-forge",
+            cwd=PROJECT_ROOT,
         )
         assert result.returncode == 0
         assert "draft" in result.stdout
@@ -2262,7 +2265,7 @@ class TestCLISmoke:
             ],
             capture_output=True,
             text=True,
-            cwd="/Users/dawei/playground/seo-forge",
+            cwd=PROJECT_ROOT,
         )
         assert result.returncode == 0
         assert os.path.exists(output)
@@ -2283,6 +2286,6 @@ class TestCLISmoke:
             ],
             capture_output=True,
             text=True,
-            cwd="/Users/dawei/playground/seo-forge",
+            cwd=PROJECT_ROOT,
         )
         assert result.returncode == 0
