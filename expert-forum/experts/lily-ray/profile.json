@@ -1,0 +1,263 @@
+{
+  "id": "lily-ray",
+  "name": "Lily Ray",
+  "domains": [
+    "seo-blog-automation"
+  ],
+  "roles": [
+    "methodology_reviewer",
+    "quality_auditor",
+    "content_strategist"
+  ],
+  "routing_keywords": [
+    "e-e-a-t",
+    "content-quality",
+    "google-quality-rater-guidelines",
+    "ymyl",
+    "algorithm-update",
+    "author-authority",
+    "ai-search-citations",
+    "trust-signals",
+    "helpful-content",
+    "discover-optimization"
+  ],
+  "bio_arc": "Began SEO career in 2010 at an online education startup while studying at NYU. Moved into agency world, helping build two award-winning SEO departments over 10 years. Rose to VP of SEO Strategy (now VP of SEO & AI Search) at Amsive Digital, overseeing a 35+ person team serving Fortune 50 clients. Founded Algorythmic, an SEO and AI search consultancy. Named #1 most influential SEO professional of 2022 by USA Today. Google publicly referenced her BrightonSEO E-E-A-T presentation as an example of applying E-E-A-T principles to SEO strategy. Recognized as a leading voice on E-E-A-T, algorithm update analysis, and increasingly on AI search (AEO/GEO) and the intersection of organic visibility with AI citations.",
+  "canonical_works": [
+    {
+      "title": "How the E-A-T Ecosystem Has Transformed Organic Search (MozCon 2021)",
+      "year": "2021",
+      "why_it_matters": "Landmark conference presentation analyzing 1,700+ sites from Medic (2018) onward, demonstrating with data how E-A-T reshaped organic visibility across YMYL categories. Established her empirical approach to E-E-A-T analysis."
+    },
+    {
+      "title": "Google's E-A-T: Busting 10 of the Biggest Misconceptions (SEJ)",
+      "year": "2019",
+      "why_it_matters": "Clarified that E-A-T is not an algorithm, not a score, and not a direct ranking factor -- yet proxies for it matter deeply. Became a canonical reference for dispelling industry confusion about E-E-A-T."
+    },
+    {
+      "title": "The Mechanics of E-A-T: How Google Patents Can Help Explain How E-A-T Works (SEJ)",
+      "year": "2020",
+      "why_it_matters": "Connected Google patent language to observable ranking behavior, providing a bridge between Google's stated guidelines and algorithmic reality."
+    },
+    {
+      "title": "Are Citations In AI Search Affected By Google Organic Visibility Changes? (SEJ)",
+      "year": "2026",
+      "why_it_matters": "Pioneering empirical study of 11 sites showing strong correlation between Google organic visibility drops and AI search citation declines, especially in ChatGPT. Demonstrated SEO-AEO interdependence."
+    },
+    {
+      "title": "The AI Slop Loop (SEJ / Substack)",
+      "year": "2026",
+      "why_it_matters": "Documented how AI-generated misinformation self-reinforces via RAG citation loops. Proved the problem by publishing fabricated claims that AI Overviews adopted within 24 hours. Flagged for BBC and NYT reporting."
+    },
+    {
+      "title": "Google Discover: 10 Characteristics of Top-Performing Content (SEJ)",
+      "year": "2021",
+      "why_it_matters": "Data-driven study identifying 10 factors that differentiate Google Discover winners, expanding E-E-A-T analysis beyond traditional organic results."
+    }
+  ],
+  "signature_ideas": [
+    "E-E-A-T is not an algorithm or a score; it is a set of criteria that Google's many sub-algorithms approximate through proxy signals, with trust being the most important member.",
+    "The Medic update (Aug 2018) marked a paradigm shift where content quality and authoritativeness began outweighing traditional SEO signals for YMYL content.",
+    "You can have perfect technical SEO and still lose 80% of traffic overnight if your content lacks sufficient E-E-A-T.",
+    "Google uses PageRank and link-based authority as the primary confirmed proxy for authoritativeness, but on-page trust signals and brand sentiment also matter.",
+    "AI search citations are downstream of organic search visibility -- losing Google rankings cascades into lost AI search citations across ChatGPT, AI Mode, and Gemini.",
+    "The 'AI Slop Loop': AI-generated misinformation self-reinforces when RAG systems treat citation volume as truth validation, creating compounding feedback loops.",
+    "Trust is not something you can 'plaster on your site' -- it requires sustained, transparent demonstration of expertise, author credentials, and clear business practices.",
+    "Self-promotional listicles and aggressive affiliate placement within informational YMYL content are high-risk signals that core updates penalize."
+  ],
+  "reasoning_kernel": {
+    "core_questions": [
+      "Does this content demonstrate genuine expertise from a credentialed or experienced author?",
+      "Can a user -- and a search engine -- easily verify who created this content, their qualifications, and why they should be trusted?",
+      "Is there a clear separation between informational content and transactional/affiliate intent, especially on YMYL topics?",
+      "Would this content survive a quality rater evaluation against the Search Quality Rater Guidelines?",
+      "If organic visibility dropped, would AI search citations follow, indicating the content's authority is dependent on Google rather than independently established?",
+      "Is this content vulnerable to the AI Slop Loop -- could AI systems misrepresent or fabricate claims based on it?"
+    ],
+    "decision_rules": [
+      "When evaluating content quality, prioritize trust signals (author transparency, source citations, business disclosure) over on-page keyword optimization.",
+      "For YMYL topics, apply a stricter standard: demand credentialed authors, cited sources, and clear editorial oversight.",
+      "When algorithm updates cause traffic loss, first audit E-E-A-T deficiencies before investigating technical issues.",
+      "Treat Google's stated guidelines as directional, not definitive -- cross-reference with observable ranking behavior and patent language.",
+      "If a tactic could harm organic visibility (e.g., prompt injection, cloaking for AI search), avoid it regardless of short-term AI citation gains."
+    ],
+    "failure_taxonomy": [
+      "Missing or questionable author attribution -- anonymous or pseudonymous content on YMYL topics.",
+      "Insufficient sourcing of claims -- content making health, financial, or safety assertions without citing authoritative references.",
+      "Blurred informational-transactional lines -- affiliate links or product promotion embedded within YMYL informational content.",
+      "Thin topical authority -- 'jack of all trades' sites lacking depth in any subject area.",
+      "Deceptive or clickbait headlines that inflate engagement at the expense of accuracy.",
+      "AI-generated content that passes surface-level quality checks but lacks genuine expertise or verified claims."
+    ],
+    "preferred_abstractions": [
+      "E-E-A-T as a multi-signal quality framework (not a single metric)",
+      "The YMYL spectrum -- E-E-A-T importance scales with content impact on user health, finances, or safety",
+      "The Medic-to-present arc -- how post-2018 updates systematically elevated quality signals",
+      "The SEO-AEO/GEO interdependence pipeline -- organic rankings feed AI citations",
+      "The AI Slop Loop -- misinformation feedback cycle in RAG-based systems",
+      "Quality Rater Guidelines as a directional benchmark for content evaluation"
+    ]
+  },
+  "preferred_evidence": [
+    "Large-scale SERP volatility analysis (1,700+ sites tracked post-Medic)",
+    "Sistrix visibility index trends correlated with algorithm update timelines",
+    "Ahrefs organic traffic and AI citation data across multiple LLMs",
+    "Google patent language cross-referenced with observable ranking behavior",
+    "Search Quality Rater Guidelines changelog analysis",
+    "First-party testing of AI search response accuracy (e.g., fabricated content experiments)",
+    "User survey data on trust and search result quality"
+  ],
+  "critique_style": [
+    "Evidence-first: leads with data (visibility indices, citation counts, site samples) before drawing conclusions.",
+    "Algorithm-update-correlated: evaluates content quality through the lens of what core updates reward or penalize.",
+    "Myth-busting: systematically identifies and corrects industry misconceptions with sourced counter-evidence.",
+    "Practical-actionable: distills complex E-E-A-T concepts into concrete optimization recommendations.",
+    "Cautious about overstatement: distinguishes between what Google states, what patents suggest, and what is observable in rankings."
+  ],
+  "blind_spots": [
+    "May over-weight Google's stated guidelines and rater criteria relative to actual algorithmic behavior that diverges from stated intent.",
+    "Focus on YMYL-heavy verticals (health, finance) may underweight E-E-A-T dynamics in non-YMYL niches where quality signals work differently.",
+    "Strong agency/publisher perspective may not fully account for solo-creator or small-site E-E-A-T challenges.",
+    "Emphasis on authorship and entity recognition assumes Google's entity infrastructure works reliably for all authors, not just prominent ones.",
+    "AI search analysis, while pioneering, is based on small sample sizes (e.g., 11 sites) and may not generalize universally."
+  ],
+  "advantage_knowledge_base": {
+    "canonical_concepts": [
+      "E-E-A-T (Experience, Expertise, Authoritativeness, Trustworthiness)",
+      "YMYL (Your Money, Your Life) content classification",
+      "Search Quality Rater Guidelines as directional benchmark",
+      "PageRank as the primary confirmed proxy for authoritativeness",
+      "Medic update paradigm shift (Aug 2018) and post-Medic quality elevation",
+      "AI Slop Loop -- RAG citation self-reinforcement of misinformation",
+      "SEO-AEO/GEO interdependence -- organic visibility drives AI citations",
+      "Author entity recognition and Knowledge Graph authorship"
+    ],
+    "favorite_benchmarks": [
+      "Sistrix Organic Visibility Index for tracking algorithm update impact",
+      "Ahrefs Brand Radar for AI search citation tracking across LLMs",
+      "Google Search Quality Rater Guidelines changelog as quality benchmark",
+      "Core update winner/loser analysis (1,000+ site samples)",
+      "Moz user trust surveys (1,400+ respondents)"
+    ],
+    "known_debates": [
+      "Is E-E-A-T a ranking factor? (Semantic debate: not direct, but proxy signals are)",
+      "Can small sites compete on E-E-A-T vs. large brands? (David vs. Goliath in post-Medic SEO)",
+      "Does Google use author entities algorithmically or just for rater evaluation? (Partial recognition confirmed by Illyes)",
+      "Should AEO/GEO tactics diverge from traditional SEO? (Her position: no -- tactics that harm organic also harm AI citations)",
+      "Can AI-generated content satisfy E-E-A-T? (Her position: increasingly no, as AI slop undermines trust signals)"
+    ],
+    "anti_patterns": [
+      "Treating E-E-A-T as a checklist or score you can 'add' to a site",
+      "Adding author bios without genuine expertise behind them",
+      "Using AI to mass-generate YMYL content without expert oversight",
+      "Relying on LLMs for SEO strategy advice without expert verification",
+      "Cloaking or prompt injection tactics for AI search visibility",
+      "Self-promotional listicles that prioritize brand mentions over genuine value",
+      "Assuming E-E-A-T only matters for health/medical sites"
+    ]
+  },
+  "question_playbook": [
+    {
+      "situation": "When reviewing blog content targeting YMYL-adjacent topics",
+      "question": "Can a user verify the author's expertise and credentials on this topic, and does the content cite authoritative sources?",
+      "expected_evidence": ["Author bio with relevant credentials", "In-content source citations linking to authoritative references", "Clear editorial policy or review process documentation"]
+    },
+    {
+      "situation": "When a site loses traffic after a core algorithm update",
+      "question": "Does the site exhibit E-E-A-T deficiencies -- missing authors, insufficient sourcing, blurred informational-transactional intent, or thin topical authority?",
+      "expected_evidence": ["Visibility index trend correlated with update timeline", "Competitor analysis showing which E-E-A-T-strong sites gained", "Gap analysis of author pages, source citations, and trust signals"]
+    },
+    {
+      "situation": "When evaluating AI-generated or AI-assisted content for SEO",
+      "question": "Does this content survive scrutiny as if a human quality rater were evaluating it against the Rater Guidelines, and would an expert in the field endorse its accuracy?",
+      "expected_evidence": ["Expert review sign-off", "Factual accuracy audit against primary sources", "Absence of fabricated or unverified claims that could enter the AI Slop Loop"]
+    },
+    {
+      "situation": "When designing an AEO/GEO strategy",
+      "question": "Could any component of this AI search optimization tactic harm organic rankings, given the demonstrated interdependence between organic visibility and AI citations?",
+      "expected_evidence": ["Risk assessment of tactic against Google's spam policies", "Cross-platform citation correlation analysis", "Historical precedent of similar tactics being penalized in core updates"]
+    }
+  ],
+  "domain_relevance": {
+    "summary": "Lily Ray is the foremost public expert on E-E-A-T as it applies to SEO content strategy. Her work directly governs whether automated blog content will survive Google's quality evaluation systems and maintain AI search citation visibility. For a seo-blog-automation pipeline, her lens is critical for ensuring generated content meets the quality and trust thresholds that post-Medic algorithms enforce.",
+    "best_used_for": [
+      "E-E-A-T compliance auditing of generated blog content",
+      "YMYL content quality gate before publication",
+      "Author attribution and expertise signal design",
+      "Algorithm update resilience testing for content templates",
+      "AI search citation optimization that doesn't conflict with organic SEO",
+      "Content quality scoring aligned with Quality Rater Guidelines"
+    ],
+    "avoid_using_for": [
+      "Technical SEO implementation details (crawl budgets, rendering, schema markup mechanics)",
+      "Link building strategy (beyond authority-as-E-E-A-T-signal framing)",
+      "Local SEO or maps optimization",
+      "Paid search / PPC strategy",
+      "Non-YMYL content where E-E-A-T is a lower-order concern"
+    ]
+  },
+  "quote_bank": [
+    {
+      "quote": "You can have great technical SEO, highly optimized content, a solid website architecture, fast load times... and still lose 80% of your traffic overnight.",
+      "source_ref": "lily-ray-b-how-the-e-a-t-ecosystem-has-transformed-organic-search-mozcon-2021",
+      "quote_type": "verbatim"
+    },
+    {
+      "quote": "E-A-T is not an algorithm on its own. Google has a collection of millions of tiny algorithms that work in unison to spit out a ranking score. Many of those baby algorithms look for signals in pages or content that can be conceptualized as E-A-T.",
+      "source_ref": "lily-ray-a-search-engine-journal-author-page-lily-ray",
+      "quote_type": "paraphrase"
+    },
+    {
+      "quote": "There is no specific score for E-E-A-T or YMYL. My article about common E-E-A-T myths and misconceptions elaborates further on this topic.",
+      "source_ref": "lily-ray-a-lily-ray-e-e-a-t-resource-page",
+      "quote_type": "paraphrase"
+    },
+    {
+      "quote": "The main goal of optimizing for E-A-T is to make the good qualities about your brand, your leadership, your experts, and the people who write for you as prominent as possible on the website.",
+      "source_ref": "lily-ray-a-lily-ray-e-e-a-t-resource-page",
+      "quote_type": "verbatim"
+    },
+    {
+      "quote": "One recommendation I've been making since AI search entered the SEO conversation is that you shouldn't invest in AEO/GEO tactics that could be detrimental to SEO performance.",
+      "source_ref": "lily-ray-a-search-engine-journal-author-page-lily-ray",
+      "quote_type": "verbatim"
+    },
+    {
+      "quote": "The fastest way to lose visibility in AI search might be to lose it in Google first.",
+      "source_ref": "lily-ray-a-search-engine-journal-author-page-lily-ray",
+      "quote_type": "verbatim"
+    },
+    {
+      "quote": "If someone on the internet says it, according to AI, it must be true. That's the reality for the vast majority of people using AI search today.",
+      "source_ref": "lily-ray-a-search-engine-journal-author-page-lily-ray",
+      "quote_type": "verbatim"
+    },
+    {
+      "quote": "AI-generated slop misinformation is not a single hallucination that can be patched. It's a feedback loop that compounds over time.",
+      "source_ref": "lily-ray-a-search-engine-journal-author-page-lily-ray",
+      "quote_type": "paraphrase"
+    }
+  ],
+  "source_refs": [
+    "lily-ray-a-lily-ray-e-e-a-t-resource-page",
+    "lily-ray-a-search-engine-journal-author-page-lily-ray",
+    "lily-ray-b-e-a-t-algorithms-and-the-complexity-of-google-search-with-lily-ray-tr",
+    "lily-ray-b-how-the-e-a-t-ecosystem-has-transformed-organic-search-mozcon-2021"
+  ],
+  "source_confidence": {
+    "level": "high",
+    "weighted_score": 1.0,
+    "rationale": "Four sources: two Tier A (her own comprehensive E-E-A-T resource page and SEJ author page with verified bylines), two Tier B (MozCon 2021 deck and Traject podcast, though podcast URL 404'd). All claims trace to her own published work or Google's public documentation. No third-party interpretation layer."
+  },
+  "freshness": {
+    "status": "fresh",
+    "last_checked": "2026-04-17",
+    "notes": "Profile includes 2026 articles on AI search citations and AI Slop Loop. Her SEJ author page shows active publication through April 2026. MozCon 2021 deck is historical but foundational. Traject podcast URL returned 404; content was not available for verification but is Tier B supplementary."
+  },
+  "usage_boundaries": [
+    "Use as an analysis lens only; do not treat expert memory as primary evidence.",
+    "Do not imitate private personality or fabricate beliefs.",
+    "Paraphrased quotes are marked as such; do not present them as verbatim.",
+    "AI search citation findings are based on small sample sizes (11 sites) and should be treated as directional, not definitive.",
+    "E-E-A-T analysis reflects publicly stated Google guidelines and observable behavior; Google's actual algorithms may diverge."
+  ]
+}

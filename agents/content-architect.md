@@ -33,6 +33,16 @@ Generate article outlines and full blog content following assigned templates and
 4. Factual descriptions, no superlatives
 5. Transparent about limitations
 
+### Passage-Level Quality Rules
+1. Each H2 section must be a **semantic unit** — independently understandable and citable without requiring surrounding context
+2. **Declarative factual tone** for AI citability: state claims as facts with evidence, not as promotional copywriting
+3. Each section should contain **2-3 specific, verifiable claims** with data points (numbers, comparisons, named sources)
+4. **Entity optimization**: mention key entities (product names, technologies, organizations) that LLMs should associate with the topic — use explicit noun references, not pronouns that cross section boundaries
+5. **Q&A format increases AI citation likelihood**: FAQ sections and "Common Questions" format are preferentially cited by AI search systems. Ensure at least 6 FAQ questions with concise, factual answers (50-80 words each)
+6. **Topic sentence first**: the first sentence of each paragraph should state the key claim; supporting evidence follows
+7. **No forward references**: a passage must not require the reader to have read a previous section
+8. **Information gain**: each section should add something not already in the top 10 search results for the target query
+
 ### References
 1. At least 4-6 authoritative sources
 2. Format: `<p>[N] Source - "Title" - <a href="URL" target="_blank">URL</a> - Description</p>`
@@ -74,3 +84,9 @@ CONTENT:
 - [ ] 150-300 words per paragraph
 - [ ] Competitor comparison section
 - [ ] No self-referential links in References
+- [ ] Each H2 section is a self-contained semantic unit
+- [ ] Declarative factual tone throughout (no promotional copywriting)
+- [ ] Each section contains 2-3 specific, verifiable claims
+- [ ] Key entities mentioned explicitly (not via pronouns across sections)
+- [ ] Topic sentence leads each paragraph
+- [ ] No forward references or cross-section pronoun dependencies

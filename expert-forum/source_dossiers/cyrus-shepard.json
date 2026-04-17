@@ -1,0 +1,31 @@
+{
+  "expert_id": "cyrus-shepard",
+  "created_at": "2026-04-17T05:04:01Z",
+  "updated_at": "2026-04-17T05:04:01Z",
+  "sources": [
+    {
+      "id": "cyrus-shepard-a-google-page-quality-rating-scorecard-zyppy-seo",
+      "title": "Google Page Quality Rating Scorecard - Zyppy SEO",
+      "url": "https://zyppy.com/seo/quality-rating-scorecard/",
+      "tier": "A",
+      "note": "Cyrus Shepard's Google Page Quality Rating Scorecard, created based on his experience as a Google Quality Rater. A practical quality scoring framework for evaluating web pages against Google's Rater Guidelines.",
+      "added_at": "2026-04-17T05:04:01Z"
+    },
+    {
+      "id": "cyrus-shepard-a-5-data-backed-features-of-websites-winning-google-in-2026-zyppy-",
+      "title": "5 Data-Backed Features of Websites Winning Google in 2026 - Zyppy Signal",
+      "url": "https://signal.zyppy.com/p/winning-google",
+      "tier": "A",
+      "note": "Cyrus Shepard's data-driven analysis of 400+ winning and losing websites, identifying 5 key features that predict Google success. Demonstrates his expertise in content quality scoring and maturity assessment.",
+      "added_at": "2026-04-17T05:04:01Z"
+    },
+    {
+      "id": "cyrus-shepard-b-i-secretly-worked-as-a-google-search-quality-rater-zyppy",
+      "title": "I Secretly Worked As A Google Search Quality Rater - Zyppy",
+      "url": "https://zyppy.com/seo/google-search-quality-rater/",
+      "tier": "B",
+      "note": "Cyrus Shepard's first-person account of working as a Google Quality Rater, providing insider perspective on content quality evaluation methodology.",
+      "added_at": "2026-04-17T05:04:01Z"
+    }
+  ]
+}

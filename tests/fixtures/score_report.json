@@ -1,0 +1,50 @@
+{
+  "article": "test_article.md",
+  "keyword": "AI writing tools",
+  "overall_pass": false,
+  "checks": {
+    "keyword_density": {
+      "value": 0.3,
+      "range": [1.0, 2.0],
+      "pass": false,
+      "suggestion": "Adjust keyword 'AI writing tools' usage to 1-2% range (currently 0.3%)"
+    },
+    "meta_description": {
+      "value": 5,
+      "range": [120, 160],
+      "pass": false,
+      "suggestion": "Meta description should be 120-160 chars (currently 5)"
+    },
+    "word_count": {
+      "value": 50,
+      "min": 1000,
+      "pass": false,
+      "suggestion": "Article needs at least 1000 words (currently 50)"
+    },
+    "heading_hierarchy": {
+      "h1_in_body": true,
+      "has_h2": true,
+      "has_h3": true,
+      "pass": false,
+      "suggestion": "Ensure no H1 in body, add H2 and H3 headings"
+    },
+    "first_person_pronouns": {
+      "value": 0,
+      "min": 15,
+      "pass": false,
+      "suggestion": "Add more first-person pronouns (I/we/our), need 15+ (currently 0)"
+    },
+    "faq_count": {
+      "value": 1,
+      "min": 6,
+      "pass": false,
+      "suggestion": "Add more FAQ questions, need 6+ (currently 1)"
+    },
+    "reference_urls": {
+      "count": 0,
+      "results": [],
+      "pass": true,
+      "suggestion": ""
+    }
+  }
+}

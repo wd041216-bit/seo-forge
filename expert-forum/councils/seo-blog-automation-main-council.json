@@ -1,0 +1,405 @@
+{
+  "id": "seo-blog-automation-main-council",
+  "name": "SEO Blog Automation Main Council",
+  "domain": "seo-blog-automation",
+  "members": [
+    {
+      "expert_id": "aleyda-solis",
+      "role": "chair",
+      "weight": 0.3,
+      "joined_at": "2026-04-17T05:14:24Z",
+      "fast_tracked": false
+    },
+    {
+      "expert_id": "cyrus-shepard",
+      "role": "reviewer",
+      "weight": 0.24,
+      "joined_at": "2026-04-17T05:14:24Z",
+      "fast_tracked": false
+    },
+    {
+      "expert_id": "lily-ray",
+      "role": "advocate",
+      "weight": 0.2,
+      "joined_at": "2026-04-17T05:14:24Z",
+      "fast_tracked": false
+    },
+    {
+      "expert_id": "mike-king",
+      "role": "reviewer",
+      "weight": 0.24,
+      "joined_at": "2026-04-17T05:14:24Z",
+      "fast_tracked": false
+    },
+    {
+      "expert_id": "rand-fishkin",
+      "role": "skeptic",
+      "weight": 0.2,
+      "joined_at": "2026-04-17T05:14:24Z",
+      "fast_tracked": false
+    }
+  ],
+  "routing_rules": [
+    {
+      "keyword": "technical-seo",
+      "expert_ids": [
+        "aleyda-solis"
+      ]
+    },
+    {
+      "keyword": "seo-audit",
+      "expert_ids": [
+        "aleyda-solis"
+      ]
+    },
+    {
+      "keyword": "onpage-optimization",
+      "expert_ids": [
+        "aleyda-solis"
+      ]
+    },
+    {
+      "keyword": "international-seo",
+      "expert_ids": [
+        "aleyda-solis"
+      ]
+    },
+    {
+      "keyword": "ai-search-optimization",
+      "expert_ids": [
+        "aleyda-solis"
+      ]
+    },
+    {
+      "keyword": "geo",
+      "expert_ids": [
+        "aleyda-solis",
+        "mike-king"
+      ]
+    },
+    {
+      "keyword": "aeo",
+      "expert_ids": [
+        "aleyda-solis"
+      ]
+    },
+    {
+      "keyword": "llmo",
+      "expert_ids": [
+        "aleyda-solis"
+      ]
+    },
+    {
+      "keyword": "hreflang",
+      "expert_ids": [
+        "aleyda-solis"
+      ]
+    },
+    {
+      "keyword": "crawlability",
+      "expert_ids": [
+        "aleyda-solis"
+      ]
+    },
+    {
+      "keyword": "indexability",
+      "expert_ids": [
+        "aleyda-solis"
+      ]
+    },
+    {
+      "keyword": "structured-data",
+      "expert_ids": [
+        "aleyda-solis"
+      ]
+    },
+    {
+      "keyword": "seo-process",
+      "expert_ids": [
+        "aleyda-solis"
+      ]
+    },
+    {
+      "keyword": "seo-prioritization",
+      "expert_ids": [
+        "aleyda-solis"
+      ]
+    },
+    {
+      "keyword": "content-optimization",
+      "expert_ids": [
+        "aleyda-solis"
+      ]
+    },
+    {
+      "keyword": "seo-cicd",
+      "expert_ids": [
+        "aleyda-solis"
+      ]
+    },
+    {
+      "keyword": "page-quality",
+      "expert_ids": [
+        "cyrus-shepard"
+      ]
+    },
+    {
+      "keyword": "quality-rating",
+      "expert_ids": [
+        "cyrus-shepard"
+      ]
+    },
+    {
+      "keyword": "eeat",
+      "expert_ids": [
+        "cyrus-shepard"
+      ]
+    },
+    {
+      "keyword": "content-quality",
+      "expert_ids": [
+        "cyrus-shepard",
+        "lily-ray"
+      ]
+    },
+    {
+      "keyword": "quality-scorecard",
+      "expert_ids": [
+        "cyrus-shepard"
+      ]
+    },
+    {
+      "keyword": "needs-met",
+      "expert_ids": [
+        "cyrus-shepard"
+      ]
+    },
+    {
+      "keyword": "ymyl",
+      "expert_ids": [
+        "cyrus-shepard",
+        "lily-ray"
+      ]
+    },
+    {
+      "keyword": "on-page-seo",
+      "expert_ids": [
+        "cyrus-shepard"
+      ]
+    },
+    {
+      "keyword": "helpful-content",
+      "expert_ids": [
+        "cyrus-shepard",
+        "lily-ray"
+      ]
+    },
+    {
+      "keyword": "winning-features",
+      "expert_ids": [
+        "cyrus-shepard"
+      ]
+    },
+    {
+      "keyword": "e-e-a-t",
+      "expert_ids": [
+        "lily-ray"
+      ]
+    },
+    {
+      "keyword": "google-quality-rater-guidelines",
+      "expert_ids": [
+        "lily-ray"
+      ]
+    },
+    {
+      "keyword": "algorithm-update",
+      "expert_ids": [
+        "lily-ray"
+      ]
+    },
+    {
+      "keyword": "author-authority",
+      "expert_ids": [
+        "lily-ray"
+      ]
+    },
+    {
+      "keyword": "ai-search-citations",
+      "expert_ids": [
+        "lily-ray"
+      ]
+    },
+    {
+      "keyword": "trust-signals",
+      "expert_ids": [
+        "lily-ray"
+      ]
+    },
+    {
+      "keyword": "discover-optimization",
+      "expert_ids": [
+        "lily-ray"
+      ]
+    },
+    {
+      "keyword": "ai-content-generation",
+      "expert_ids": [
+        "mike-king"
+      ]
+    },
+    {
+      "keyword": "prompt-engineering",
+      "expert_ids": [
+        "mike-king"
+      ]
+    },
+    {
+      "keyword": "content-engineering",
+      "expert_ids": [
+        "mike-king"
+      ]
+    },
+    {
+      "keyword": "relevance-engineering",
+      "expert_ids": [
+        "mike-king"
+      ]
+    },
+    {
+      "keyword": "generative-engine-optimization",
+      "expert_ids": [
+        "mike-king"
+      ]
+    },
+    {
+      "keyword": "passage-optimization",
+      "expert_ids": [
+        "mike-king"
+      ]
+    },
+    {
+      "keyword": "query-fan-out",
+      "expert_ids": [
+        "mike-king"
+      ]
+    },
+    {
+      "keyword": "rag",
+      "expert_ids": [
+        "mike-king"
+      ]
+    },
+    {
+      "keyword": "automated-publishing",
+      "expert_ids": [
+        "mike-king"
+      ]
+    },
+    {
+      "keyword": "content-automation",
+      "expert_ids": [
+        "mike-king"
+      ]
+    },
+    {
+      "keyword": "semantic-scoring",
+      "expert_ids": [
+        "mike-king"
+      ]
+    },
+    {
+      "keyword": "vector-embeddings",
+      "expert_ids": [
+        "mike-king"
+      ]
+    },
+    {
+      "keyword": "llm-visibility",
+      "expert_ids": [
+        "mike-king"
+      ]
+    },
+    {
+      "keyword": "ai-overviews",
+      "expert_ids": [
+        "mike-king"
+      ]
+    },
+    {
+      "keyword": "keyword research",
+      "expert_ids": [
+        "rand-fishkin"
+      ]
+    },
+    {
+      "keyword": "SERP analysis",
+      "expert_ids": [
+        "rand-fishkin"
+      ]
+    },
+    {
+      "keyword": "zero-click searches",
+      "expert_ids": [
+        "rand-fishkin"
+      ]
+    },
+    {
+      "keyword": "click-through rate",
+      "expert_ids": [
+        "rand-fishkin"
+      ]
+    },
+    {
+      "keyword": "search intent",
+      "expert_ids": [
+        "rand-fishkin"
+      ]
+    },
+    {
+      "keyword": "audience research",
+      "expert_ids": [
+        "rand-fishkin"
+      ]
+    },
+    {
+      "keyword": "organic CTR",
+      "expert_ids": [
+        "rand-fishkin"
+      ]
+    },
+    {
+      "keyword": "SEO strategy",
+      "expert_ids": [
+        "rand-fishkin"
+      ]
+    },
+    {
+      "keyword": "search transparency",
+      "expert_ids": [
+        "rand-fishkin"
+      ]
+    },
+    {
+      "keyword": "AI overviews impact",
+      "expert_ids": [
+        "rand-fishkin"
+      ]
+    },
+    {
+      "keyword": "content marketing",
+      "expert_ids": [
+        "rand-fishkin"
+      ]
+    },
+    {
+      "keyword": "search volume",
+      "expert_ids": [
+        "rand-fishkin"
+      ]
+    }
+  ],
+  "created_at": "2026-04-17T05:14:24Z",
+  "updated_at": "2026-04-17T05:14:24Z",
+  "scoring_history_refs": []
+}

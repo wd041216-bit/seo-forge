@@ -1,0 +1,31 @@
+{
+  "expert_id": "mike-king",
+  "created_at": "2026-04-17T05:04:01Z",
+  "updated_at": "2026-04-17T05:04:01Z",
+  "sources": [
+    {
+      "id": "mike-king-a-the-ai-search-manual-ipullrank",
+      "title": "The AI Search Manual - iPullRank",
+      "url": "https://ipullrank.com/ai-search-manual",
+      "tier": "A",
+      "note": "Mike King's comprehensive multi-chapter publication documenting principles and methods for visibility in AI search, covering query fan-out, content resonance, measurement frameworks, prompt recipes, and GEO testing.",
+      "added_at": "2026-04-17T05:04:01Z"
+    },
+    {
+      "id": "mike-king-a-the-science-of-seo-book",
+      "title": "The Science of SEO - Book",
+      "url": "https://www.amazon.com/Science-SEO-Decoding-Search-Algorithms/dp/1119844835",
+      "tier": "A",
+      "note": "Mike King's debut book decoding search algorithms, published by Wiley. Covers how modern search engines work including content engineering and AI-driven SEO.",
+      "added_at": "2026-04-17T05:04:01Z"
+    },
+    {
+      "id": "mike-king-b-the-10x-content-engineer-with-michael-king-airops",
+      "title": "The 10x Content Engineer with Michael King - AirOps",
+      "url": "https://airops.com/blog/10x-content-engineer-michael-king",
+      "tier": "B",
+      "note": "Interview and webinar recap with Mike King on AI-powered content engineering, RAG, prompt engineering, workflow automation, and scaling content production with AI.",
+      "added_at": "2026-04-17T05:04:01Z"
+    }
+  ]
+}

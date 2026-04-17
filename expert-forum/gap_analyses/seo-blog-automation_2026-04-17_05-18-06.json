@@ -1,0 +1,74 @@
+{
+  "domain": "seo-blog-automation",
+  "coverage_axes": [
+    "keyword-research-and-serp-analysis",
+    "ai-content-generation-and-prompt-engineering",
+    "eeat-compliance-and-content-quality",
+    "seo-technical-optimization-onpage",
+    "automated-publishing-and-cicd",
+    "maturity-scoring-and-quality-assurance"
+  ],
+  "expert_count": 5,
+  "covered": [],
+  "uncovered": [
+    "ai-content-generation-and-prompt-engineering",
+    "automated-publishing-and-cicd",
+    "eeat-compliance-and-content-quality",
+    "keyword-research-and-serp-analysis",
+    "maturity-scoring-and-quality-assurance",
+    "seo-technical-optimization-onpage"
+  ],
+  "coverage_matrix": {
+    "keyword-research-and-serp-analysis": {
+      "aleyda-solis": false,
+      "cyrus-shepard": false,
+      "lily-ray": false,
+      "mike-king": false,
+      "rand-fishkin": false
+    },
+    "ai-content-generation-and-prompt-engineering": {
+      "aleyda-solis": false,
+      "cyrus-shepard": false,
+      "lily-ray": false,
+      "mike-king": false,
+      "rand-fishkin": false
+    },
+    "eeat-compliance-and-content-quality": {
+      "aleyda-solis": false,
+      "cyrus-shepard": false,
+      "lily-ray": false,
+      "mike-king": false,
+      "rand-fishkin": false
+    },
+    "seo-technical-optimization-onpage": {
+      "aleyda-solis": false,
+      "cyrus-shepard": false,
+      "lily-ray": false,
+      "mike-king": false,
+      "rand-fishkin": false
+    },
+    "automated-publishing-and-cicd": {
+      "aleyda-solis": false,
+      "cyrus-shepard": false,
+      "lily-ray": false,
+      "mike-king": false,
+      "rand-fishkin": false
+    },
+    "maturity-scoring-and-quality-assurance": {
+      "aleyda-solis": false,
+      "cyrus-shepard": false,
+      "lily-ray": false,
+      "mike-king": false,
+      "rand-fishkin": false
+    }
+  },
+  "recommendations": [
+    "Add expert for: ai-content-generation-and-prompt-engineering",
+    "Add expert for: automated-publishing-and-cicd",
+    "Add expert for: eeat-compliance-and-content-quality",
+    "Add expert for: keyword-research-and-serp-analysis",
+    "Add expert for: maturity-scoring-and-quality-assurance",
+    "Add expert for: seo-technical-optimization-onpage"
+  ],
+  "generated_at": "2026-04-17T05:18:06Z"
+}

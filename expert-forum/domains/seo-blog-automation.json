@@ -1,0 +1,17 @@
+{
+  "id": "seo-blog-automation",
+  "name": "SEO Blog Automation",
+  "topic": "Autonomous AI-driven SEO content generation with E-E-A-T compliance, keyword research, quality scoring, and multi-platform publishing",
+  "created_at": "2026-04-17T05:01:55Z",
+  "updated_at": "2026-04-17T05:01:55Z",
+  "coverage_axes": [
+    "keyword-research-and-serp-analysis",
+    "ai-content-generation-and-prompt-engineering",
+    "eeat-compliance-and-content-quality",
+    "seo-technical-optimization-onpage",
+    "automated-publishing-and-cicd",
+    "maturity-scoring-and-quality-assurance"
+  ],
+  "active_experts": [],
+  "candidate_experts": []
+}

@@ -1,0 +1,39 @@
+{
+  "expert_id": "aleyda-solis",
+  "created_at": "2026-04-17T05:04:01Z",
+  "updated_at": "2026-04-17T05:04:05Z",
+  "sources": [
+    {
+      "id": "aleyda-solis-a-aleyda-solis-seo-consultant-author-speaker",
+      "title": "Aleyda Solis - SEO Consultant, Author & Speaker",
+      "url": "https://www.aleydasolis.com/en",
+      "tier": "A",
+      "note": "Aleyda Solis's official homepage and consultancy page. European Search Personality 2018, founder of Orainti, author, and speaker with 200+ conferences in 30 countries.",
+      "added_at": "2026-04-17T05:04:01Z"
+    },
+    {
+      "id": "aleyda-solis-a-learningaisearch-com-ai-search-optimization-guides",
+      "title": "LearningAIsearch.com - AI Search Optimization Guides",
+      "url": "https://learningaisearch.com/",
+      "tier": "A",
+      "note": "Aleyda Solis's free educational resource covering AI search optimization (GEO, AEO, LLMO), technical configurations, content optimization, and measurement.",
+      "added_at": "2026-04-17T05:04:01Z"
+    },
+    {
+      "id": "aleyda-solis-b-crawling-mondays-seo-video-series-and-podcast-by-aleyda-solis",
+      "title": "Crawling Mondays - SEO Video Series and Podcast by Aleyda Solis",
+      "url": "https://www.youtube.com/c/crawlingmondaysbyaleyda",
+      "tier": "B",
+      "note": "Aleyda Solis's YouTube-based video series distributed as podcast covering SEO tips, tutorials, reviews, interviews, and technical SEO implementation guidance.",
+      "added_at": "2026-04-17T05:04:01Z"
+    },
+    {
+      "id": "aleyda-solis-a-seo-las-claves-esenciales-published-by-anaya",
+      "title": "SEO. Las Claves Esenciales - Published by Anaya",
+      "url": "https://www.aleydasolis.com/autora-libros-seo/",
+      "tier": "A",
+      "note": "Aleyda Solis's published SEO book by Anaya Publishing House (November 2016), covering essential SEO principles and techniques.",
+      "added_at": "2026-04-17T05:04:05Z"
+    }
+  ]
+}

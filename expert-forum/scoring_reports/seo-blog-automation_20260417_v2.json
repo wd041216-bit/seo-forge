@@ -1,0 +1,293 @@
+{
+  "domain": "seo-blog-automation",
+  "artifact_path": "/Users/dawei/playground/seo-forge",
+  "iteration": 2,
+  "previous_iteration_score": 59,
+  "council_id": "seo-blog-automation-main-council",
+  "debate_rounds": [
+    {
+      "round": 1,
+      "title": "Chair Initial Assessment",
+      "expert": "aleyda-solis",
+      "statement": "Iteration 2 shows meaningful progress on all four iteration-1 priorities. The automated scoring engine (compute_article_scores) with 16+ sub-scores addresses Priority 1 directly -- extractability, Needs Met, evidence density, YMYL gate, and citation-worthiness are now computed from article content rather than manually entered. The full 10-phase pipeline in cmd_run addresses Priority 2. Schema generation addresses Priority 4. The editorial gate addresses Priority 5. CTR opportunity scoring addresses Priority 6. However, I must note that the SP2 principle demands actionability: the gap between documentation depth and implementation depth remains a concern. The editorial-reviewer agent is a 231-line specification but the actual gate is a 12-line function checking an environment variable. The CI/CD quality gates reference describes a full GitHub Actions workflow but no such workflow file exists in the repository. The performance-analytics reference describes Google Search Console integration but no such integration exists in the CLI. These documentation-implementation gaps matter because audits that describe solutions but lack implementation follow-through are exactly the audit-to-implementation gap I identify as a failure pattern. That said, the trajectory is correct and the additions are substantive."
+    },
+    {
+      "round": 2,
+      "title": "Independent Expert Scores",
+      "experts": [
+        {
+          "expert": "aleyda-solis",
+          "scores": {"breadth": 20, "depth": 19, "thickness": 16, "effectiveness": 18},
+          "rationale": "Breadth: 12 reference documents now cover the full SEO blog lifecycle from keyword discovery through post-deployment monitoring. The editorial-reviewer agent fills a critical gap. But cmd_verify is referenced but not implemented, and no multimodal coverage exists. Depth: compute_article_scores() with 16+ sub-scores is genuine analytical depth. Extractability, evidence density, citation-worthiness, and YMYL gate are meaningful scoring axes, not checkbox compliance. But validate command is still structural-only, and no schema validation exists. Thickness: 66 tests with new coverage for auto-scoring, CTR, and schema. But no editorial gate tests, no integration tests with real article content, and no git integration tests. Effectiveness: The scoring engine, schema generation, editorial gate, and intelligent optimization are all genuinely effective. But validate and scoring are not integrated, cmd_verify is not implemented, and no content generation capability exists."
+        },
+        {
+          "expert": "cyrus-shepard",
+          "scores": {"breadth": 19, "depth": 18, "thickness": 16, "effectiveness": 17},
+          "rationale": "Breadth: Good coverage across SEO quality domains. The editorial reviewer and CI/CD quality gates fill process gaps. But the system still cannot perform the 'regular user' quality test -- it evaluates structural compliance, not user satisfaction. Depth: The Needs Met sub-axis in scoring is notable and directly reflects my rater experience. The YMYL gate properly gates Tier 1 content. But scoring is rule-based pattern matching -- it cannot assess whether content would pass a genuine quality rater evaluation. A page can score 90/100 and still fail the regular user test. Thickness: 66 tests verify the plumbing works. The formula tests verify arithmetic. But no test validates that a 90/100 score correlates with actual content quality as a quality rater would evaluate it. Effectiveness: Schema generation and scoring engine are useful tools. But the system evaluates content it cannot generate, and the scoring model has not been validated against rater evaluations or real SERP outcomes."
+        },
+        {
+          "expert": "lily-ray",
+          "scores": {"breadth": 21, "depth": 20, "thickness": 17, "effectiveness": 19},
+          "rationale": "Breadth: The E-E-A-T coverage is now genuinely comprehensive. The three-tier YMYL classification, deep vs surface signal distinction, AI Slop Loop awareness, Needs Met as a separate axis, author entity strategy, and the 28-item editorial review checklist represent substantive breadth across quality dimensions that matter for algorithm update resilience. The link-building and performance-analytics references complete the lifecycle coverage. Depth: The YMYL gate in compute_article_scores() is a real depth contribution -- it checks pronoun count, experience verbs, and source count for YMYL keywords, which is precisely the kind of scaled E-E-A-T evaluation that post-Medic content requires. The experience verbs detection, source attribution counting, and superlative counting are meaningful deep-signal proxies. Thickness: E-E-A-T scoring tests, YMYL detection tests, and the editorial gate concept are testable and tested. The auto-scoring test with a valid article fixture verifies real quality criteria. Effectiveness: The editorial gate enforces Mike King's Third Law. The YMYL gate ensures elevated scrutiny for health and financial content. The AI Slop Loop awareness in the framework provides conceptual defense against the compounding misinformation problem. These are effective safeguards."
+        },
+        {
+          "expert": "mike-king",
+          "scores": {"breadth": 20, "depth": 19, "thickness": 16, "effectiveness": 18},
+          "rationale": "Breadth: Content-engineering.md provides the passage-level optimization framework I advocate. The editorial-reviewer agent enforces my Third Law. The CI/CD quality gates reference defines proper automation boundaries. But multimodal parity is still absent, and cmd_verify is referenced but not implemented. Depth: Extractability and evidence density sub-scores in the scoring engine align with Relevance Engineering. The declarative sentence counting and passage-level quality rules in content-architect are meaningful. But there is no retrieval simulation -- scoring measures static signals, not whether passages would actually be retrieved and cited. No query fan-out coverage scoring. No information gain assessment. The scoring engine measures what is measurable with regex, not what matters for AI search visibility. Thickness: Schema and CTR tests add coverage. But no passage-level quality tests verify that individual H2 sections are self-contained. No retrieval simulation tests. Effectiveness: The editorial gate is effective in principle. The scoring engine provides structured evaluation. But without content generation capability and without retrieval simulation, the pipeline is state management with scoring, not content engineering. The system cannot generate, score, optimize, and publish a complete article end-to-end without human LLM invocation."
+        },
+        {
+          "expert": "rand-fishkin",
+          "scores": {"breadth": 18, "depth": 17, "thickness": 15, "effectiveness": 16},
+          "rationale": "Breadth: The CTR opportunity scoring and link-building reference add genuine breadth to the keyword evaluation pipeline. Performance-analytics provides post-publication lifecycle coverage. But keyword-research.md describes four-type keyword research, multi-source triangulation, audience intelligence, query fan-out analysis, and zero-click analysis -- and the CLI implements only CTR scoring with hardcoded baseline tables. Documentation breadth continues to outpace implementation breadth by a significant margin. Depth: CTR opportunity scoring implementation with baseline CTR by position and SERP feature penalties is real, verifiable depth -- the formula matches industry benchmarks. But the CLI's scoring engine uses regex pattern matching as a proxy for content quality. Counting first-person pronouns is not measuring experience. Counting superlatives is not measuring trustworthiness. The depth is in the heuristics, not in the intelligence. Thickness: 66 tests, up from 55. The CTR baseline test is good -- it verifies specific benchmark values. But most new tests verify the scoring engine produces numbers, not that those numbers mean anything. No test validates that a 90/100 score predicts better search performance. No test validates CTR estimates against actual clickstream data. Effectiveness: CTR opportunity scoring is the most effective new feature -- it addresses a real gap in keyword evaluation that most SEO tools ignore. But the pipeline cannot generate content, so it evaluates articles that must be produced externally. The system is a quality gate, not a production system. A quality gate without content to gate is a gate without a fence."
+        }
+      ]
+    },
+    {
+      "round": 3,
+      "title": "Skeptic Challenges Scores >20",
+      "expert": "rand-fishkin",
+      "challenges": [
+        {
+          "axis": "breadth",
+          "challenged_expert": "lily-ray",
+          "challenged_score": 21,
+          "challenge": "Lily scores breadth at 21, citing E-E-A-T coverage. I do not dispute that the E-E-A-T documentation breadth is strong. But breadth should measure what the system covers, not what its documentation describes. The editorial-reviewer agent is a 231-line specification with a 28-item checklist, but the actual editorial gate in the code is a 12-line function that checks an environment variable and optionally prompts for yes/no. The CI/CD quality gates reference describes a full GitHub Actions workflow, but no such workflow file exists in the repository. The performance-analytics reference describes Google Search Console integration, but no such integration exists. The link-building reference describes 5 link-building strategies, but none are implemented. Documentation breadth without implementation breadth is aspiration, not coverage. I propose reducing from 21 to 19.",
+          "rebuttal_from_challenged": "The editorial-reviewer.md provides a complete, actionable checklist that a human reviewer can follow regardless of whether the CLI automates it. The CI/CD quality gates reference provides a GitHub Actions workflow YAML that a team can adopt today. Breadth includes reference materials that guide human and AI agent behavior, not just CLI features. The documentation IS the system specification -- agents read these files to understand their roles. I maintain that 21 reflects genuine breadth of coverage across the SEO blog automation domain.",
+          "final_adjustment": 20
+        }
+      ]
+    },
+    {
+      "round": 4,
+      "title": "Advocate Supports Scores <15",
+      "expert": "lily-ray",
+      "supports": [],
+      "statement": "No scores fall below 15 in this iteration. The minimum score is 15 (Rand, thickness), which is at the threshold. I will note that the thickness score of 15-17 across all experts reflects a real concern -- the test suite verifies mechanics but not quality. However, 15 is not below the advocacy threshold of 15, so no formal boosts are warranted."
+    },
+    {
+      "round": 5,
+      "title": "Chair Synthesis with Weighted Median",
+      "expert": "aleyda-solis",
+      "statement": "After the skeptic challenge reduced Lily Ray's breadth score from 21 to 20, I compute weighted medians for each axis. The council shows clear consensus on the improvement trajectory: all four axes improved from iteration 1. The largest gains are in depth (+4) and effectiveness (+6), which directly reflect the implementation of the automated scoring engine and the full 10-phase pipeline. The smallest gain is in thickness (+2), reflecting that test coverage grew but did not address the structural gaps in testing intelligence vs. plumbing. The total of 73 represents a 14-point improvement from iteration 1's 59, which is meaningful progress. The remaining gaps are consistent across axes: documentation depth exceeds implementation depth, the scoring engine uses regex heuristics rather than LLM-powered evaluation, no content generation capability exists, and post-deployment verification is not implemented. These are the priorities for iteration 3.",
+      "axis_synthesis": [
+        {
+          "axis": "breadth",
+          "expert_scores": {"aleyda-solis": 20, "cyrus-shepard": 19, "lily-ray": 20, "mike-king": 20, "rand-fishkin": 18},
+          "weighted_median": 20,
+          "evidence": [
+            "12 reference documents covering the full SEO blog lifecycle: keyword discovery (keyword-research.md with CTR scoring, zero-click analysis, query fan-out, audience intelligence), content engineering (content-engineering.md with passage-level optimization, evidence density, citation-worthiness, information gain, query fan-out coverage, definition-layer strategy), E-E-A-T compliance (eeat-framework.md with YMYL 3-tier classification, deep vs surface signals, Needs Met as separate axis, author entity strategy, AI Slop Loop awareness), technical SEO (technical-seo-checklist.md with 6 schema types, canonicalization, internal linking, Core Web Vitals, crawl efficiency, hreflang, pre/post-deployment validation), CI/CD quality gates (cicd-quality-gates.md with editorial checkpoint, pre-deploy validation, post-deploy verification, rollback, monitoring), link building (link-building.md with 5 strategies, internal linking architecture, anchor text distribution, link quality, link velocity, guest posting, link reclamation, social signals), performance analytics (performance-analytics.md with GSC integration, organic traffic tracking, ranking monitoring, AI citation tracking, content decay detection, conversion tracking, A/B testing, quality score correlation, alerting thresholds)",
+            "7 agent definitions covering: keyword-hunter (trend discovery + SERP analysis with circuit breakers + grading), content-architect (template-aware, E-E-A-T rules, 8 passage-level quality rules), quality-scorer (4-axis scoring with extractability and Needs Met sub-axes), seo-optimizer (keyword density, heading optimization, reference validation, meta enforcement), publisher (8 platform formats, schema injection, editorial gate, post-deploy verification, rollback), competitor-spy (real competitor analysis), editorial-reviewer (28-item checklist, 3-way decision authority, override rules, anti-patterns)",
+            "CLI implements 12 commands covering the full pipeline: init, trend, score-keyword, article, score-article, report, state, validate, optimize, run, schema, publish",
+            "SKILL.md defines 10-phase pipeline with explicit transitions and state persistence",
+            "blog-config.json supports 8 languages, 8 blog platforms, configurable SEO rules"
+          ],
+          "gaps": [
+            "No multimodal content coverage (video, images, audio) despite Mike King's multimodal parity principle being cited in content-engineering.md",
+            "cmd_verify referenced in publisher.md but not implemented in CLI",
+            "No agent for automated post-deployment monitoring or alerting",
+            "No reference covering content ideation beyond keyword-driven approaches (social listening, community forums, product-led content)",
+            "No GitHub Actions workflow file despite cicd-quality-gates.md providing a complete YAML template"
+          ]
+        },
+        {
+          "axis": "depth",
+          "expert_scores": {"aleyda-solis": 19, "cyrus-shepard": 18, "lily-ray": 20, "mike-king": 19, "rand-fishkin": 17},
+          "weighted_median": 19,
+          "evidence": [
+            "compute_article_scores() computes 16+ sub-scores from article content: keyword density (0-8), heading optimization (0-6), meta optimization (0-6), slug quality (0-5), first-person score (0-8), experience evidence with experience verbs and timeline (0-7), YMYL gate with elevated scrutiny for health/financial keywords (0-5), trust/transparency with disclosure counting and superlative limiting (0-5), word count (0-5), FAQ coverage (0-5), extractability with declarative sentence ratio and topic sentence detection (0-5), evidence density with verifiable claims per section (0-5), Needs Met with FAQ coverage and task pathway detection (0-5), source count (0-7), URL validity with format checking (0-6), domain credibility against TRUSTED_DOMAINS list (0-6), citation-worthiness with source attribution and entity detection (0-6)",
+            "CTR opportunity scoring implements baseline CTR by position (10 positions from 31.7% to 1.8%) with multiplicative SERP feature penalties for 8 feature types (featured_snippet: 0.45, knowledge_panel: 0.35, ads: 0.70, ai_overview: 0.40, image_pack: 0.55, people_also_ask: 0.80, local_pack: 0.50, video_carousel: 0.60)",
+            "Full 10-phase pipeline implementation: CONFIG, TREND, EVALUATE, SELECT, OUTLINE, GENERATE, SCORE, OPTIMIZE, RESCORE with convergence check at 90/100, EDIT with editorial review gate, PUBLISH",
+            "cmd_schema generates Article, FAQPage, BreadcrumbList, and Organization JSON-LD schemas from article metadata and config",
+            "Intelligent optimization: keyword insertion into existing sentences (not boilerplate), meta description extraction from first paragraph content, heading keyword insertion with context",
+            "Editorial review gate via SEO_FORGE_EDITOR_APPROVED env var or interactive prompt on cmd_run --require-review and cmd_publish --require-review"
+          ],
+          "gaps": [
+            "validate command still checks only 7 structural criteria (keyword density, meta description, word count, heading hierarchy, first-person pronouns, FAQ count, reference URLs) -- it does not integrate with compute_article_scores despite the scoring engine covering 16+ analytical criteria",
+            "Schema generation exists but no schema validation (no Google Rich Results Test integration, no JSON-LD syntax validation beyond Python dict construction)",
+            "No hreflang validation despite technical-seo-checklist.md requiring bi-directional annotations and x-default",
+            "compute_article_scores() is regex-based heuristic scoring, not LLM-powered evaluation -- it cannot assess information gain, genuine expertise quality, regular user satisfaction, or content originality",
+            "No retrieval simulation or query fan-out coverage scoring despite content-engineering.md defining these as key measurement frameworks",
+            "No cmd_verify implementation despite publisher.md referencing post-deployment verification",
+            "Editorial gate implementation is simplified (env var + interactive prompt) vs. the full 28-item checklist in editorial-reviewer.md"
+          ]
+        },
+        {
+          "axis": "thickness",
+          "expert_scores": {"aleyda-solis": 16, "cyrus-shepard": 16, "lily-ray": 17, "mike-king": 16, "rand-fishkin": 15},
+          "weighted_median": 16,
+          "evidence": [
+            "66 tests pass (up from 55, +11 new tests)",
+            "New TestComputeScores class: test_auto_scoring_valid_article (verifies 4-axis scoring from article content), test_auto_scoring_empty_article (verifies minimal score for empty content), test_ymyl_detection (3 assertions covering health, non-YMYL, and financial keywords), test_auto_scoring_with_config (verifies custom SEO rules applied)",
+            "New TestCTROpportunity class: test_ctr_baseline (verifies position 1 = 31.7% and position 5 = 5.3%), test_ctr_with_features (verifies adjusted CTR < baseline when SERP features present), test_ctr_no_features (verifies no CTR object when no features specified)",
+            "New TestSchemaGeneration class: test_article_schema (verifies Article type present), test_faq_schema (verifies FAQPage generated from question headings), test_schema_with_config (verifies Organization schema with company name), test_schema_save_output (verifies JSON file output)",
+            "Existing test coverage maintained: utility functions, helpers, init/trend/score-keyword/article/score-article/report/state/validate/optimize/run/publish commands, convergence scenarios, error handling, multi-platform formatting"
+          ],
+          "gaps": [
+            "No test for publish command's git/gh subprocess integration (only dry-run is tested)",
+            "No test for URL HEAD request verification (check_url_head function with retry decorator)",
+            "No test for editorial review gate (env var check, interactive prompt, or --require-review flag behavior)",
+            "No test for cmd_run's editorial review path (--require-review triggering _check_editorial_gate)",
+            "No integration test running the full pipeline with actual article content and verifying scoring accuracy",
+            "No test verifying that compute_article_scores() produces meaningful scores for articles of varying quality (no quality-graded fixtures)",
+            "No test for multi-language content handling",
+            "No performance or regression test for scoring accuracy over time",
+            "No test validating correlation between scoring engine output and actual content quality benchmarks"
+          ]
+        },
+        {
+          "axis": "effectiveness",
+          "expert_scores": {"aleyda-solis": 18, "cyrus-shepard": 17, "lily-ray": 19, "mike-king": 18, "rand-fishkin": 16},
+          "weighted_median": 18,
+          "evidence": [
+            "compute_article_scores() provides genuine automated evaluation of article quality across 4 axes with 16+ sub-scores -- the scoring engine described in quality-scorer.md now exists in the codebase and produces scores from content, not manual input",
+            "CTR opportunity scoring enables realistic keyword prioritization accounting for SERP feature cannibalization -- a feature most SEO tools lack",
+            "cmd_schema generates valid JSON-LD for Article, FAQPage, BreadcrumbList, and Organization schemas, producing structured data ready for injection into published pages",
+            "Editorial gate (--require-review flag on cmd_run and cmd_publish) enforces human review before publication, implementing Mike King's Third Law of Generative AI Content",
+            "Intelligent optimization produces better output than iteration 1's boilerplate insertion: keywords are inserted into existing sentences and meta descriptions are extracted from content",
+            "Full 10-phase pipeline implementation enables end-to-end workflow from configuration through scoring and convergence to publication",
+            "cmd_score_article supports both --article-file (auto-scoring) and --seo/--eeat/--depth/--refs (manual input) -- backward compatible",
+            "66 tests verify pipeline mechanics, scoring formulas, CTR calculations, and schema generation"
+          ],
+          "gaps": [
+            "The validate command is still structural-only (7 checks) and is not integrated with the scoring engine (16+ checks) -- two parallel evaluation systems that should be unified",
+            "No content generation capability -- cmd_article registers metadata but does not invoke an LLM; the pipeline converges on empty articles",
+            "No cmd_verify implementation despite publisher.md defining immediate, short-term, and indexation verification checks",
+            "Editorial gate is simplified to env var + prompt vs. the structured 28-item checklist with 3-way decision authority in editorial-reviewer.md",
+            "No schema validation -- generated JSON-LD is not tested against Google Rich Results Test or validated for duplicate types, date format, or image URL requirements",
+            "No post-deployment monitoring or alerting -- performance-analytics.md defines critical/warning/informational alert thresholds but no implementation exists",
+            "The pipeline can score and optimize articles it cannot generate, making it a quality evaluation tool rather than a production content system"
+          ]
+        }
+      ]
+    }
+  ],
+  "axes": [
+    {
+      "axis": "breadth",
+      "score": 20,
+      "evidence": [
+        "12 reference documents cover the full SEO blog lifecycle: keyword-research (2-phase pipeline, CTR scoring, zero-click, query fan-out, audience intelligence, multi-source triangulation), content-engineering (passage-level optimization, evidence density, citation-worthiness, information gain, query fan-out coverage, definition-layer strategy), eeat-framework (YMYL 3-tier, deep vs surface signals, Needs Met, author entity, AI Slop Loop), technical-seo-checklist (6 schema types, canonicalization, internal linking, Core Web Vitals, crawl efficiency, hreflang, pre/post-deployment validation), cicd-quality-gates (editorial checkpoint, pre-deploy validation, post-deploy verification, rollback, monitoring), link-building (5 strategies, internal linking architecture, anchor text distribution, link quality, link velocity, guest posting, link reclamation, social signals), performance-analytics (GSC integration, organic traffic, ranking monitoring, AI citation tracking, content decay, conversion tracking, A/B testing, quality score correlation, alerting)",
+        "7 agent definitions: keyword-hunter (trend + SERP analysis with circuit breakers + grading), content-architect (template-aware, E-E-A-T rules, 8 passage-level quality rules), quality-scorer (4-axis scoring with extractability and Needs Met sub-axes), seo-optimizer, publisher (8 platforms, schema injection, editorial gate, post-deploy verification, rollback), competitor-spy, editorial-reviewer (28-item checklist, 3-way decision, override rules, anti-patterns)",
+        "CLI implements 12 commands: init, trend, score-keyword (with CTR opportunity), article, score-article (with auto-scoring), report, state, validate, optimize, run (full 10-phase pipeline), schema (JSON-LD generation), publish (8 platforms with editorial gate)",
+        "SKILL.md defines 10-phase pipeline with explicit transitions, convergence criteria, and state persistence",
+        "blog-config.json supports 8 languages, 8 blog platforms, configurable SEO rules, brand voice settings"
+      ],
+      "gaps": [
+        "No multimodal content coverage (video, images, audio) despite Mike King's multimodal parity principle",
+        "cmd_verify referenced in publisher.md but not implemented in CLI",
+        "No agent for automated post-deployment monitoring or alerting",
+        "No GitHub Actions workflow file despite cicd-quality-gates.md providing a complete YAML template"
+      ],
+      "expert_votes": {
+        "aleyda-solis": 20,
+        "cyrus-shepard": 19,
+        "lily-ray": 20,
+        "mike-king": 20,
+        "rand-fishkin": 18
+      },
+      "skeptic_challenges": [
+        "Rand Fishkin challenged Lily Ray's original score of 21: 'Documentation breadth exceeds implementation breadth. The editorial-reviewer is a specification, not an implemented feature. The CI/CD workflow is a YAML template, not a workflow file. I propose reducing from 21 to 19.' Lily Ray accepted reduction to 20, noting that documentation IS the system specification for AI agents."
+      ],
+      "advocate_boosts": []
+    },
+    {
+      "axis": "depth",
+      "score": 19,
+      "evidence": [
+        "compute_article_scores() with 16+ sub-scores: keyword density (0-8), heading optimization (0-6), meta optimization (0-6), slug quality (0-5), first-person (0-8), experience evidence with verbs + timeline (0-7), YMYL gate with elevated scrutiny (0-5), trust/transparency (0-5), word count (0-5), FAQ coverage (0-5), extractability with declarative ratio (0-5), evidence density with claims/section (0-5), Needs Met with task paths (0-5), source count (0-7), URL validity (0-6), domain credibility against TRUSTED_DOMAINS (0-6), citation-worthiness with attributions + entities (0-6)",
+        "CTR opportunity scoring with baseline CTR by position (31.7% at position 1 through 1.8% at position 10) and multiplicative SERP feature penalties for 8 feature types",
+        "Full 10-phase pipeline with iteration loop, convergence at 90/100, max iterations, and editorial gate",
+        "Schema generation for Article, FAQPage, BreadcrumbList, Organization with config-aware field population",
+        "Intelligent optimization: keyword insertion into existing sentences, meta description extraction from content"
+      ],
+      "gaps": [
+        "validate command (7 structural checks) not integrated with scoring engine (16+ analytical checks)",
+        "No schema validation (no Rich Results Test, no duplicate type check, no date format validation)",
+        "Scoring is regex-based heuristic, not LLM-powered -- cannot assess information gain, genuine expertise, or regular user satisfaction",
+        "No retrieval simulation or query fan-out coverage scoring",
+        "Editorial gate simplified to env var + prompt vs. 28-item structured checklist"
+      ],
+      "expert_votes": {
+        "aleyda-solis": 19,
+        "cyrus-shepard": 18,
+        "lily-ray": 20,
+        "mike-king": 19,
+        "rand-fishkin": 17
+      },
+      "skeptic_challenges": [],
+      "advocate_boosts": []
+    },
+    {
+      "axis": "thickness",
+      "score": 16,
+      "evidence": [
+        "66 tests pass (up from 55, +11 new tests)",
+        "TestComputeScores: auto-scoring from content, empty article handling, YMYL detection, config-aware scoring",
+        "TestCTROpportunity: CTR baseline verification, adjusted CTR with SERP features, no-features path",
+        "TestSchemaGeneration: Article schema, FAQ schema, config-aware Organization schema, output persistence",
+        "Existing test suite maintained: utilities, helpers, all commands, convergence, error handling, multi-platform formatting"
+      ],
+      "gaps": [
+        "No test for git/gh subprocess integration in publish command",
+        "No test for editorial review gate (--require-review, env var, interactive prompt)",
+        "No integration test with real article content verifying scoring accuracy",
+        "No quality-graded test fixtures (good/mediocre/poor articles) for scoring validation",
+        "No test validating scoring engine output correlates with content quality benchmarks",
+        "No test for multi-language content handling"
+      ],
+      "expert_votes": {
+        "aleyda-solis": 16,
+        "cyrus-shepard": 16,
+        "lily-ray": 17,
+        "mike-king": 16,
+        "rand-fishkin": 15
+      },
+      "skeptic_challenges": [],
+      "advocate_boosts": []
+    },
+    {
+      "axis": "effectiveness",
+      "score": 18,
+      "evidence": [
+        "compute_article_scores() evaluates actual article content across 4 axes with 16+ sub-scores -- the scoring engine from quality-scorer.md now exists in code",
+        "CTR opportunity scoring enables realistic keyword prioritization with SERP feature cannibalization adjustments",
+        "cmd_schema generates valid JSON-LD for Article, FAQPage, BreadcrumbList, Organization",
+        "Editorial gate (--require-review) enforces human review before publication",
+        "Intelligent optimization: keywords in existing sentences, meta from content extraction",
+        "Full 10-phase pipeline with convergence loop",
+        "Backward-compatible auto-scoring with --article-file or manual --seo/--eeat/--depth/--refs"
+      ],
+      "gaps": [
+        "validate and scoring engine are parallel, not integrated -- two evaluation systems that should be one",
+        "No content generation capability -- pipeline converges on empty articles",
+        "No cmd_verify implementation despite publisher.md defining post-deployment checks",
+        "Editorial gate simplified to env var + prompt vs. structured 28-item checklist",
+        "No schema validation or post-deployment monitoring",
+        "System is a quality evaluation tool, not a production content system"
+      ],
+      "expert_votes": {
+        "aleyda-solis": 18,
+        "cyrus-shepard": 17,
+        "lily-ray": 19,
+        "mike-king": 18,
+        "rand-fishkin": 16
+      },
+      "skeptic_challenges": [],
+      "advocate_boosts": []
+    }
+  ],
+  "total": 73,
+  "previous_total": 59,
+  "delta": 14,
+  "verdict": "improving",
+  "generated_at": "2026-04-17T12:00:00Z",
+  "recommendations": [
+    "PRIORITY 1: Integrate validate and scoring engine. Merge cmd_validate's structural checks into compute_article_scores() or make cmd_validate call compute_article_scores(). The current two-system split (7 structural checks in validate, 16+ analytical checks in scoring) is confusing and redundant.",
+    "PRIORITY 2: Add content generation capability. The pipeline cannot generate articles -- cmd_article registers metadata only. Either implement LLM invocation (via API call or MCP tool) or document clearly that content generation is the human/AI agent's responsibility, with the CLI providing evaluation and optimization only.",
+    "PRIORITY 3: Implement cmd_verify for post-deployment verification. Publisher.md defines immediate verification (page 200 status, schema presence, canonical check) and short-term verification (GSC submission, Rich Results Test). These checks are critical for Aleyda Solis's continuous validation loop.",
+    "PRIORITY 4: Add editorial gate tests and integration tests. Test the --require-review flag, the env var check, and the interactive prompt. Add a quality-graded fixture set (good/mediocre/poor articles) and verify that compute_article_scores() produces differentiated scores.",
+    "PRIORITY 5: Create the GitHub Actions workflow file. cicd-quality-gates.md provides a complete YAML template. Materialize it as .github/workflows/blog-pipeline.yml with the editorial-review environment protection rule.",
+    "PRIORITY 6: Implement schema validation. Before injecting JSON-LD, validate: no duplicate types per page, ISO 8601 dates, absolute image URLs, valid author sameAs links. Add schema validation tests.",
+    "PRIORITY 7: Add query fan-out coverage scoring to compute_article_scores(). Content-engineering.md defines fan-out analysis with a 70% branch coverage target. Implement at minimum a heuristic that counts distinct subtopic coverage per H2 section."
+  ]
+}

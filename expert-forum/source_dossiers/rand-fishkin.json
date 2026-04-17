@@ -1,0 +1,39 @@
+{
+  "expert_id": "rand-fishkin",
+  "created_at": "2026-04-17T05:03:49Z",
+  "updated_at": "2026-04-17T05:04:05Z",
+  "sources": [
+    {
+      "id": "rand-fishkin-a-sparktoro-audience-research-keyword-intelligence-platform",
+      "title": "SparkToro - Audience Research & Keyword Intelligence Platform",
+      "url": "https://sparktoro.com",
+      "tier": "A",
+      "note": "Official homepage of SparkToro, Rand Fishkin's audience research platform for keyword and SERP analysis. Primary source for his keyword research methodology.",
+      "added_at": "2026-04-17T05:03:49Z"
+    },
+    {
+      "id": "rand-fishkin-a-lost-and-founder-a-painfully-honest-field-guide-to-the-startup-wo",
+      "title": "Lost and Founder: A Painfully Honest Field Guide to the Startup World",
+      "url": "https://www.amazon.com/Lost-Founder-Painfully-Honest-Startup/dp/0735219641",
+      "tier": "A",
+      "note": "Rand Fishkin's published book on startup world including SEO and keyword research insights. Published by Portfolio/Penguin.",
+      "added_at": "2026-04-17T05:03:49Z"
+    },
+    {
+      "id": "rand-fishkin-b-there-are-four-kinds-of-keyword-research-sparktoro-blog",
+      "title": "There Are Four Kinds of Keyword Research - SparkToro Blog",
+      "url": "https://sparktoro.com/blog/four-kinds-of-keyword-research/",
+      "tier": "B",
+      "note": "Rand Fishkin's influential article defining four types of keyword research: SEO/PPC, social media, content creation, and market/audience research.",
+      "added_at": "2026-04-17T05:03:49Z"
+    },
+    {
+      "id": "rand-fishkin-b-in-2020-two-thirds-of-google-searches-ended-without-a-click-spark",
+      "title": "In 2020 Two-Thirds of Google Searches Ended Without a Click - SparkToro",
+      "url": "https://sparktoro.com/blog/in-2020-two-thirds-of-google-searches-ended-without-a-click/",
+      "tier": "B",
+      "note": "Rand Fishkin's landmark research on zero-click searches and SERP analysis, demonstrating his expertise in search behavior and keyword research methodology.",
+      "added_at": "2026-04-17T05:04:05Z"
+    }
+  ]
+}

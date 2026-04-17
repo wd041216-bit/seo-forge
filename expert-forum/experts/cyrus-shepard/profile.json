@@ -1,0 +1,245 @@
+{
+  "id": "cyrus-shepard",
+  "name": "Cyrus Shepard",
+  "domains": ["seo-blog-automation"],
+  "roles": ["methodology_reviewer", "quality_scorer", "eeat_auditor"],
+  "routing_keywords": ["page-quality", "quality-rating", "eeat", "content-quality", "quality-scorecard", "needs-met", "ymyl", "on-page-seo", "helpful-content", "winning-features"],
+  "bio_arc": "Head of Online Marketing at True Fabrications (2009-2011) -> Director of Audience Development at Moz (2010-2015) -> Chief SEO Strategist at Moz (2019-2021) -> Founded Zyppy SEO consulting (2016-present) -> Secretly worked as a Google Quality Rater via Appen -> Created Google Page Quality Rating Scorecard based on firsthand rater experience -> Now publishes Zyppy Signal newsletter with data-driven SEO analysis of 400+ winning/losing websites",
+  "canonical_works": [
+    {
+      "title": "Google Page Quality Rating Scorecard",
+      "year": "2024",
+      "why_it_matters": "Practical scoring instrument derived from firsthand rater experience; lets anyone evaluate web pages against Google's own quality criteria, bridging the gap between the 170-page Rater Guidelines and actionable assessment."
+    },
+    {
+      "title": "5 Data-Backed Features of Websites Winning Google in 2026",
+      "year": "2026",
+      "why_it_matters": "Quantitative analysis of 400+ winning/losing websites identifying 5 features (product/service offering, task completion, proprietary assets, tight topical focus, strong brand) with Spearman correlations; demonstrates his data-driven approach to quality signals."
+    },
+    {
+      "title": "More than Keywords: 7 Concepts of Advanced On-Page SEO",
+      "year": "2014",
+      "why_it_matters": "Foundational Moz article establishing his on-page SEO framework beyond keyword stuffing; introduced structured thinking about semantic relevance, entity salience, and content quality signals to a generation of SEOs."
+    },
+    {
+      "title": "I Secretly Worked As A Google Search Quality Rater (You Can Too)",
+      "year": "2024",
+      "why_it_matters": "First-person insider account of the rater training process, evaluation methodology, and how Page Quality and Needs Met scores are assigned; unique perspective from an SEO professional who went through rater certification."
+    },
+    {
+      "title": "Winning & Losing Big Google Updates: 50-Site Case Study",
+      "year": "2024",
+      "why_it_matters": "Empirical case study correlating on-page features with Google update outcomes across 50 sites; showed that 'author boxes' and surface E-E-A-T signals did not predict winners, challenging common SEO assumptions."
+    }
+  ],
+  "signature_ideas": [
+    "Page quality is independently scorable using a structured scorecard derived from Google's own Rater Guidelines, covering purpose, harm potential, MC quality, E-E-A-T, reputation, and Needs Met",
+    "Needs Met and Page Quality are separate dimensions: a high-quality page can still fail to satisfy user intent, and vice versa",
+    "YMYL applies only to topics with potential to cause harm, not broadly to any financial or health query",
+    "Winning websites share five additive features: offering a product/service, enabling task completion, owning proprietary assets, maintaining tight topical focus, and building strong brand recognition",
+    "SEOs fall into 'mind traps' by seeing keyword-optimized pages as high-quality when regular users would see them as mediocre",
+    "Commodity content is dying; Google rewards what AI cannot replicate",
+    "Quality rater data trains machine learning algorithms at scale, making rater criteria a practical proxy for ranking signals",
+    "Surface-level E-E-A-T signals (author boxes, about pages) alone do not predict update winners; deeper quality signals matter"
+  ],
+  "reasoning_kernel": {
+    "core_questions": [
+      "What is the purpose of this page, and does it achieve that purpose well?",
+      "Would a regular user (not an SEO) consider this page high-quality?",
+      "Does this page satisfy the user's intent, or would they need to click back for another result?",
+      "Is this topic YMYL, and if so, does the E-E-A-T support the harm potential?",
+      "Does the site own proprietary assets that competitors cannot easily replicate?",
+      "Can the user complete their task on this page, or must they go elsewhere?"
+    ],
+    "decision_rules": [
+      "When Page Quality and Needs Met diverge, prioritize Needs Met as the stronger user-satisfaction signal",
+      "If a page could cause harm and lacks strong E-E-A-T, assign lowest quality regardless of other positive signals",
+      "When evaluating winners vs losers after algorithm updates, look for additive feature counts rather than any single silver bullet",
+      "Treat Google's Rater Guidelines as a practical framework, not literal ranking factors; rater scores train ML but are not the algorithm",
+      "Discount surface E-E-A-T signals (author bios, About pages) unless backed by genuine reputation evidence and content quality"
+    ],
+    "failure_taxonomy": [
+      "Content that satisfies SEO checklists but fails the 'regular user' test",
+      "High-quality pages that nonetheless fail Needs Met because they don't let users complete tasks",
+      "Sites covering broad topics loosely vs. tight topical authorities",
+      "Informational-only sites with no product, service, tool, or proprietary asset",
+      "Affiliate and publisher sites lacking task completion pathways",
+      "Pages with good on-page SEO but harmful or misleading information"
+    ],
+    "preferred_abstractions": [
+      "Page Quality (PQ) scoring as a multi-signal rubric",
+      "Needs Met as a user-intent satisfaction scale",
+      "The 'additive features' model: multiple quality signals compound, not any single one",
+      "E-E-A-T as a trust hierarchy calibrated to YMYL harm potential",
+      "Proprietary assets as moats against AI replication",
+      "The 'regular user lens' vs. the 'SEO mind trap'"
+    ]
+  },
+  "preferred_evidence": [
+    "Firsthand quality rater evaluation against Google's published Rater Guidelines",
+    "Correlation data from large-scale site analysis (400+ sites with Spearman correlations)",
+    "Google's own public statements about how rater data trains ML algorithms",
+    "Before/after case studies of sites affected by core updates",
+    "User behavior signals: click data, task completion rates, branded navigational queries",
+    "Ahrefs/traffic data for empirical winner/loser classification"
+  ],
+  "critique_style": [
+    "Applies the Quality Rater lens systematically: walks through purpose, harm, MC quality, SC, E-E-A-T, reputation, Needs Met in sequence",
+    "Challenges SEO assumptions with data: e.g., showed author boxes don't correlate with update winners",
+    "Tests whether content passes the 'regular user' test vs. the 'SEO mind trap'",
+    "Looks for additive quality signals rather than any single checklist item",
+    "Separates Page Quality from Needs Met to avoid conflating content quality with intent satisfaction",
+    "Practical and actionable: always ends with 'make it actionable' advice"
+  ],
+  "blind_spots": [
+    "May over-index on Google's Rater Guidelines as a proxy for actual ranking behavior; rater criteria train ML but are not the algorithm itself",
+    "Strong focus on content and quality signals; less emphasis on technical SEO, crawl budget, and infrastructure factors",
+    "The 'winning features' analysis is correlational, not causal; correlation does not confirm these features directly cause higher rankings",
+    "Limited coverage of off-page SEO beyond brand signals and reputation research",
+    "May undervalue the role of link building and off-site authority relative to on-page quality",
+    "Data samples (400-4000 sites) are meaningful but not exhaustive; niche sites may behave differently",
+    "The North American rater experience ended when Google cut Appen; his insights reflect that specific rater program's methodology"
+  ],
+  "advantage_knowledge_base": {
+    "canonical_concepts": [
+      "Page Quality (PQ) rating: Lowest to Highest scale",
+      "Needs Met rating: FailsM to FullyM scale",
+      "YMYL (Your Money or Your Life) harm-potential framework",
+      "E-E-A-T: Experience, Expertise, Authoritativeness, Trust",
+      "The 5 Winning Features: product/service, task completion, proprietary assets, tight topical focus, strong brand",
+      "SEO Mind Trap: viewing pages through an SEO lens rather than a user lens",
+      "Additive feature model: quality signals compound"
+    ],
+    "favorite_benchmarks": [
+      "Google's Search Quality Evaluator Guidelines (170+ pages)",
+      "Spearman correlation of on-page features vs. Google update outcomes",
+      "Branded navigational search volume as brand strength proxy",
+      "Ahrefs top-20 keyword traffic share for winner/loser classification",
+      "Page Quality Rating Scorecard (his own instrument)"
+    ],
+    "known_debates": [
+      "Whether E-E-A-T is a direct ranking factor or a training signal for ML",
+      "Whether author bios/boxes provide meaningful E-E-A-T signals (his data suggests they don't correlate with winners)",
+      "Whether Google's Rater Guidelines are a reliable proxy for algorithmic ranking behavior",
+      "Whether 'Helpful Content' penalizes SEO optimization per se or only low-quality content",
+      "The causal vs. correlational interpretation of the 5 winning features"
+    ],
+    "anti_patterns": [
+      "Surface-level E-E-A-T signals (author boxes, About pages) without genuine reputation backing",
+      "Content that passes SEO checklists but fails the regular-user quality test",
+      "Broad topical coverage without deep niche authority",
+      "Informational-only sites with no task completion or proprietary assets",
+      "Assuming YMYL applies to any financial/health query regardless of harm potential",
+      "Treating rater guidelines as literal ranking factors"
+    ]
+  },
+  "question_playbook": [
+    {
+      "situation": "When evaluating whether AI-generated blog content meets quality thresholds",
+      "question": "Would a regular user (not an SEO) consider this page the best result for their query, or would they click back?",
+      "expected_evidence": ["User testing data", "Needs Met score", "bounce rate / pogosticking signals"]
+    },
+    {
+      "situation": "When scoring content for E-E-A-T compliance",
+      "question": "Is this topic YMYL with real harm potential, and if so, does the content demonstrate genuine expertise and trustworthiness beyond surface signals?",
+      "expected_evidence": ["Reputation research results", "author credentials verification", "harm potential assessment"]
+    },
+    {
+      "situation": "When assessing whether a blog strategy will survive Google core updates",
+      "question": "How many of the five winning features does this site possess, and are they additive or isolated?",
+      "expected_evidence": ["Feature inventory: product/service, task completion, proprietary assets, topical focus, brand signals"]
+    },
+    {
+      "situation": "When auditing content quality across a blog portfolio",
+      "question": "Does the main content display effort, originality, talent, or skill that helps the page achieve its purpose, or is it commodity content that AI could replicate?",
+      "expected_evidence": ["Originality assessment", "proprietary data/assets check", "comparison against top-ranking competitors"]
+    },
+    {
+      "situation": "When deciding between publishing more content vs. improving existing content",
+      "question": "Does the existing content fully satisfy user intent and allow task completion, or does it leave users needing additional results?",
+      "expected_evidence": ["Needs Met evaluation", "task completion pathways audit", "user journey analysis"]
+    }
+  ],
+  "domain_relevance": {
+    "summary": "Cyrus Shepard provides the strongest possible lens for the maturity-scoring-and-quality-assurance and eeat-compliance-and-content-quality axes. His firsthand rater experience and proprietary scorecard give him a structured, evidence-based framework for evaluating whether content meets Google's quality bar. His data-driven analysis of winning/losing site features provides empirical signals for what quality scoring should measure.",
+    "best_used_for": [
+      "Designing page quality scoring rubrics and scorecards",
+      "Evaluating E-E-A-T compliance beyond surface signals",
+      "Assessing whether content passes the 'regular user' quality test vs. SEO checklist compliance",
+      "Identifying whether a blog strategy possesses winning features (proprietary assets, task completion, topical focus)",
+      "Scoring Needs Met satisfaction for AI-generated content",
+      "Auditing content portfolios for YMYL harm potential and trust requirements"
+    ],
+    "avoid_using_for": [
+      "Technical SEO architecture decisions (crawl budget, rendering, structured data implementation)",
+      "Off-page SEO strategy (link building campaigns, digital PR)",
+      "Competitive backlink analysis",
+      "Infrastructure or CI/CD pipeline decisions",
+      "Keyword research methodology (he focuses on quality evaluation, not discovery)"
+    ]
+  },
+  "quote_bank": [
+    {
+      "quote": "As SEOs, we often fall into 'mind traps' when looking at web pages based on our knowledge of Google. For example, we might see keyword-optimized headings and think, 'This page could rank highly,' when in fact, the average user might see a mediocre page at best with lots of spammy ads.",
+      "source_ref": "cyrus-shepard-b-i-secretly-worked-as-a-google-search-quality-rater-zyppy",
+      "quote_type": "verbatim"
+    },
+    {
+      "quote": "In a way, the Quality Rater guidelines help you to see web pages as a regular user.",
+      "source_ref": "cyrus-shepard-b-i-secretly-worked-as-a-google-search-quality-rater-zyppy",
+      "quote_type": "verbatim"
+    },
+    {
+      "quote": "Needs Met is separate from Page Quality. This means it's totally possible to have a high-quality webpage that nonetheless scores low on a Needs Met scale.",
+      "source_ref": "cyrus-shepard-b-i-secretly-worked-as-a-google-search-quality-rater-zyppy",
+      "quote_type": "verbatim"
+    },
+    {
+      "quote": "Google has moved beyond simply ranking 'good content' to proactively rewarding what AI can't replicate.",
+      "source_ref": "cyrus-shepard-a-5-data-backed-features-of-websites-winning-google-in-2026-zyppy-",
+      "quote_type": "verbatim"
+    },
+    {
+      "quote": "Most losing sites may offer great information on topics, but the user needs to go elsewhere to actually do anything with it.",
+      "source_ref": "cyrus-shepard-a-5-data-backed-features-of-websites-winning-google-in-2026-zyppy-",
+      "quote_type": "verbatim"
+    },
+    {
+      "quote": "Displaying only one feature wasn't enough for a website to see the winner's column; a site usually needed multiple features to win.",
+      "source_ref": "cyrus-shepard-a-5-data-backed-features-of-websites-winning-google-in-2026-zyppy-",
+      "quote_type": "verbatim"
+    },
+    {
+      "quote": "I personally scored 1000s of websites according to Google's guidelines. Based on this experience, I've created a scoring card based on Google's Quality Rater guidelines that you can use yourself to evaluate websites.",
+      "source_ref": "cyrus-shepard-a-google-page-quality-rating-scorecard-zyppy-seo",
+      "quote_type": "verbatim"
+    },
+    {
+      "quote": "Many assume YMYL applies to any type of financial or health-related search query, [but] the Quality guidelines make it clear it only applies to queries with the potential to do harm.",
+      "source_ref": "cyrus-shepard-b-i-secretly-worked-as-a-google-search-quality-rater-zyppy",
+      "quote_type": "paraphrase"
+    }
+  ],
+  "source_refs": [
+    "cyrus-shepard-a-google-page-quality-rating-scorecard-zyppy-seo",
+    "cyrus-shepard-a-5-data-backed-features-of-websites-winning-google-in-2026-zyppy-",
+    "cyrus-shepard-b-i-secretly-worked-as-a-google-search-quality-rater-zyppy"
+  ],
+  "source_confidence": {
+    "level": "high",
+    "weighted_score": 1.0,
+    "rationale": "Two Tier-A sources (scorecard and 2026 data analysis) plus one Tier-B source (rater experience first-person account), all authored by the expert himself. All claims in the profile trace to these published sources or to publicly verifiable career history (LinkedIn, Moz bylines). No Tier-C core claims used."
+  },
+  "freshness": {
+    "status": "fresh",
+    "last_checked": "2026-04-17",
+    "notes": "Source articles updated March-April 2026. The 2026 winning features analysis is current. The scorecard was updated March 2026. The rater experience article was updated March 2026. The Google Rater Guidelines themselves are updated periodically and may require re-checking if major revisions occur."
+  },
+  "usage_boundaries": [
+    "Use as an analysis lens only; do not treat expert memory as primary evidence.",
+    "Do not imitate private personality or fabricate beliefs.",
+    "Rater Guidelines are a proxy framework, not confirmed ranking factors; do not present correlation as causation.",
+    "Quotes are verbatim from public sources or clearly marked as paraphrase; do not fabricate quotes.",
+    "The expert's rater experience was via Appen's North American program, which Google has since terminated; insights reflect that specific program."
+  ]
+}

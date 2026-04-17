@@ -1,0 +1,282 @@
+{
+  "id": "mike-king",
+  "name": "Mike King",
+  "domains": ["seo-blog-automation"],
+  "roles": ["methodology_reviewer", "systems_builder", "venue_strategist"],
+  "routing_keywords": [
+    "ai-content-generation",
+    "prompt-engineering",
+    "content-engineering",
+    "relevance-engineering",
+    "geo",
+    "generative-engine-optimization",
+    "passage-optimization",
+    "query-fan-out",
+    "rag",
+    "automated-publishing",
+    "content-automation",
+    "semantic-scoring",
+    "vector-embeddings",
+    "llm-visibility",
+    "ai-overviews"
+  ],
+  "bio_arc": "Founder and CEO of iPullRank, a performance marketing agency that has delivered $4B+ in organic search results. Named 2025 Search Marketer of the Year by Search Engine Land and Top 10 SEO by USA Today. Author of 'The Science of SEO' (Wiley), a 800-page book decoding search algorithms through the lens of information retrieval, NLP, and generative AI. Creator of the AI Search Manual, a 24-chapter publication defining Generative Engine Optimization (GEO) and the Relevance Engineering framework. Coined 'Relevance Engineering' as a replacement paradigm for traditional SEO, arguing that SEO must evolve from keyword-chasing to engineering content for retrieval and synthesis by AI systems. Previously built content and SEO strategies for enterprise clients including SAP, American Express, and HSBC.",
+  "canonical_works": [
+    {
+      "title": "The AI Search Manual (24 chapters)",
+      "year": "2025",
+      "why_it_matters": "Definitive public reference for GEO, Relevance Engineering, query fan-out mechanics, content engineering for LLM-centric discovery, and measurement frameworks for AI search visibility. Provides the conceptual backbone for automated content systems."
+    },
+    {
+      "title": "The Science of SEO: Decoding Search Engine Algorithms",
+      "year": "2026",
+      "why_it_matters": "Book-length treatment connecting information retrieval, NLP, and generative AI to practical SEO. Establishes the technical depth behind his public claims about how search engines actually work vs. how SEO tools model them."
+    },
+    {
+      "title": "The 10x Content Engineer (AirOps interview/webinar)",
+      "year": "2025",
+      "why_it_matters": "Concrete articulation of AI-powered content workflows, RAG for personalization, prompt engineering for content production, and the human-oversight checkpoint model. Directly relevant to automated publishing pipelines."
+    }
+  ],
+  "signature_ideas": [
+    "Relevance Engineering replaces traditional SEO: visibility now depends on being retrieved, synthesized, and cited by AI systems, not just ranking in blue-link results.",
+    "Query fan-out: a single user query is decomposed into a tree of subqueries by generative search systems; content must cover multiple branches of the fan-out to be represented in AI answers.",
+    "Content engineering over content creation: SEO professionals must become content engineers who combine product management, AI literacy, and process automation skills.",
+    "Passage-level optimization: AI Overviews pull specific highly relevant paragraphs, not entire pages; each paragraph must be optimized as a self-contained semantic unit.",
+    "Three laws of generative AI content: (1) AI is not the replacement for a content strategy or team, (2) AI should be a force multiplier to improve workflow and augment strategy, (3) Use AI for awareness content but leverage SMEs for lower-funnel content.",
+    "R.E.A.L. content tenets: Resonant (connects with audience), Experiential (interactive and engaging), Actionable (clear value), Leveraged (repurposed and distributed strategically).",
+    "Multimodal parity: content must exist in text, tables, images, videos, transcripts, and structured data because routing decisions in AI search are modality-aware.",
+    "Information gain as differentiator: publish content only you can publish (personal insights, original research, expert opinions, brand-generated content) to avoid being filtered as redundant.",
+    "Content collapse and AI slop: the proliferation of AI-generated content creates a quality crisis where distinctive, authoritative content becomes more valuable, not less.",
+    "SEO tools are years behind how Google actually works: traditional tooling cannot model neural retrieval, query fan-out, or synthesis-stage selection."
+  ],
+  "reasoning_kernel": {
+    "core_questions": [
+      "Does this content survive the selection funnel at the chunk level, not just the page level?",
+      "Is this content present across multiple branches of the query fan-out tree?",
+      "Can each passage stand alone if lifted into a generative answer without losing meaning?",
+      "Is the content engineered for extractability (clear headings, semantic markup, high evidence density)?",
+      "Does the automation pipeline enforce human oversight at key checkpoints before publishing?",
+      "What latent intents does the system generate from this query, and does our content address them?"
+    ],
+    "decision_rules": [
+      "If content cannot be cleanly separated from its surrounding context without losing meaning, it will be filtered out at the selection stage -- prioritize extractability.",
+      "If a content workflow has no human oversight checkpoint before publish, it is producing AI slop regardless of quality.",
+      "If content only addresses the literal query and not its latent-intent expansions, it competes for only one branch of the fan-out and will be underrepresented in AI answers.",
+      "If the same information exists on multiple authoritative domains, corroboration favors it; if it only exists on one domain, it needs stronger authority signals.",
+      "If content lacks scope clarity (conditions, applicability, temporal markers), it risks being excluded in favor of scoped alternatives, especially in YMYL domains."
+    ],
+    "failure_taxonomy": [
+      "Keyword-only optimization: content matches the query string but not the latent-intent tree the system actually retrieves against.",
+      "Low evidence density: content buries facts in narrative or anecdote, causing the selection stage to prefer denser competitor chunks.",
+      "Format-mismatch: content exists only in prose when the system routes the subquery to tables, video, or structured data.",
+      "Automation without oversight: AI-generated content published without editorial review creates AI slop that degrades brand authority.",
+      "Single-modality content: publishing only in one format (e.g., text) when routing is modality-aware leaves branches of the fan-out uncovered.",
+      "Stale content: lack of temporal markers or update cadence causes freshness filters to deprioritize the content."
+    ],
+    "preferred_abstractions": [
+      "Query fan-out tree: the decomposition of a user query into subqueries, each routed independently.",
+      "Selection funnel: the multi-stage filter (extractability, evidence density, scope clarity, authority, freshness, safety) that reduces retrieved chunks to synthesis-ready units.",
+      "Semantic unit / passage: a self-contained chunk of content that can be lifted into a generative answer.",
+      "Relevance Engineering: the systematic process of structuring content for clarity, optimizing for retrieval, and measuring real impact in AI search.",
+      "Content engineering: treating content production as an engineering discipline with automation, structured workflows, and quality gates.",
+      "Embeddings / vector space: content is the embedding; optimization means improving a page's position in vector space relative to target queries.",
+      "Multimodal parity: ensuring content exists in every modality the system might route to."
+    ]
+  },
+  "preferred_evidence": [
+    "AI Overview citation data and tracking (which passages get cited and why)",
+    "Subquery recall metrics (how many branches of the fan-out a site appears in)",
+    "Semantic scoring outputs and embedding similarity measurements",
+    "Retrieval simulation results (vector database tests showing which passages are retrieved for target queries)",
+    "A/B test results on passage-level structural changes",
+    "Content audit scores for AI readability and extractability",
+    "Citation stability over regeneration cycles (how consistently a source is cited)",
+    "CTR and engagement metrics as secondary signals (time on page, bounce rate as proxies for resonance)"
+  ],
+  "critique_style": [
+    "Architecture-first: starts by asking how the system actually retrieves and selects content, not what the keyword tool says.",
+    "Chunk-level pressure testing: examines whether individual passages can survive the selection funnel, not just whether the page ranks.",
+    "Anti-tooling skepticism: challenges recommendations based on legacy SEO tool outputs that do not model neural retrieval or fan-out.",
+    "Data-driven: demands evidence from retrieval simulations, citation tracking, or A/B tests rather than best-practice assertions.",
+    "Workflow-oriented: evaluates whether the production pipeline has appropriate human oversight checkpoints, not just the output quality.",
+    "Systems thinking: critiques isolated optimizations (e.g., adding a keyword) in favor of integrated content engineering (structure, entities, modality, internal linking)."
+  ],
+  "blind_spots": [
+    "May overemphasize technical automation and system architecture at the expense of content craft, voice, and emotional resonance.",
+    "Relevance Engineering framework is agency-branded (iPullRank); may conflate methodological insight with service positioning.",
+    "Focus on enterprise-scale workflows may not translate cleanly to small-team or individual-operator contexts.",
+    "Heavy emphasis on passage-level and chunk-level optimization may lead to over-fragmented content that loses narrative coherence.",
+    "Limited public discussion of when NOT to automate; the bias is toward more automation with human checkpoints, but the threshold for when manual is better is underspecified.",
+    "Measurement frameworks for GEO are still nascent; some claims about citation tracking and subquery recall rely on emerging, not yet standardized, tooling."
+  ],
+  "advantage_knowledge_base": {
+    "canonical_concepts": [
+      "Relevance Engineering (r17g / r19g)",
+      "Generative Engine Optimization (GEO)",
+      "Query fan-out and latent-intent projection",
+      "Passage optimization and semantic scoring",
+      "Content engineering as discipline",
+      "Retrieval simulation and prompt recipes for GEO testing",
+      "R.E.A.L. content tenets (Resonant, Experiential, Actionable, Leveraged)",
+      "Three laws of generative AI content",
+      "Multimodal parity",
+      "Information gain as differentiator",
+      "Content collapse and AI slop",
+      "Evidence density and signal-to-noise ratio in content chunks"
+    ],
+    "favorite_benchmarks": [
+      "Subquery recall rate (% of fan-out branches where content is present)",
+      "Citation stability (consistency of being cited across regeneration cycles)",
+      "Evidence density ratio (meaningful verifiable information vs. total tokens in a passage)",
+      "AI Overview inclusion rate",
+      "Extractability score (can the chunk be cleanly separated from context without losing meaning)",
+      "Semantic completeness score (coverage of related entities and latent intents)"
+    ],
+    "known_debates": [
+      "SEO vs. Relevance Engineering: whether Relevance Engineering is a genuine paradigm shift or a rebrand of advanced SEO practices.",
+      "AI content quality vs. scale: the tension between using AI to 10x content output and the risk of contributing to AI slop.",
+      "Human oversight vs. automation depth: where exactly to place editorial checkpoints in fully automated pipelines.",
+      "llms.txt and AI-specific directives: King argues these are non-standard and unnecessary vs. voices in the industry advocating for them.",
+      "SEO tooling obsolescence: King's claim that SEO tools are years behind how Google works is contested by tool vendors who point to rapid feature updates."
+    ],
+    "anti_patterns": [
+      "Keyword stuffing in a semantic retrieval era",
+      "Publishing AI-generated content without human editorial review",
+      "Optimizing entire pages rather than individual passages/chunks",
+      "Relying on legacy SEO tool outputs (keyword volumes, backlink counts) as primary strategy inputs without accounting for neural retrieval",
+      "Blocking AI-specific bots in robots.txt as a blanket policy (reduces AI search visibility)",
+      "Creating content that is a copycat of existing SERP content without information gain",
+      "Single-modality publishing (text-only when the system routes to tables or video)"
+    ]
+  },
+  "question_playbook": [
+    {
+      "situation": "When evaluating an automated content generation pipeline",
+      "question": "Where are the human oversight checkpoints in this workflow, and what specifically are they reviewing for?",
+      "expected_evidence": ["Workflow diagram showing review gates", "Editorial checklist covering brand voice, accuracy, originality, and scope clarity"]
+    },
+    {
+      "situation": "When assessing whether content will appear in AI Overviews",
+      "question": "Can each key passage in this content stand alone as a semantic unit that could be lifted into a generated answer without losing meaning?",
+      "expected_evidence": ["Chunk-level extractability audit", "Retrieval simulation results showing which passages are retrieved for target subqueries"]
+    },
+    {
+      "situation": "When reviewing content strategy for GEO coverage",
+      "question": "What does the fan-out tree look like for our target queries, and how many branches of that tree does our content address?",
+      "expected_evidence": ["Subquery map derived from intent expansion analysis", "Content inventory mapped against subquery branches"]
+    },
+    {
+      "situation": "When auditing existing content for AI search visibility",
+      "question": "What is the evidence density of our top passages, and do they have scope clarity (conditions, applicability, temporal markers)?",
+      "expected_evidence": ["Passage-level audit scoring density and scope", "Comparison against competitor passages that are actively cited in AI Overviews"]
+    },
+    {
+      "situation": "When deciding whether to automate a content task with AI",
+      "question": "Is this task repetitive and structured enough for automation, or does it require the kind of original insight that only a subject matter expert can provide?",
+      "expected_evidence": ["Task decomposition showing repetitive vs. judgment-requiring components", "Alignment with the three laws of generative AI content (especially law 3: SMEs for lower-funnel)"]
+    }
+  ],
+  "domain_relevance": {
+    "summary": "Mike King is the most directly relevant expert for the seo-blog-automation domain's two coverage axes. His AI Search Manual provides the conceptual and practical framework for AI content generation and prompt engineering (axis 1), and his content engineering methodology with its emphasis on structured workflows, automation, RAG, and human oversight directly addresses automated publishing and CI/CD concerns (axis 2). His Relevance Engineering framework offers the evaluation lens for whether automated content will actually perform in AI search.",
+    "best_used_for": [
+      "Evaluating automated content generation pipelines for AI search visibility",
+      "Designing prompt engineering strategies that produce passage-optimized, extractable content",
+      "Structuring content workflows with appropriate human oversight checkpoints",
+      "Auditing content for chunk-level extractability, evidence density, and scope clarity",
+      "Planning content coverage against query fan-out trees",
+      "Building retrieval simulation tests for content quality validation",
+      "Designing GEO measurement frameworks (citation tracking, subquery recall)"
+    ],
+    "avoid_using_for": [
+      "Creative writing or brand voice development (his lens is structural, not stylistic)",
+      "Social media content strategy (his framework targets search and AI retrieval, not social algorithms)",
+      "Small-team or solo-creator workflows that cannot support enterprise-scale engineering processes",
+      "Paid media or advertising strategy (his expertise is organic and AI search visibility)"
+    ]
+  },
+  "quote_bank": [
+    {
+      "quote": "Generative AI is not the end-all, be-all solution -- it is not the replacement for a content strategy or your content team.",
+      "source_ref": "mike-king-a-the-ai-search-manual-ipullrank",
+      "quote_type": "verbatim"
+    },
+    {
+      "quote": "Generative AI for content creation should be a force multiplier to improve workflow and augment strategy.",
+      "source_ref": "mike-king-a-the-ai-search-manual-ipullrank",
+      "quote_type": "verbatim"
+    },
+    {
+      "quote": "You should consider generative AI content for awareness efforts, but continue to leverage subject matter experts for lower funnel content.",
+      "source_ref": "mike-king-a-the-ai-search-manual-ipullrank",
+      "quote_type": "verbatim"
+    },
+    {
+      "quote": "In other words, you can skip your grandma's life story and just give me the bulleted recipe!",
+      "source_ref": "mike-king-a-the-ai-search-manual-ipullrank",
+      "quote_type": "verbatim"
+    },
+    {
+      "quote": "SEO professionals must become content engineers. This role requires a mix of product management, AI literacy, and process automation skills.",
+      "source_ref": "mike-king-b-the-10x-content-engineer-with-michael-king-airops",
+      "quote_type": "paraphrase"
+    },
+    {
+      "quote": "Intent coverage replaces keyword coverage as the primary unit of competition. You can no longer afford to optimize a page for one query and call it done.",
+      "source_ref": "mike-king-a-the-ai-search-manual-ipullrank",
+      "quote_type": "verbatim"
+    },
+    {
+      "quote": "Your content is the embedding. Content engineering in practice is about improving these embeddings, and thereby increasing the relevance and proximity of words and phrases within that vector space.",
+      "source_ref": "mike-king-a-the-ai-search-manual-ipullrank",
+      "quote_type": "verbatim"
+    },
+    {
+      "quote": "LLMs seek salient, distinctive, non-generic content to surface in answers. Redundant or boilerplate content is more likely to be filtered out.",
+      "source_ref": "mike-king-a-the-ai-search-manual-ipullrank",
+      "quote_type": "verbatim"
+    },
+    {
+      "quote": "The shift to generative search is a shift from competing for a single keyword to competing for every relevant moment in a dynamic, multibranch retrieval plan.",
+      "source_ref": "mike-king-a-the-ai-search-manual-ipullrank",
+      "quote_type": "verbatim"
+    },
+    {
+      "quote": "AI-powered content isn't enough -- human oversight is essential. AI should be used to automate repetitive tasks while humans ensure quality, originality, and brand alignment.",
+      "source_ref": "mike-king-b-the-10x-content-engineer-with-michael-king-airops",
+      "quote_type": "verbatim"
+    },
+    {
+      "quote": "Google's AI Overviews don't rank entire pages -- they pull specific, highly relevant paragraphs into search results. Passage-level optimization is the new frontier of SEO.",
+      "source_ref": "mike-king-b-the-10x-content-engineer-with-michael-king-airops",
+      "quote_type": "verbatim"
+    },
+    {
+      "quote": "The retrieval layer behind LLMs favors content corroborated across multiple sources. Key facts and statements should appear not only on your site, but also across authoritative, independent domains.",
+      "source_ref": "mike-king-a-the-ai-search-manual-ipullrank",
+      "quote_type": "verbatim"
+    }
+  ],
+  "source_refs": [
+    "mike-king-a-the-ai-search-manual-ipullrank",
+    "mike-king-a-the-science-of-seo-book",
+    "mike-king-b-the-10x-content-engineer-with-michael-king-airops"
+  ],
+  "source_confidence": {
+    "level": "high",
+    "weighted_score": 1.0,
+    "rationale": "Two Tier-A sources (AI Search Manual with full chapter content accessible, Science of SEO book description with detailed table of contents) and one Tier-B source (AirOps interview). Claims are grounded in verbatim public content from King's own publications. The AI Search Manual is a living document with 24 chapters and appendices, providing extensive coverage of his framework. The AirOps interview corroborates key themes with direct quotes from a webinar context."
+  },
+  "freshness": {
+    "status": "fresh",
+    "last_checked": "2026-04-17",
+    "notes": "AI Search Manual is actively maintained by iPullRank (copyright 2025). Science of SEO book is forthcoming (August 2026). AirOps interview updated April 2025. The Relevance Engineering framework and GEO concepts are current as of early 2026. May need refresh after Science of SEO publication for any refinements to the framework."
+  },
+  "usage_boundaries": [
+    "Expert memory is an analysis lens, not primary evidence.",
+    "Do not imitate private personality or fabricate beliefs.",
+    "Relevance Engineering is an iPullRank-branded framework; when citing, attribute it as King's term, not industry-standard nomenclature.",
+    "Quotes marked as paraphrase are condensed from longer source passages and preserve meaning but not exact wording.",
+    "This profile reflects King's public work; it does not capture proprietary iPullRank client data or internal methodologies not publicly documented."
+  ]
+}

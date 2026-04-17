@@ -1,0 +1,121 @@
+{
+  "version": "expert_forum_index_v1",
+  "generated_at": "2026-04-17T05:14:21Z",
+  "domains": [
+    "seo-blog-automation"
+  ],
+  "candidate_count": 5,
+  "expert_count": 5,
+  "experts": [
+    {
+      "id": "aleyda-solis",
+      "name": "Aleyda Solis",
+      "domains": [
+        "seo-blog-automation"
+      ],
+      "roles": [
+        "methodology_reviewer",
+        "systems_builder",
+        "venue_strategist"
+      ],
+      "source_confidence": {
+        "level": "high",
+        "weighted_score": 1.0,
+        "rationale": "All core claims trace to Aleyda Solis's own published content on aleydasolis.com and learningaisearch.com (Tier A sources). SP2 framework details are from her own 2020 blog post. AI search optimization principles are from her own curated LearningAIsearch.com resource. Career details are from her official homepage and SEOFOMO hub. Additional third-party validation from Clayton Johnson's summary and EDGE of the Web podcast."
+      },
+      "freshness": {
+        "status": "fresh",
+        "last_checked": "2026-04-17",
+        "notes": "AI search optimization content from LearningAIsearch.com was updated March 2026. SEOFOMO newsletter is active weekly (latest April 2026). SP2 framework is from 2020 but remains her core methodology. Book is from 2016 but covers foundational process orientation still referenced in her current work."
+      }
+    },
+    {
+      "id": "cyrus-shepard",
+      "name": "Cyrus Shepard",
+      "domains": [
+        "seo-blog-automation"
+      ],
+      "roles": [
+        "methodology_reviewer",
+        "quality_scorer",
+        "eeat_auditor"
+      ],
+      "source_confidence": {
+        "level": "high",
+        "weighted_score": 1.0,
+        "rationale": "Two Tier-A sources (scorecard and 2026 data analysis) plus one Tier-B source (rater experience first-person account), all authored by the expert himself. All claims in the profile trace to these published sources or to publicly verifiable career history (LinkedIn, Moz bylines). No Tier-C core claims used."
+      },
+      "freshness": {
+        "status": "fresh",
+        "last_checked": "2026-04-17",
+        "notes": "Source articles updated March-April 2026. The 2026 winning features analysis is current. The scorecard was updated March 2026. The rater experience article was updated March 2026. The Google Rater Guidelines themselves are updated periodically and may require re-checking if major revisions occur."
+      }
+    },
+    {
+      "id": "lily-ray",
+      "name": "Lily Ray",
+      "domains": [
+        "seo-blog-automation"
+      ],
+      "roles": [
+        "methodology_reviewer",
+        "quality_auditor",
+        "content_strategist"
+      ],
+      "source_confidence": {
+        "level": "high",
+        "weighted_score": 1.0,
+        "rationale": "Four sources: two Tier A (her own comprehensive E-E-A-T resource page and SEJ author page with verified bylines), two Tier B (MozCon 2021 deck and Traject podcast, though podcast URL 404'd). All claims trace to her own published work or Google's public documentation. No third-party interpretation layer."
+      },
+      "freshness": {
+        "status": "fresh",
+        "last_checked": "2026-04-17",
+        "notes": "Profile includes 2026 articles on AI search citations and AI Slop Loop. Her SEJ author page shows active publication through April 2026. MozCon 2021 deck is historical but foundational. Traject podcast URL returned 404; content was not available for verification but is Tier B supplementary."
+      }
+    },
+    {
+      "id": "mike-king",
+      "name": "Mike King",
+      "domains": [
+        "seo-blog-automation"
+      ],
+      "roles": [
+        "methodology_reviewer",
+        "systems_builder",
+        "venue_strategist"
+      ],
+      "source_confidence": {
+        "level": "high",
+        "weighted_score": 1.0,
+        "rationale": "Two Tier-A sources (AI Search Manual with full chapter content accessible, Science of SEO book description with detailed table of contents) and one Tier-B source (AirOps interview). Claims are grounded in verbatim public content from King's own publications. The AI Search Manual is a living document with 24 chapters and appendices, providing extensive coverage of his framework. The AirOps interview corroborates key themes with direct quotes from a webinar context."
+      },
+      "freshness": {
+        "status": "fresh",
+        "last_checked": "2026-04-17",
+        "notes": "AI Search Manual is actively maintained by iPullRank (copyright 2025). Science of SEO book is forthcoming (August 2026). AirOps interview updated April 2025. The Relevance Engineering framework and GEO concepts are current as of early 2026. May need refresh after Science of SEO publication for any refinements to the framework."
+      }
+    },
+    {
+      "id": "rand-fishkin",
+      "name": "Rand Fishkin",
+      "domains": [
+        "seo-blog-automation"
+      ],
+      "roles": [
+        "methodology_reviewer",
+        "systems_builder",
+        "venue_strategist"
+      ],
+      "source_confidence": {
+        "level": "high",
+        "weighted_score": 1.0,
+        "rationale": "All claims derived from Rand Fishkin's own published writings (SparkToro blog, Moz blog, LinkedIn posts), his book, and third-party reporting on his Datos/SimilarWeb research. Tier-A sources include his company's platform and published book; Tier-B sources include his blog articles with verifiable data. No Tier-C sources used. Clickstream data claims are validated by independent data providers (Datos, SimilarWeb)."
+      },
+      "freshness": {
+        "status": "fresh",
+        "last_checked": "2026-04-17",
+        "notes": "Zero-click search data updated through Q1 2025 via Datos partnership. AI Overviews impact data is early-stage and may shift rapidly. Four-type keyword research framework is stable. Rand Fishkin remains actively publishing on SparkToro blog and LinkedIn. State of Search report is now quarterly, providing ongoing data freshness."
+      }
+    }
+  ]
+}

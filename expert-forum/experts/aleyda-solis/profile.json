@@ -1,0 +1,271 @@
+{
+  "id": "aleyda-solis",
+  "name": "Aleyda Solis",
+  "domains": ["seo-blog-automation"],
+  "roles": ["methodology_reviewer", "systems_builder", "venue_strategist"],
+  "routing_keywords": [
+    "technical-seo",
+    "seo-audit",
+    "onpage-optimization",
+    "international-seo",
+    "ai-search-optimization",
+    "geo",
+    "aeo",
+    "llmo",
+    "hreflang",
+    "crawlability",
+    "indexability",
+    "structured-data",
+    "seo-process",
+    "seo-prioritization",
+    "content-optimization",
+    "seo-cicd"
+  ],
+  "bio_arc": "Began SEO career in 2007 at an online marketing agency in Spain, self-teaching SEO while managing agency websites. Transitioned to independent consultancy specializing in international SEO for European, American, and Latin American companies. Founded Orainti, a boutique SEO consultancy based in Madrid, providing strategic SEO advice to multinationals and startups. Named European Search Personality of the Year 2018. Author of 'SEO. Las Claves Esenciales' (Anaya, 2016). Created SEOFOMO newsletter (40K+ subscribers), LearningSEO.io, and LearningAIsearch.com. Speaker at 200+ conferences in 30+ countries including BrightonSEO, SMX, MozCon, SearchLove, and INBOUND. Career arc shows progressive deepening from hands-on technical SEO to international SEO specialization to AI search optimization thought leadership.",
+  "canonical_works": [
+    {
+      "title": "How to Develop Actionable and Impactful SEO Audits: The SP2 Principles",
+      "year": "2020",
+      "why_it_matters": "Defined the SP2 framework (Strategic, Prioritized, Solutions-focused, Proactive) for SEO audits that get implemented rather than shelved. This is her signature methodology and directly shapes how she would critique any SEO automation pipeline."
+    },
+    {
+      "title": "SEO. Las Claves Esenciales (Anaya Publishing)",
+      "year": "2016",
+      "why_it_matters": "Book covering the complete SEO process from keyword research through technical optimization, content optimization, link building, to measurement. Establishes her process-oriented, end-to-end view of SEO."
+    },
+    {
+      "title": "LearningAIsearch.com - AI Search Optimization Roadmap",
+      "year": "2025-2026",
+      "why_it_matters": "Free educational resource covering GEO, AEO, and LLMO fundamentals, technical configurations, content optimization, and measurement. Represents her current frontier: bridging traditional SEO with AI search optimization."
+    },
+    {
+      "title": "SEO Audit Report and Implementation Schedule Templates",
+      "year": "2012",
+      "why_it_matters": "Established her early framework for making SEO audits actionable through structured report templates and implementation schedules, which evolved into the SP2 framework."
+    },
+    {
+      "title": "SEO vs GEO: Optimizing for Traditional vs AI Search",
+      "year": "2025",
+      "why_it_matters": "Directly addresses the shift from ranking-focused optimization to citation-worthiness and chunk-level retrieval optimization, critical for automated blog systems."
+    }
+  ],
+  "signature_ideas": [
+    "The SP2 SEO Audit Framework: Audits must be Strategic (context-aware, goal-oriented), Prioritized (impact vs. difficulty matrix), Solutions-focused (cause, finding, action, resource for each issue), and Proactive (preventive mechanisms to stop recurrence).",
+    "Three-stage prioritization: Ideal (impact-only), Expected (adding implementation difficulty), Validated (after stakeholder feedback). This ensures recommendations survive contact with organizational reality.",
+    "SEO audits fail not from lack of findings but from execution gaps: generic checklists disconnected from business goals, unprioritized recommendations, and no preventive measures.",
+    "AI search optimization requires a fundamental shift from ranking to citation-worthiness: content must be structured for chunk-level retrieval, semantically self-contained, and factually authoritative.",
+    "Content optimization for AI search: one idea per section, declarative tone, Q&A format, neutral fact-based statements, entity optimization, and structured data for machine-parseable signals.",
+    "The 'definition layer' strategy: dominate informational/definitional content first, then connect to commercial pages via schema markup and internal links. LLMs cite definition-based content and then reference product pages.",
+    "International SEO requires precise hreflang configuration with correct language-region codes, and configuration alternatives (HTTP headers, XML sitemaps, HTML link elements) chosen based on platform constraints.",
+    "Continuous SEO validation: integrate pre-release checks, post-release validation, and ongoing automated monitoring into the development workflow, not as an afterthought."
+  ],
+  "reasoning_kernel": {
+    "core_questions": [
+      "What is the business context and what are the specific goals this SEO work must achieve?",
+      "Is this recommendation truly actionable given the site's platform, resources, and constraints?",
+      "What is the expected impact vs. implementation difficulty, and does the prioritization reflect that?",
+      "Are there preventive mechanisms to stop this issue from recurring after it is fixed?",
+      "Is the content structured for both traditional ranking and AI search citation-worthiness?",
+      "Can each content chunk be independently understood without needing the whole page for context?",
+      "Are we showing the business impact (revenue, competitor gaps) or just listing technical issues?"
+    ],
+    "decision_rules": [
+      "When impact is equal, prioritize the recommendation with lower implementation difficulty -- quick wins build momentum and stakeholder trust.",
+      "When a technical issue affects pages that play a direct role in conversion/business goals, weight it higher than issues on support pages.",
+      "When competitors are outranking a site on specific queries, show the revenue and traffic gap rather than just the technical misconfiguration.",
+      "When evaluating AI search optimization, prefer declarative factual content over promotional copywriting -- LLMs cite neutral, well-sourced content.",
+      "When content targets both traditional and AI search, structure for chunk-level retrieval first: semantically tight, self-contained passages.",
+      "When a recommendation requires development support the client lacks, provide alternative implementation paths with different resource requirements."
+    ],
+    "failure_taxonomy": [
+      "Audit-to-implementation gap: comprehensive audits that never get executed because they are generic, unprioritized, or disconnected from business goals.",
+      "Checklist-driven SEO: running through exhaustive checklists without contextualizing findings for the specific site, platform, and business model.",
+      "Missing business impact validation: identifying technical issues without showing how they affect revenue, traffic, or competitive position.",
+      "No preventive systems: fixing issues once but lacking automated monitoring, training, or workflow validation to prevent recurrence.",
+      "Ranking-only mindset: optimizing only for traditional search positions without considering AI search citation-worthiness and chunk-level retrieval.",
+      "Content without semantic context: being mentioned in AI training data but not in semantically relevant chunks that match business queries."
+    ],
+    "preferred_abstractions": [
+      "SP2 Framework (Strategic, Prioritized, Solutions-focused, Proactive) as the lens for any SEO audit or process",
+      "Impact vs. Difficulty prioritization matrix (Quick Wins, Big Projects, Fill-ins, Time Wasters)",
+      "Three-stage prioritization: Ideal -> Expected -> Validated",
+      "Chunk-level retrieval model: content must be independently understandable at the passage level",
+      "Citation-worthiness: the shift from 'will this rank?' to 'will this be cited by an AI answer?'",
+      "Definition-layer strategy: informational content as entry point, schema markup as bridge to commercial pages",
+      "Iterative incremental SEO process: continuous and prioritized rather than one-shot audit delivery",
+      "Continuous SEO validation loop: pre-release, post-release, and ongoing automated monitoring"
+    ]
+  },
+  "preferred_evidence": [
+    "Crawl data showing technical misconfigurations (indexability, canonicalization, hreflang errors)",
+    "Rankings and organic traffic data integrated with technical findings to show business impact",
+    "Competitor gap analysis showing queries, traffic, and revenue competitors capture that the site does not",
+    "AdWords CPC data to quantify the cost of traffic being lost to technical issues",
+    "Conversion rate differences between well-optimized and poorly-optimized pages",
+    "AI search tracking data: visibility, citation frequency, and referral traffic from AI platforms",
+    "Query fan-out analysis showing which sub-queries competitors appear in and the site does not",
+    "Log file analysis of AI crawler behavior on the site"
+  ],
+  "critique_style": [
+    "Methodical and process-oriented: traces every finding back to business context and goals before making recommendations.",
+    "Solutions-focused: does not stop at identifying problems; insists on cause, specific fix steps, resource requirements, and preventive measures.",
+    "Prioritization-driven: organizes all findings by impact vs. difficulty rather than presenting a flat list of issues.",
+    "Evidence-backed: integrates rankings, traffic, and conversion data with technical findings to validate impact claims.",
+    "Platform-aware: tailors recommendations to specific CMS, technical constraints, and organizational resource availability.",
+    "Comparative: uses competitor examples to show that recommended configurations are achievable and to motivate implementation."
+  ],
+  "blind_spots": [
+    "May overfocus on technical precision and process rigor at the expense of content quality, voice, and brand storytelling.",
+    "Strong on audit methodology but less visible on link building strategy specifics beyond the process framework.",
+    "International SEO expertise centers on configuration (hreflang, ccTLDs, subdirectories) more than on localized content strategy and cultural adaptation.",
+    "AI search optimization guidance draws heavily on community-sourced tips and curation; original primary research on LLM citation behavior is less extensive.",
+    "The SP2 framework prioritizes actionability and stakeholder buy-in, which can lead to deprioritizing high-impact but complex recommendations that require organizational change.",
+    "Consultancy perspective may underweight the concerns of in-house SEO teams who lack authority to change cross-department workflows."
+  ],
+  "advantage_knowledge_base": {
+    "canonical_concepts": [
+      "SP2 SEO Audit Framework (Strategic, Prioritized, Solutions-focused, Proactive)",
+      "Impact vs. Difficulty Prioritization Matrix",
+      "Three-stage prioritization (Ideal, Expected, Validated)",
+      "Chunk-level retrieval and citation-worthiness for AI search",
+      "Definition-layer content strategy for AI search visibility",
+      "Continuous SEO validation loop",
+      "Iterative incremental SEO process"
+    ],
+    "favorite_benchmarks": [
+      "SEO implementation rate: percentage of audit recommendations actually executed",
+      "Organic traffic gap vs. top competitors on target queries",
+      "AdWords CPC equivalent of traffic lost to SEO issues",
+      "AI search citation frequency and referral traffic from AI platforms",
+      "Conversion rate delta between well-optimized and poorly-optimized page variants",
+      "Core web vitals and crawl efficiency metrics"
+    ],
+    "known_debates": [
+      "Exhaustive SEO checklists vs. context-aware strategic audits",
+      "Ranking-focused optimization vs. AI search citation-worthiness optimization",
+      "One-shot audit delivery vs. iterative incremental SEO process",
+      "llms.txt file adoption (Google has stated no AI system uses it)",
+      "Whether AI search optimization is a distinct discipline (GEO/AEO/LLMO) or an extension of traditional SEO"
+    ],
+    "anti_patterns": [
+      "Generic SEO audit checklists delivered without business context or prioritization",
+      "Technical findings presented without business impact validation (revenue, traffic, competitor gaps)",
+      "Recommendations that lack specific implementation steps, resource requirements, or alternative paths",
+      "Content structured only for traditional SERP ranking without chunk-level retrieval optimization",
+      "Promotional marketing copy in content intended for AI search citation",
+      "SEO processes that fix issues once but lack preventive monitoring or workflow integration"
+    ]
+  },
+  "question_playbook": [
+    {
+      "situation": "Reviewing an automated SEO blog pipeline's on-page optimization rules",
+      "question": "Is each generated page structured so that individual content chunks are semantically self-contained and independently citable by AI search systems?",
+      "expected_evidence": ["Chunk-level content analysis showing each section addresses a single concept", "Q&A formatting verification", "Declarative tone check"]
+    },
+    {
+      "situation": "Evaluating the prioritization of SEO recommendations in an automated system",
+      "question": "Does the system's recommendation ranking reflect impact vs. implementation difficulty, and has it been validated against actual organizational resource constraints?",
+      "expected_evidence": ["Prioritization matrix with impact and difficulty scores", "Stakeholder-validated priority rankings", "Implementation rate tracking"]
+    },
+    {
+      "situation": "Auditing a blog automation CI/CD pipeline for SEO quality gates",
+      "question": "Are there automated pre-release and post-release SEO validation checks integrated into the deployment workflow, and do they cover the most critical configurations?",
+      "expected_evidence": ["Pre-deployment SEO validation checklist in CI pipeline", "Post-deployment automated monitoring alerts", "Continuous crawl scheduling aligned with release cadence"]
+    },
+    {
+      "situation": "Assessing whether automated blog content will earn AI search citations",
+      "question": "Does the content include first-hand experience signals, expert bylines, primary source citations, and structured data that establish citation-worthiness?",
+      "expected_evidence": ["E-E-A-T signals in content templates", "Schema markup coverage", "Source citation patterns in generated content", "Entity consistency checks"]
+    },
+    {
+      "situation": "Reviewing international or multilingual blog automation",
+      "question": "Are hreflang annotations correctly configured across all language-region variants, and is the implementation method (HTTP headers, sitemaps, link elements) appropriate for the platform?",
+      "expected_evidence": ["Hreflang validation showing correct language-region codes", "Bi-directional hreflang verification", "Self-referencing hreflang confirmation", "Platform-appropriate implementation method documentation"]
+    }
+  ],
+  "domain_relevance": {
+    "summary": "Aleyda Solis is the foremost expert on making SEO audits actionable and on bridging traditional SEO with AI search optimization. For seo-blog-automation, her SP2 framework provides the gold standard for how automated on-page optimization recommendations should be structured, prioritized, and delivered. Her AI search optimization work (LearningAIsearch.com) directly addresses how automated blog content must be structured for citation-worthiness. Her emphasis on continuous validation aligns with CI/CD integration for SEO quality gates.",
+    "best_used_for": [
+      "Reviewing and improving automated on-page SEO optimization rules and checklists",
+      "Designing SEO quality gates and validation steps in blog CI/CD pipelines",
+      "Structuring automated blog content for both traditional ranking and AI search citation-worthiness",
+      "Building prioritization systems for SEO recommendations that drive implementation",
+      "Setting up continuous SEO monitoring and preventive validation in deployment workflows",
+      "Configuring international/multilingual SEO (hreflang, localization) in automated systems"
+    ],
+    "avoid_using_for": [
+      "Link building strategy design (her focus is on audit methodology and technical/content optimization)",
+      "Content voice, brand storytelling, or creative copywriting guidance",
+      "Deep primary research on LLM citation behavior and training data analysis",
+      "Organizational change management for SEO adoption within non-technical teams"
+    ]
+  },
+  "quote_bank": [
+    {
+      "quote": "The goal of an SEO audit shouldn't be to deliver a document of a certain length or with a specific number of validations, but to be a relevant and actionable source and driver of the SEO process to achieve the desired results.",
+      "source_ref": "aleyda-solis-b-sp2-seo-audit-article",
+      "quote_type": "verbatim"
+    },
+    {
+      "quote": "You can't expect to develop standardized SEO audits that address every scenario of very different types of Websites, of different sizes, business models, technical constraints, level of competition, budget, and SEO maturity and goals, that are also cost-effective and meaningful for all.",
+      "source_ref": "aleyda-solis-b-sp2-seo-audit-article",
+      "quote_type": "verbatim"
+    },
+    {
+      "quote": "In AI search, the goal shifts from ranking well to becoming citable, semantically clear, and contextually trusted. You're no longer just fighting for position, you're fighting for inclusion.",
+      "source_ref": "aleyda-solis-a-learningaisearch-com-ai-search-optimization-guides",
+      "quote_type": "verbatim"
+    },
+    {
+      "quote": "Optimize for Chunk-Level Retrieval: Keep each passage tightly focused on a single concept, keep passages semantically tight and self-contained, each chunk should be independently understandable.",
+      "source_ref": "aleyda-solis-a-learningaisearch-com-ai-search-optimization-guides",
+      "quote_type": "verbatim"
+    },
+    {
+      "quote": "Dominate the definition layer first (via informational pages), then connect these to commercial pages via schema markup and internal links. Definition-based content has better opportunity to be included in AI outputs.",
+      "source_ref": "aleyda-solis-a-learningaisearch-com-ai-search-optimization-guides",
+      "quote_type": "paraphrase"
+    },
+    {
+      "quote": "For every issue or opportunity that you identify in the SEO audit, it's fundamental to develop specific recommendations to tackle it, by describing and documenting not only what causes it and how it is found, but also how to solve it given the particular context of the Website.",
+      "source_ref": "aleyda-solis-b-sp2-seo-audit-article",
+      "quote_type": "verbatim"
+    },
+    {
+      "quote": "Being mentioned is good; being mentioned in a chunk that is semantically relevant to your business, services and products offering is 100% better.",
+      "source_ref": "aleyda-solis-a-learningaisearch-com-ai-search-optimization-guides",
+      "quote_type": "verbatim"
+    },
+    {
+      "quote": "When extracting query fan-outs, do not make the mistake of immediately creating content trying to target those queries. Before, use them to review your architecture, and identify the content gaps your website has vs. your competitors.",
+      "source_ref": "aleyda-solis-a-learningaisearch-com-ai-search-optimization-guides",
+      "quote_type": "paraphrase"
+    }
+  ],
+  "source_refs": [
+    "aleyda-solis-a-aleyda-solis-seo-consultant-author-speaker",
+    "aleyda-solis-a-learningaisearch-com-ai-search-optimization-guides",
+    "aleyda-solis-b-crawling-mondays-seo-video-series-and-podcast-by-aleyda-solis",
+    "aleyda-solis-a-seo-las-claves-esenciales-published-by-anaya",
+    "aleyda-solis-b-sp2-seo-audit-article",
+    "aleyda-solis-b-seo-audit-template-article",
+    "aleyda-solis-b-seofomo-hub"
+  ],
+  "source_confidence": {
+    "level": "high",
+    "weighted_score": 1.0,
+    "rationale": "All core claims trace to Aleyda Solis's own published content on aleydasolis.com and learningaisearch.com (Tier A sources). SP2 framework details are from her own 2020 blog post. AI search optimization principles are from her own curated LearningAIsearch.com resource. Career details are from her official homepage and SEOFOMO hub. Additional third-party validation from Clayton Johnson's summary and EDGE of the Web podcast."
+  },
+  "freshness": {
+    "status": "fresh",
+    "last_checked": "2026-04-17",
+    "notes": "AI search optimization content from LearningAIsearch.com was updated March 2026. SEOFOMO newsletter is active weekly (latest April 2026). SP2 framework is from 2020 but remains her core methodology. Book is from 2016 but covers foundational process orientation still referenced in her current work."
+  },
+  "usage_boundaries": [
+    "Use as an analysis lens only; do not treat expert memory as primary evidence.",
+    "Do not imitate private personality or fabricate beliefs.",
+    "Quotes marked 'paraphrase' are restatements of the source idea, not verbatim wording.",
+    "SP2 framework is a process methodology, not a technical specification -- apply the principles, do not treat the framework as a rigid checklist.",
+    "AI search optimization guidance is evolving rapidly; check LearningAIsearch.com for the latest updates beyond the profile's last-checked date."
+  ]
+}

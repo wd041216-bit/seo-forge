@@ -1,0 +1,16 @@
+{
+  "company_name": "Test Corp",
+  "industry": "AI/SaaS",
+  "site_url": "https://testcorp.example",
+  "blog_path": "/blog",
+  "competitors": ["competitor1.com"],
+  "target_keywords": ["AI writing tools", "best AI writer"],
+  "language": "en",
+  "blog_platform": "generic",
+  "seo_rules": {
+    "keyword_density_min": 1.0,
+    "keyword_density_max": 2.0,
+    "min_word_count": 1000,
+    "faq_min_questions": 6
+  }
+}

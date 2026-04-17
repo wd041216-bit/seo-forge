@@ -1,0 +1,39 @@
+{
+  "expert_id": "lily-ray",
+  "created_at": "2026-04-17T05:03:49Z",
+  "updated_at": "2026-04-17T05:04:05Z",
+  "sources": [
+    {
+      "id": "lily-ray-a-lily-ray-e-e-a-t-resource-page",
+      "title": "Lily Ray - E-E-A-T Resource Page",
+      "url": "https://lilyray.nyc/e-a-t-expertise-authoritativeness-trustworthiness/",
+      "tier": "A",
+      "note": "Lily Ray's comprehensive E-E-A-T resource page with articles, videos, conference decks, webinars, and podcasts. Google referenced her BrightonSEO E-E-A-T presentation.",
+      "added_at": "2026-04-17T05:03:49Z"
+    },
+    {
+      "id": "lily-ray-a-search-engine-journal-author-page-lily-ray",
+      "title": "Search Engine Journal Author Page - Lily Ray",
+      "url": "https://www.searchenginejournal.com/author/lily-ray/",
+      "tier": "A",
+      "note": "Lily Ray's published articles on Search Engine Journal covering E-E-A-T misconceptions, quality rater guidelines, and Google algorithm updates.",
+      "added_at": "2026-04-17T05:03:49Z"
+    },
+    {
+      "id": "lily-ray-b-e-a-t-algorithms-and-the-complexity-of-google-search-with-lily-ray-tr",
+      "title": "E-A-T Algorithms and the Complexity of Google Search with Lily Ray - Traject",
+      "url": "https://bytraject.com/blog/google-eat-algorithms-lily-ray/",
+      "tier": "B",
+      "note": "Podcast interview with Lily Ray discussing E-E-A-T algorithms and Google search complexity.",
+      "added_at": "2026-04-17T05:03:49Z"
+    },
+    {
+      "id": "lily-ray-b-how-the-e-a-t-ecosystem-has-transformed-organic-search-mozcon-2021",
+      "title": "How the E-A-T Ecosystem has Transformed Organic Search - MozCon 2021",
+      "url": "https://www.slideshare.net/LilyRay1/how-the-eat-ecosystem-has-transformed-organic-search-lily-ray-mozcon-2021",
+      "tier": "B",
+      "note": "Lily Ray's MozCon 2021 conference presentation on how E-A-T ecosystem has transformed organic search. SlideShare deck from major SEO conference.",
+      "added_at": "2026-04-17T05:04:05Z"
+    }
+  ]
+}

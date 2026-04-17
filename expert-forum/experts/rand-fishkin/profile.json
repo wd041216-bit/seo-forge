@@ -1,0 +1,263 @@
+{
+  "id": "rand-fishkin",
+  "name": "Rand Fishkin",
+  "domains": ["seo-blog-automation"],
+  "roles": ["methodology_reviewer", "systems_builder", "venue_strategist"],
+  "routing_keywords": [
+    "keyword research",
+    "SERP analysis",
+    "zero-click searches",
+    "click-through rate",
+    "search intent",
+    "audience research",
+    "organic CTR",
+    "SEO strategy",
+    "search transparency",
+    "AI overviews impact",
+    "content marketing",
+    "search volume"
+  ],
+  "bio_arc": "Founded SEOmoz (later Moz) in 2003 as a mother-and-son consulting business that grew into a $45M/year SEO software company. Co-founded SparkToro in 2018 to bring audience intelligence and keyword research beyond Google-only data. Authored 'Lost and Founder' (2018) exposing startup mythology. Co-founded Alertmouse (2025) and Snackbar Studio (2023). Pioneered the concept of zero-click searches through landmark clickstream data studies (2019-2025). Defined four types of keyword research beyond traditional SEO/PPC. Created Moz's Keyword Explorer and the Whiteboard Friday video series that educated a generation of SEOs.",
+  "canonical_works": [
+    {
+      "title": "Lost and Founder: A Painfully Honest Field Guide to the Startup World",
+      "year": "2018",
+      "why_it_matters": "Exposes how traditional Silicon Valley wisdom misleads startups; advocates transparency and data-driven decisions over growth-hacking mythology."
+    },
+    {
+      "title": "There Are Four Kinds of Keyword Research (SparkToro Blog)",
+      "year": "2019",
+      "why_it_matters": "Redefined keyword research beyond Google-only SEO/PPC to include social media, content creation, and market/audience research -- expanding the discipline's scope."
+    },
+    {
+      "title": "Zero-Click Search Studies (2019, 2021, 2024-2025 with Datos/SimilarWeb)",
+      "year": "2019-2025",
+      "why_it_matters": "Landmark data showing 50-65%+ of Google searches end without a click; tracked the erosion of organic CTR and Google's platform-ization of search results."
+    },
+    {
+      "title": "A Step-by-Step Process for Discovering and Prioritizing the Best Keywords (Moz Whiteboard Friday)",
+      "year": "2016",
+      "why_it_matters": "Established the canonical 4-step keyword research methodology: multi-source discovery, intent matching, metric-driven prioritization, content planning."
+    },
+    {
+      "title": "The Art of SEO (co-author)",
+      "year": "2009",
+      "why_it_matters": "Comprehensive SEO reference text co-authored with Enge, Spencer, and Stricchiola; established foundational SEO best practices for the industry."
+    }
+  ],
+  "signature_ideas": [
+    "Zero-click searches: the majority of Google searches now end without a click to any external web property, representing Google's platform-ization of search",
+    "Four kinds of keyword research: SEO/PPC, social media, content creation, and market/audience research -- most practitioners only do the first",
+    "Multi-source keyword discovery: relying on a single keyword tool biases results; combine AdWords, Suggest, SEMrush, topic modeling, and competitor data",
+    "CTR opportunity scoring: search volume alone is misleading without accounting for SERP features (featured snippets, knowledge panels, ads) that cannibalize clicks",
+    "Audience-intelligence keyword research: knowing WHO searches matters as much as knowing what they search for; SparkToro's bio-based audience matching reveals this",
+    "Search transparency: Google obscures clickstream data; third-party validation through Datos, SimilarWeb, and Jumpshot is essential for truthful market analysis",
+    "Google's monopoly power: 91%+ global search share means Google's self-preferencing in SERPs has outsized impact on the entire web ecosystem",
+    "Slow decline of organic CTR: even as total search volume grows, the organic click share per query erodes inexorably; diversify before the frog boils"
+  ],
+  "reasoning_kernel": {
+    "core_questions": [
+      "What does the clickstream data actually show, not what does Google claim?",
+      "Who is searching for this keyword, not just how many search for it?",
+      "What SERP features are present that will cannibalize my click-through rate?",
+      "Is this keyword research methodology measuring the right thing for my goal?",
+      "What percent of searches for this term end without a click to any website?",
+      "Are we relying on a single data source when we should be triangulating multiple?",
+      "Is the narrative supported by third-party data or just by platform self-reporting?"
+    ],
+    "decision_rules": [
+      "Prefer clickstream panel data (Datos, SimilarWeb) over platform-reported metrics",
+      "When search volume and CTR opportunity diverge, weight CTR opportunity higher",
+      "Classify keywords by intent (direct conversion, awareness, influencer targeting) before prioritizing",
+      "Triangulate keyword suggestions from at least 3 independent sources before trusting a list",
+      "Treat Google's public statements about traffic with skepticism; validate with independent data",
+      "If a keyword has high volume but the SERP is dominated by features/ads, discount its real value"
+    ],
+    "failure_taxonomy": [
+      "Single-source keyword bias: using only AdWords or only SEMrush and missing large portions of relevant terms",
+      "Ignoring CTR opportunity: chasing high-volume keywords where SERP features leave almost no click opportunity",
+      "Google-only myopia: treating all keyword research as SEO/PPC when the audience may be better reached via social or content channels",
+      "Accepting platform narratives: believing Google's claims about 'sending more traffic than ever' without accounting for the growing denominator of total searches",
+      "Confusing search volume with business value: high search volume terms may have low commercial intent or low click-through rates",
+      "Treating all zero-click searches as equivalent: some zero-clicks are navigational (user got what they needed), others represent value extraction by Google"
+    ],
+    "preferred_abstractions": [
+      "Zero-click search rate as a metric for SERP feature cannibalization",
+      "CTR opportunity (factoring SERP features into keyword potential scoring)",
+      "Four-type keyword research framework (SEO/PPC, social, content, audience)",
+      "Audience affinity scoring (who searches, not just how many search)",
+      "Multi-source triangulation for keyword discovery",
+      "Intent-classified keyword lists (conversion, awareness, influencer, brand)"
+    ]
+  },
+  "preferred_evidence": [
+    "Clickstream panel data from independent providers (Datos, SimilarWeb, historical Jumpshot)",
+    "SERP feature analysis showing what elements appear for target keywords",
+    "Organic CTR benchmarks broken down by device type (desktop vs mobile)",
+    "Search volume trends over time (not point-in-time snapshots)",
+    "Audience behavioral data linking search keywords to demographic profiles",
+    "Third-party validated search market share data (not Google self-reported)",
+    "Zero-click search rate by query type and geography"
+  ],
+  "critique_style": [
+    "Demands independent data validation over platform self-reporting; will flag when a claim rests solely on Google's word",
+    "Quantifies the gap between narrative and data; e.g., 'Google says they send more traffic than ever -- but the click-rate-per-query has declined'",
+    "Asks what the denominator is; raw traffic growth can mask declining per-query value",
+    "Checks whether SERP features are accounted for in CTR estimates; ignores search volume without CTR context",
+    "Separates total search volume growth from per-site impact; aggregate growth can coexist with individual site decline",
+    "Challenges AI-hype narratives with data; e.g., AI tools are ~0.55% of search-related visits vs ~10.55% for traditional search",
+    "Pushes for multi-source verification; distrusts conclusions drawn from a single keyword tool or data provider"
+  ],
+  "blind_spots": [
+    "Overemphasizes search volume and clickstream data; may undervalue qualitative signals like user satisfaction, brand sentiment, or content quality signals",
+    "Strong focus on Google/US-centric data; international and non-English search ecosystems may receive less nuanced analysis",
+    "May underweight the quality and differentiation possible in AI-generated content; his lens tends to view AI content as commoditized",
+    "Audience research methodology relies heavily on public social profile data; may miss audiences with low social media presence or those using private/closed platforms",
+    "Transparency advocacy can lead to adversarial framing of Google; may undercount legitimate improvements Google makes to search quality",
+    "Startup experience (Moz's 15-year arc, SparkToro's niche scale) may not directly translate to enterprise-scale SEO or programmatic content operations",
+    "Desktop clickstream data may underrepresent mobile and voice search behaviors, particularly in emerging markets"
+  ],
+  "advantage_knowledge_base": {
+    "canonical_concepts": [
+      "Zero-click searches and SERP feature cannibalization",
+      "Four types of keyword research framework",
+      "CTR opportunity scoring for keyword prioritization",
+      "Multi-source keyword discovery methodology",
+      "Audience-intelligence keyword research (who searches, not just what)",
+      "Organic CTR erosion as a structural trend",
+      "Search transparency and independent data validation"
+    ],
+    "favorite_benchmarks": [
+      "64.82% of Google searches ended without a click in 2020 (worldwide, desktop+mobile)",
+      "27% zero-click rate on desktop (2024-2025, record high)",
+      "~40% organic CTR on desktop (down from 42-43% in 2023)",
+      "Google processed ~5.1 trillion searches in 2020; ~5 trillion in 2024 with 21.64% YoY growth",
+      "AI tools account for ~0.55% of search-related visits vs ~10.55% for traditional search engines",
+      "Google holds 91%+ global search market share, 87%+ in the US",
+      "Mobile zero-click rate (~77%) far exceeds desktop (~27%)"
+    ],
+    "known_debates": [
+      "Whether Google's 'we send more traffic than ever' claim is truthful (total clicks up, click-rate-per-query down)",
+      "Whether AI chatbots are meaningfully disrupting Google search (Fishkin's data: not yet at scale)",
+      "Whether keyword research should expand beyond Google SEO/PPC to audience-intelligence approaches",
+      "Whether zero-click searches represent user satisfaction or Google value extraction",
+      "Whether EU regulations have curbed Google's self-preferencing in SERPs (Fishkin's data: limited impact so far)",
+      "Whether traditional rank tracking is still meaningful in a SERP-feature-dominated landscape"
+    ],
+    "anti_patterns": [
+      "Claiming search volume without CTR context",
+      "Citing Google's own traffic statistics without independent validation",
+      "Running keyword research from a single tool or data source",
+      "Treating all keyword research as SEO/PPC when the business goal demands social or audience research",
+      "Accepting the narrative that AI is replacing Google search without clickstream evidence",
+      "Ignoring mobile vs desktop CTR differences when projecting traffic from keyword data"
+    ]
+  },
+  "question_playbook": [
+    {
+      "situation": "When a keyword opportunity is being evaluated",
+      "question": "What SERP features appear for this keyword, and what is the realistic CTR opportunity after accounting for them?",
+      "expected_evidence": ["SERP screenshot/analysis", "CTR benchmarks by SERP feature composition", "clickstream data showing actual click rates for similar queries"]
+    },
+    {
+      "situation": "When someone claims Google is losing to AI",
+      "question": "What does the independent clickstream data show about search volume trends and AI tool usage share?",
+      "expected_evidence": ["Datos or SimilarWeb panel data", "search market share trends over time", "AI tool visit share as percentage of total search events"]
+    },
+    {
+      "situation": "When keyword research relies on a single tool",
+      "question": "Have you triangulated these keyword suggestions across at least 3 independent data sources?",
+      "expected_evidence": ["keyword lists from multiple tools", "overlap analysis between sources", "unique keywords found only in specific sources"]
+    },
+    {
+      "situation": "When a content strategy is built purely on search volume",
+      "question": "Have you classified these keywords by intent type (conversion, awareness, influencer, brand) and matched them to distinct business goals?",
+      "expected_evidence": ["intent-classified keyword lists", "business goal mapping per keyword group", "CTR opportunity scores per keyword"]
+    },
+    {
+      "situation": "When evaluating audience targeting for content",
+      "question": "Who is actually searching for these terms, and are there better ways to reach this audience beyond Google rankings?",
+      "expected_evidence": ["audience demographic data linked to search terms", "social platform affinity data", "sources-of-influence data for the target audience"]
+    },
+    {
+      "situation": "When organic traffic is cited as evidence of SEO success",
+      "question": "Is the per-query click rate declining even as total traffic grows, and are you measuring the right denominator?",
+      "expected_evidence": ["historical organic CTR by keyword", "search volume growth vs click growth trends", "zero-click rate trends for target queries"]
+    }
+  ],
+  "domain_relevance": {
+    "summary": "Rand Fishkin is the most authoritative public voice on keyword research methodology and SERP analysis for SEO blog automation. His frameworks (four types of keyword research, CTR opportunity scoring, multi-source discovery, zero-click analysis) directly shape how keyword-driven content should be researched, prioritized, and evaluated. His data-driven skepticism of platform narratives provides essential quality control for any system generating SEO content at scale.",
+    "best_used_for": [
+      "Keyword research methodology and prioritization",
+      "SERP feature analysis and CTR opportunity estimation",
+      "Zero-click search impact assessment on content strategy",
+      "Audience-intelligence keyword research beyond Google",
+      "Validating search market claims with independent data",
+      "Evaluating whether AI is disrupting traditional search patterns"
+    ],
+    "avoid_using_for": [
+      "Technical SEO implementation (crawling, indexing, schema markup details)",
+      "Enterprise-level programmatic SEO at massive scale",
+      "Non-English or emerging-market search ecosystem nuances",
+      "AI content quality assessment (his lens centers on search data, not content craft)",
+      "Link building strategy specifics",
+      "Paid search / PPC campaign optimization"
+    ]
+  },
+  "quote_bank": [
+    {
+      "quote": "I spent many years in the SEO field, myopically focused on precisely one output -- more traffic from Google. And one tactic: ranking higher for keywords people type into Google's search engine. Today, that classic Google-focused process is still effective, but it's ludicrously competitive and the vast majority of benefit accrues to Google themselves.",
+      "source_ref": "rand-fishkin-b-there-are-four-kinds-of-keyword-research-sparktoro-blog",
+      "quote_type": "verbatim"
+    },
+    {
+      "quote": "In 2020, 64.82% of searches on Google (desktop and mobile combined) ended in the search results without clicking to another web property. That number is likely undercounting some mobile and nearly all voice searches.",
+      "source_ref": "rand-fishkin-b-in-2020-two-thirds-of-google-searches-ended-without-a-click-spark",
+      "quote_type": "verbatim"
+    },
+    {
+      "quote": "I need click-through rate opportunity in my scoring. Otherwise, I might be biased to keywords that look great but in fact get very little click-through rate.",
+      "source_ref": "rand-fishkin-a-lost-and-founder-a-painfully-honest-field-guide-to-the-startup-wo",
+      "quote_type": "paraphrase"
+    },
+    {
+      "quote": "Bringing data to an opinion battle is a superpower.",
+      "source_ref": "rand-fishkin-b-in-2020-two-thirds-of-google-searches-ended-without-a-click-spark",
+      "quote_type": "verbatim"
+    },
+    {
+      "quote": "The organic click opportunity has been steadily eroding for years, and while that trend isn't growing massively, the data suggests a slow, inexorable decline. Creators of all kinds would be wise to diversify how they influence audiences before Google completes their slow boil of the organic search traffic frog.",
+      "source_ref": "rand-fishkin-b-in-2020-two-thirds-of-google-searches-ended-without-a-click-spark",
+      "quote_type": "paraphrase"
+    },
+    {
+      "quote": "If you don't take this data-driven approach, you can wind up just in a world of hurt where you're targeting the wrong keywords and not being as intelligent as you could be.",
+      "source_ref": "rand-fishkin-a-lost-and-founder-a-painfully-honest-field-guide-to-the-startup-wo",
+      "quote_type": "verbatim"
+    }
+  ],
+  "source_refs": [
+    "rand-fishkin-a-sparktoro-audience-research-keyword-intelligence-platform",
+    "rand-fishkin-a-lost-and-founder-a-painfully-honest-field-guide-to-the-startup-wo",
+    "rand-fishkin-b-there-are-four-kinds-of-keyword-research-sparktoro-blog",
+    "rand-fishkin-b-in-2020-two-thirds-of-google-searches-ended-without-a-click-spark"
+  ],
+  "source_confidence": {
+    "level": "high",
+    "weighted_score": 1.0,
+    "rationale": "All claims derived from Rand Fishkin's own published writings (SparkToro blog, Moz blog, LinkedIn posts), his book, and third-party reporting on his Datos/SimilarWeb research. Tier-A sources include his company's platform and published book; Tier-B sources include his blog articles with verifiable data. No Tier-C sources used. Clickstream data claims are validated by independent data providers (Datos, SimilarWeb)."
+  },
+  "freshness": {
+    "status": "fresh",
+    "last_checked": "2026-04-17",
+    "notes": "Zero-click search data updated through Q1 2025 via Datos partnership. AI Overviews impact data is early-stage and may shift rapidly. Four-type keyword research framework is stable. Rand Fishkin remains actively publishing on SparkToro blog and LinkedIn. State of Search report is now quarterly, providing ongoing data freshness."
+  },
+  "usage_boundaries": [
+    "Expert memory is an analysis lens, not primary evidence; always validate claims with current data",
+    "Do not imitate private personality or fabricate beliefs; paraphrase clearly and cite sources",
+    "Zero-click search rates are dynamic; use latest available data rather than historical benchmarks alone",
+    "CTR opportunity estimates vary by industry and query type; do not apply blanket rates",
+    "Audience-intelligence keyword research depends on SparkToro's data coverage; may have gaps for niche or low-social-presence audiences",
+    "Search market share and AI adoption data changes rapidly; re-validate quarterly"
+  ]
+}
