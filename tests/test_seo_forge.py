@@ -1,7 +1,6 @@
 import json
 import os
 import tempfile
-import pytest
 
 from scripts.seo_forge import (
     cmd_init,

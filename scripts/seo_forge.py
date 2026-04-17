@@ -7,10 +7,7 @@ Provides state management and pipeline coordination for the SEO Forge skill.
 import argparse
 import json
 import os
-import sys
-import hashlib
 from datetime import datetime, timezone
-from pathlib import Path
 
 
 def generate_id(name: str) -> str:
@@ -99,7 +96,6 @@ def cmd_trend(args):
 
 def cmd_score_keyword(args):
     root = args.root
-    state = load_json(f"{root}/pipeline_state.json")
 
     scores = {
         "keyword": args.keyword,
@@ -109,7 +105,6 @@ def cmd_score_keyword(args):
         "opportunity_window": float(args.opportunity or 0),
         "win_probability": float(args.win_prob or 0),
         "roi_potential": float(args.roi or 0),
-        "feature_relevance": float(args.feature_rel or 0),
     }
     final = (
         (0.30 * scores["potential"])
@@ -178,7 +173,7 @@ def cmd_article(args):
     print(f"[SEO Forge] Article registered: {article_id}")
     print(f"  Keyword: {args.keyword}")
     print(f"  Template: {article['template']}")
-    print(f"  Status: drafted")
+    print("  Status: drafted")
 
 
 def cmd_score_article(args):
@@ -236,15 +231,15 @@ def cmd_report(args):
 
     lines = [
         f"# SEO Forge Report: {state['domain']}",
-        f"",
+        "",
         f"**Domain**: {state['domain']}",
         f"**Topic**: {state['topic']}",
         f"**Status**: {state['status']}",
         f"**Phase**: {state['pipeline_phase']}",
         f"**Iterations**: {state['iteration']}",
-        f"",
-        f"## Score History",
-        f"",
+        "",
+        "## Score History",
+        "",
     ]
     for sh in state.get("score_history", []):
         lines.append(f"- {sh['timestamp']}: {sh['total']}/100 ({sh['article']})")
@@ -307,7 +302,6 @@ def main():
     p.add_argument("--opportunity", default="0")
     p.add_argument("--win-prob", default="0")
     p.add_argument("--roi", default="0")
-    p.add_argument("--feature-rel", default="0")
 
     # article
     p = sub.add_parser("article", help="Register a new article")

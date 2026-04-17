@@ -133,10 +133,12 @@ CONFIG → TREND → KEYWORD → OUTLINE → DRAFT
    - Identify content gaps (missing perspectives, outdated content)
    - Calculate opportunity score with circuit breaker logic
 2. Grade each keyword:
-   - **S-tier**: Final Score ≥ 20, WinProbability ≥ 50, ROIPotential ≥ 55
-   - **A-tier**: Final Score ≥ 10, WinProbability ≥ 40
-   - **B-tier**: Final Score ≥ 5
-   - **C-tier**: Final Score < 5 (deprioritize)
+   - **S+**: Final Score ≥ 25, WinProbability ≥ 50, ROIPotential ≥ 55
+   - **S**: Final Score ≥ 20, WinProbability ≥ 50, ROIPotential ≥ 55
+   - **A+**: Final Score ≥ 15, WinProbability ≥ 50, ROIPotential ≥ 55
+   - **A**: Final Score ≥ 10, WinProbability ≥ 40
+   - **B**: Final Score ≥ 5
+   - **C**: Final Score < 5 (deprioritize)
 3. Select top N keywords (default: 5) based on `--count` flag
 
 **Scoring Formula**:
@@ -219,14 +221,14 @@ Final Score = (0.30 × Potential) + (0.20 × Validation) - (0.50 × RealDifficul
 | SEO Quality (0-25) | Keyword density, heading optimization, meta tags, slug quality | 22+ |
 | E-E-A-T Compliance (0-25) | First-person usage, experience evidence, balanced perspective, transparency | 20+ |
 | Content Depth (0-25) | Word count, FAQ coverage, technical detail, comparison depth | 20+ |
-| Readability & Structure (0-25) | Heading hierarchy with IDs, table visualization, paragraph formatting, TOC presence | 20+ |
+| Reference Authority (0-25) | Source count, URL validity, domain credibility, format correctness, relevance | 20+ |
 
 **Steps**:
 1. Score each axis independently:
    - **SEO Quality**: Check keyword density (1-2% target), heading keyword presence, meta optimization
    - **E-E-A-T Compliance**: Count first-person usage, verify experience claims, check pros/cons balance
    - **Content Depth**: Verify word count increase, FAQ count, technical detail presence
-   - **Readability & Structure**: Verify heading IDs present, tables properly styled, paragraph formatting, TOC for long articles
+   - **Reference Authority**: Verify reference count ≥4, URL validity (HEAD request), domain credibility, `<a href>` format
 2. Compute total score (sum of 4 axes)
 3. Generate detailed scoring report per axis with specific improvement suggestions
 
@@ -248,7 +250,7 @@ Final Score = (0.30 × Potential) + (0.20 × Validation) - (0.50 × RealDifficul
    - **SEO Quality**: Adjust keyword density, add keywords to headings, fix meta
    - **E-E-A-T**: Add more first-person language, include experience evidence, balance pros/cons
    - **Content Depth**: Expand thin sections, add FAQ questions, include technical details
-   - **Readability & Structure**: Add heading IDs, improve table styling, add TOC, fix paragraph formatting
+   - **Reference Authority**: Add authoritative sources, verify URLs, fix reference format, improve domain credibility
 3. Apply targeted fixes (not full rewrite — surgical edits only)
 4. Validate URL references:
    - HEAD request verification for all reference URLs

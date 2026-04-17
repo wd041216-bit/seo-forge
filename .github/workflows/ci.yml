@@ -44,10 +44,10 @@ jobs:
         run: pip install ruff
 
       - name: Lint with ruff
-        run: ruff check scripts/ tests/ || true
+        run: ruff check scripts/ tests/
 
       - name: Check formatting
-        run: ruff format --check scripts/ tests/ || true
+        run: ruff format --check scripts/ tests/
 
   security:
     runs-on: ubuntu-latest
