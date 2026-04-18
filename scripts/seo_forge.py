@@ -17,7 +17,6 @@ import sys
 import time
 import urllib.parse
 import urllib.request
-import time
 from datetime import datetime, timezone
 from http.client import HTTPSConnection
 from urllib.parse import urlparse
@@ -2952,7 +2951,7 @@ def cmd_comfyui_check(args):
     workflow_path = args.workflow or COMFYUI_DEFAULT_WORKFLOW
     result = {"running": False, "model_ready": False, "workflow_valid": False}
     try:
-        stats = _comfyui_request(url, "/system_stats", timeout=3)
+        _comfyui_request(url, "/system_stats", timeout=3)
         result["running"] = True
     except Exception:
         print(json.dumps(result, indent=2))

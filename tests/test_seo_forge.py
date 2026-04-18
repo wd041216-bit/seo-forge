@@ -57,7 +57,6 @@ from scripts.seo_forge import (
     _count_dramatic_patterns,
     _validate_reference_authority,
     SUPERLATIVE_WORDS,
-    DRAMATIC_PATTERNS,
     LANG_PHRASES,
     _score_benchmark,
 )
@@ -2320,14 +2319,14 @@ class TestScoreBenchmark:
     def test_ymyl_health_benchmark(self):
         result = _score_benchmark()
         ymyl = [b for b in result["benchmarks"] if b["name"] == "ymyl_health_article"][0]
-        assert ymyl["passed"], f"YMYL benchmark failed"
+        assert ymyl["passed"], "YMYL benchmark failed"
         assert ymyl["sub_checks"] is not None
         assert ymyl["sub_checks"]["eeat_compliance"]["pass"], "YMYL should score >= 5 on E-E-A-T"
 
     def test_seo_optimized_benchmark(self):
         result = _score_benchmark()
         seo = [b for b in result["benchmarks"] if b["name"] == "seo_optimized_article"][0]
-        assert seo["passed"], f"SEO optimized benchmark failed"
+        assert seo["passed"], "SEO optimized benchmark failed"
         assert seo["sub_checks"]["seo_quality"]["pass"], "Should score >= 10 on SEO quality"
         assert seo["sub_checks"]["content_depth"]["pass"], "Should score >= 8 on content depth"
 
@@ -2458,15 +2457,13 @@ class TestEdgeCases:
             "Our <a href='https://example.com/blog/ai-case-studies'>AI case studies</a> show real results.\n\n"
             "## FAQ\n\n### Q1?\nA1\n\n"
         )
-        scores = compute_article_scores(md, "AI writing tools", {"site_url": "https://example.com"})
-        seo = scores.get("seo_quality", {})
         internal_count, _ = _count_internal_links(md, "https://example.com")
         assert internal_count >= 2, f"Expected at least 2 internal links, got {internal_count}"
 
     def test_init_creates_images_directory(self, tmp_path):
         root = str(tmp_path / "seo-test-images")
         os.makedirs(root, exist_ok=True)
-        result = subprocess.run(
+        subprocess.run(
             [
                 sys.executable, "scripts/seo_forge.py", "--root", root, "init",
                 "--domain", "Test Domain",
