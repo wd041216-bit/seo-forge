@@ -161,7 +161,7 @@ claude mcp add --transport http tavily "https://mcp.tavily.com/mcp/?tavilyApiKey
 
 ### 注意
 
-使用 Tavily 时，需在 SKILL.md 的 `allowed-tools` 中将 `mcp__web-search-prime__*` 和 `mcp__web_reader__*` 替换为对应的 Tavily 工具名。
+使用 Tavily 时，优先通过 `templates/agent-capabilities.json` 将 `web_search` 和 `web_fetch` 映射到 Tavily 工具。只有运行时强制读取固定 `allowed-tools` 字段时，才需要同步调整 `SKILL.md` 中的工具名。
 
 ---
 

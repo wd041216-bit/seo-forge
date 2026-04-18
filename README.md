@@ -69,12 +69,41 @@ seo-forge "Your Company" --auto-push
 ### Prerequisites
 
 - Python 3.8+
-- [Claude Code](https://docs.anthropic.com/en/docs/claude-code) or [opencode](https://opencode.ai) or compatible AI agent runtime
-- MCP tools (see below)
+- Any AI agent runtime that can read files, write files, run shell commands, search the web, and fetch web pages
+- Optional: GitHub / Vercel tooling if you want auto-push and deployment monitoring
 
-### MCP Tools
+### Portable Agent Install
 
-SEO Forge 通过 MCP 工具进行网页搜索、内容抓取和 GitHub 仓库读取。
+SEO Forge is now packaged as an agent-portable skill. The exact tool names are not mandatory; each agent only needs to provide the capabilities in `skill.json`.
+
+```bash
+# Clone the repo
+git clone https://github.com/wd041216-bit/seo-forge.git
+cd seo-forge
+
+# Check whether this skill bundle is deployable
+python scripts/seo_forge.py doctor
+
+# Install into an agent skill directory
+python scripts/seo_forge.py install-skill --target ~/.codex/skills
+python scripts/seo_forge.py install-skill --target ~/.claude/skills
+python scripts/seo_forge.py install-skill --target ~/.config/opencode/skills
+
+# Or export a zip for another runtime
+python scripts/seo_forge.py export-skill --output seo-forge-skill.zip
+```
+
+Need to refresh an existing install?
+
+```bash
+python scripts/seo_forge.py install-skill --target ~/.codex/skills --overwrite
+```
+
+See **[docs/agent-deployment.md](docs/agent-deployment.md)** for runtime notes and **[templates/agent-capabilities.json](templates/agent-capabilities.json)** for a machine-readable capability map.
+
+### Capability Providers
+
+SEO Forge 通过搜索、网页抓取和仓库读取能力进行关键词研究、竞品分析和发布验证。
 
 **默认方案：🏷️ GLM (智谱 AI)** — 三个工具共用一个 API Key，配置最简单：
 
@@ -99,17 +128,6 @@ SEO Forge 通过 MCP 工具进行网页搜索、内容抓取和 GitHub 仓库读
 | [Fetch MCP](https://github.com/modelcontextprotocol/servers) (83.8k ⭐) | ❌ | ✅ | ❌ | 否 |
 
 详细配置步骤、参数说明和平替方案对比见 **[docs/mcp-tools.md](docs/mcp-tools.md)**。
-
-### Installation
-
-```bash
-# Clone the repo
-git clone https://github.com/wd041216-bit/seo-forge.git
-cd seo-forge
-
-# No pip install needed — zero dependencies!
-python scripts/seo_forge.py --help
-```
 
 ### Configuration
 
@@ -190,6 +208,7 @@ Every article is scored on 4 axes (25 points each, 100 total):
 ```
 seo-forge/
 ├── SKILL.md                    # Pipeline orchestration (the "brain")
+├── skill.json                  # Agent-portable capability contract
 ├── scripts/
 │   └── seo_forge.py            # CLI tool for state management
 ├── agents/                     # AI agent role definitions
@@ -207,8 +226,12 @@ seo-forge/
 │   ├── competitor-analysis.md  # Fair comparison framework
 │   ├── trusted-domains.md      # Approved reference sources
 │   └── deployment.md           # GitHub + Vercel deploy guide
+├── docs/
+│   ├── agent-deployment.md     # Portable skill deployment guide
+│   └── mcp-tools.md            # Provider setup and MCP alternatives
 └── templates/
-    └── blog-config.json        # JSON Schema for configuration
+    ├── blog-config.json        # JSON Schema for configuration
+    └── agent-capabilities.json # Runtime capability mapping template
 ```
 
 ---
@@ -218,6 +241,15 @@ seo-forge/
 The `seo_forge.py` CLI manages pipeline state:
 
 ```bash
+# Check portable skill readiness
+python scripts/seo_forge.py doctor
+
+# Install as an agent skill
+python scripts/seo_forge.py install-skill --target ~/.codex/skills
+
+# Export a portable skill zip
+python scripts/seo_forge.py export-skill --output seo-forge-skill.zip
+
 # Initialize a new pipeline
 python scripts/seo_forge.py init --domain "yourcompany.com" --topic "AI Tools"
 

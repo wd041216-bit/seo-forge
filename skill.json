@@ -1,0 +1,122 @@
+{
+  "schema_version": "2026-04-18",
+  "name": "seo-forge",
+  "version": "1.0.0",
+  "title": "SEO Forge",
+  "description": "Agent-portable SEO blog pipeline for keyword research, E-E-A-T article generation, scoring, optimization, and publishing.",
+  "entrypoint": "SKILL.md",
+  "license": "MIT",
+  "portable": true,
+  "agent_contract": {
+    "required_capabilities": [
+      {
+        "name": "file_read",
+        "purpose": "Read configs, templates, generated articles, and target-site source files."
+      },
+      {
+        "name": "file_write",
+        "purpose": "Write configs, drafts, scoring reports, and publish-ready article files."
+      },
+      {
+        "name": "shell",
+        "purpose": "Run the zero-dependency CLI, tests, git commands, and platform build checks."
+      },
+      {
+        "name": "web_search",
+        "purpose": "Discover keyword trends, competitors, SERP signals, and reference sources."
+      },
+      {
+        "name": "web_fetch",
+        "purpose": "Read competitor pages and verify reference URLs."
+      }
+    ],
+    "optional_capabilities": [
+      {
+        "name": "repo_read",
+        "purpose": "Inspect remote GitHub repositories when the target site is not already local."
+      },
+      {
+        "name": "pull_request",
+        "purpose": "Open PRs and merge after checks when the host agent supports repository operations."
+      },
+      {
+        "name": "deployment_checks",
+        "purpose": "Monitor GitHub Actions, Vercel, or another deployment surface after publishing."
+      },
+      {
+        "name": "image_generation",
+        "purpose": "Create or verify article images when visual content is required."
+      }
+    ]
+  },
+  "tool_aliases": {
+    "web_search": {
+      "preferred": ["mcp__web-search-prime__web_search_prime"],
+      "alternatives": [
+        "tavily-search",
+        "web_search_exa",
+        "brave_web_search",
+        "native_web_search"
+      ]
+    },
+    "web_fetch": {
+      "preferred": ["mcp__web_reader__webReader"],
+      "alternatives": [
+        "tavily-extract",
+        "fetch",
+        "web_reader",
+        "native_browser_fetch"
+      ]
+    },
+    "repo_read": {
+      "preferred": [
+        "mcp__zread__read_file",
+        "mcp__zread__get_repo_structure"
+      ],
+      "alternatives": ["github_mcp", "gh_cli", "git_clone"]
+    },
+    "pull_request": {
+      "preferred": ["gh_cli"],
+      "alternatives": ["github_mcp", "host_agent_pr_tool"]
+    }
+  },
+  "installation": {
+    "doctor": "python scripts/seo_forge.py doctor",
+    "install": "python scripts/seo_forge.py install-skill --target <agent-skills-dir>",
+    "export": "python scripts/seo_forge.py export-skill --output seo-forge-skill.zip",
+    "include_by_default": [
+      "SKILL.md",
+      "skill.json",
+      "scripts/",
+      "agents/",
+      "references/",
+      "templates/",
+      "docs/"
+    ],
+    "exclude_by_default": [
+      ".git/",
+      ".github/",
+      "tests/",
+      "expert-forum/",
+      "__pycache__/"
+    ]
+  },
+  "adapters": {
+    "codex": {
+      "target": "~/.codex/skills/seo-forge",
+      "notes": "Install the bundle into the Codex skill directory and rely on native web, shell, git, and GitHub/Vercel plugin tools where available."
+    },
+    "claude_code": {
+      "target": "~/.claude/skills/seo-forge",
+      "notes": "Install the bundle into the Claude skills directory. GLM MCP names are supported by default but can be remapped."
+    },
+    "opencode": {
+      "target": "~/.config/opencode/skills/seo-forge",
+      "notes": "Install the bundle into the runtime skill directory and point MCP capabilities to GLM, Tavily, Exa, Fetch, or GitHub tools."
+    },
+    "generic": {
+      "target": "<agent-skills-dir>/seo-forge",
+      "notes": "Expose the capabilities listed in agent_contract and map them with templates/agent-capabilities.json."
+    }
+  }
+}
