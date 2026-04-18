@@ -1,0 +1,70 @@
+{
+  "schema_version": "2026-04-18",
+  "description": "Copy this file into an agent runtime and replace tool names with the tools that runtime exposes.",
+  "capabilities": {
+    "web_search": {
+      "required": true,
+      "purpose": "Keyword discovery, SERP analysis, trend validation, competitor research.",
+      "accepted_tools": [
+        "mcp__web-search-prime__web_search_prime",
+        "tavily-search",
+        "web_search_exa",
+        "brave_web_search",
+        "native_web_search"
+      ],
+      "minimum_output": [
+        "title",
+        "url",
+        "snippet_or_summary",
+        "publish_or_access_date_when_available"
+      ]
+    },
+    "web_fetch": {
+      "required": true,
+      "purpose": "Read competitor pages, reference material, and published article URLs.",
+      "accepted_tools": [
+        "mcp__web_reader__webReader",
+        "tavily-extract",
+        "fetch",
+        "native_browser_fetch"
+      ],
+      "minimum_output": ["url", "status", "markdown_or_text"]
+    },
+    "repo_read": {
+      "required": false,
+      "purpose": "Inspect remote repositories when a target content site is not already local.",
+      "accepted_tools": [
+        "mcp__zread__read_file",
+        "mcp__zread__get_repo_structure",
+        "github_mcp",
+        "gh_cli",
+        "git_clone"
+      ],
+      "minimum_output": ["path", "content_or_tree"]
+    },
+    "shell": {
+      "required": true,
+      "purpose": "Run SEO Forge CLI commands, checks, tests, builds, and git commands.",
+      "accepted_tools": ["bash", "terminal", "exec", "command_runner"],
+      "minimum_output": ["exit_code", "stdout", "stderr"]
+    },
+    "pull_request": {
+      "required": false,
+      "purpose": "Publish completed content changes through a pull request.",
+      "accepted_tools": ["gh_cli", "github_mcp", "host_agent_pr_tool"],
+      "minimum_output": ["branch", "pull_request_url"]
+    },
+    "deployment_checks": {
+      "required": false,
+      "purpose": "Monitor GitHub Actions, Vercel, or another deployment surface after publishing.",
+      "accepted_tools": ["gh_cli", "vercel_cli", "vercel_mcp", "host_agent_checks_tool"],
+      "minimum_output": ["check_name", "status", "conclusion"]
+    }
+  },
+  "fallbacks": {
+    "missing_web_search": "Stop and ask the operator to provide a web search connector; SEO Forge should not fabricate SERP or trend data.",
+    "missing_web_fetch": "Use browser automation or a fetch CLI if available; otherwise ask for fetched source text.",
+    "missing_repo_read": "Clone the target repository locally with git or ask the operator to provide the local path.",
+    "missing_pull_request": "Leave a committed local branch and print exact push/PR instructions."
+  }
+}

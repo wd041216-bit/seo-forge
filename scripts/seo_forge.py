@@ -12,16 +12,47 @@ import json
 import logging
 import os
 import re
+import shutil
 import subprocess
 import sys
 import time
 import urllib.parse
 import urllib.request
+import zipfile
 from datetime import datetime, timezone
 from http.client import HTTPSConnection
 from urllib.parse import urlparse
 
 logger = logging.getLogger("seo_forge")
+
+REPO_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir))
+SKILL_NAME = "seo-forge"
+PORTABLE_SKILL_FILES = [
+    "SKILL.md",
+    "README.md",
+    "LICENSE",
+    "pyproject.toml",
+    ".mcp.json",
+    "skill.json",
+]
+PORTABLE_SKILL_DIRS = ["scripts", "agents", "references", "templates", "docs"]
+PORTABLE_SKILL_REQUIRED = [
+    "SKILL.md",
+    "skill.json",
+    "scripts/seo_forge.py",
+    "templates/blog-config.json",
+    "templates/agent-capabilities.json",
+    "docs/agent-deployment.md",
+]
+PORTABLE_SKILL_SKIP_DIRS = {
+    "__pycache__",
+    ".pytest_cache",
+    ".ruff_cache",
+    ".mypy_cache",
+    "dist",
+    "build",
+}
+PORTABLE_SKILL_SKIP_SUFFIXES = (".pyc", ".pyo", ".DS_Store")
 
 
 # ── Custom Exceptions ──────────────────────────────────────────────────────
@@ -137,6 +168,223 @@ def check_url_head(url: str) -> bool:
         return 200 <= resp.status < 400
     finally:
         conn.close()
+
+
+# ── Portable Skill Packaging ───────────────────────────────────────────────
+
+
+def _source_root(path: str | None = None) -> str:
+    return os.path.abspath(os.path.expanduser(path or REPO_ROOT))
+
+
+def _bundle_relpaths(include_expert_forum: bool = False) -> list[str]:
+    relpaths = list(PORTABLE_SKILL_FILES) + list(PORTABLE_SKILL_DIRS)
+    if include_expert_forum:
+        relpaths.append("expert-forum")
+    return relpaths
+
+
+def _iter_bundle_files(source: str, include_expert_forum: bool = False):
+    source = _source_root(source)
+    for relpath in _bundle_relpaths(include_expert_forum):
+        abs_path = os.path.join(source, relpath)
+        if not os.path.exists(abs_path):
+            continue
+        if os.path.isfile(abs_path):
+            yield abs_path, relpath
+            continue
+
+        for root, dirs, files in os.walk(abs_path):
+            dirs[:] = [
+                d
+                for d in dirs
+                if d not in PORTABLE_SKILL_SKIP_DIRS and not d.endswith(".egg-info")
+            ]
+            for filename in files:
+                if filename.endswith(PORTABLE_SKILL_SKIP_SUFFIXES):
+                    continue
+                full_path = os.path.join(root, filename)
+                rel_file = os.path.relpath(full_path, source)
+                yield full_path, rel_file
+
+
+def _copy_bundle_path(source: str, target: str, relpath: str):
+    src = os.path.join(source, relpath)
+    dst = os.path.join(target, relpath)
+    if not os.path.exists(src):
+        return 0
+    if os.path.isdir(src):
+        shutil.copytree(
+            src,
+            dst,
+            dirs_exist_ok=True,
+            ignore=shutil.ignore_patterns(
+                "__pycache__",
+                ".pytest_cache",
+                ".ruff_cache",
+                ".mypy_cache",
+                "*.pyc",
+                "*.pyo",
+                ".DS_Store",
+            ),
+        )
+        copied = 0
+        for _, _, files in os.walk(dst):
+            copied += len(files)
+        return copied
+    os.makedirs(os.path.dirname(dst), exist_ok=True)
+    shutil.copy2(src, dst)
+    return 1
+
+
+def _target_skill_dir(target: str, name: str = SKILL_NAME) -> str:
+    target = os.path.abspath(os.path.expanduser(target))
+    if os.path.basename(target.rstrip(os.sep)) != name:
+        target = os.path.join(target, name)
+    return target
+
+
+def build_doctor_report(source: str | None = None) -> dict:
+    source = _source_root(source)
+    required = [
+        {"path": relpath, "ok": os.path.exists(os.path.join(source, relpath))}
+        for relpath in PORTABLE_SKILL_REQUIRED
+    ]
+    optional = [
+        {"path": relpath, "ok": os.path.exists(os.path.join(source, relpath))}
+        for relpath in [
+            "README.md",
+            "docs/mcp-tools.md",
+            ".mcp.json",
+        ]
+    ]
+    integrations = {
+        "glm_zhipu": {
+            "ready": bool(os.environ.get("ZHIPU_API_KEY")),
+            "env": "ZHIPU_API_KEY",
+            "covers": ["web_search", "web_fetch", "repo_read"],
+        },
+        "tavily": {
+            "ready": bool(os.environ.get("TAVILY_API_KEY")),
+            "env": "TAVILY_API_KEY",
+            "covers": ["web_search", "web_fetch"],
+        },
+        "exa": {
+            "ready": bool(os.environ.get("EXA_API_KEY")),
+            "env": "EXA_API_KEY",
+            "covers": ["web_search", "web_fetch"],
+        },
+        "github_cli": {
+            "ready": shutil.which("gh") is not None,
+            "env": "GH_TOKEN or GITHUB_TOKEN recommended for private repos",
+            "covers": ["repo_read", "pull_request", "checks"],
+        },
+    }
+    commands = {
+        "git": shutil.which("git") is not None,
+        "gh": shutil.which("gh") is not None,
+        "python": True,
+    }
+    python_ok = sys.version_info >= (3, 8)
+    return {
+        "name": SKILL_NAME,
+        "source": source,
+        "python": {
+            "version": ".".join(str(part) for part in sys.version_info[:3]),
+            "ok": python_ok,
+            "requires": ">=3.8",
+        },
+        "required": required,
+        "optional": optional,
+        "commands": commands,
+        "integrations": integrations,
+        "ok": python_ok and all(item["ok"] for item in required),
+    }
+
+
+def _print_doctor_report(report: dict):
+    print("SEO Forge doctor")
+    print(f"Source: {report['source']}")
+    print(
+        "Python: "
+        + ("ok" if report["python"]["ok"] else "missing")
+        + f" ({report['python']['version']}, requires {report['python']['requires']})"
+    )
+    print("Required files:")
+    for item in report["required"]:
+        print(f"  [{'ok' if item['ok'] else 'missing'}] {item['path']}")
+    print("Portable extras:")
+    for item in report["optional"]:
+        print(f"  [{'ok' if item['ok'] else 'missing'}] {item['path']}")
+    print("Local commands:")
+    for name, ok in report["commands"].items():
+        print(f"  [{'ok' if ok else 'missing'}] {name}")
+    print("Integrations:")
+    for name, item in report["integrations"].items():
+        status = "ready" if item["ready"] else "not configured"
+        print(f"  [{status}] {name} ({item['env']})")
+    print(f"Overall: {'ok' if report['ok'] else 'needs attention'}")
+
+
+def cmd_doctor(args):
+    report = build_doctor_report(getattr(args, "source", None))
+    if getattr(args, "json", False):
+        print(json.dumps(report, ensure_ascii=False, indent=2))
+    else:
+        _print_doctor_report(report)
+    if not report["ok"]:
+        sys.exit(1)
+
+
+def cmd_install_skill(args):
+    source = _source_root(getattr(args, "source", None))
+    name = getattr(args, "name", SKILL_NAME)
+    target = _target_skill_dir(args.target, name)
+    missing = [
+        relpath
+        for relpath in PORTABLE_SKILL_REQUIRED
+        if not os.path.exists(os.path.join(source, relpath))
+    ]
+    if missing:
+        raise PipelineError("Missing required bundle files: " + ", ".join(missing))
+
+    if os.path.exists(target) and not getattr(args, "overwrite", False):
+        raise PipelineError(
+            f"Target already exists: {target}. Re-run with --overwrite to refresh it."
+        )
+
+    os.makedirs(target, exist_ok=True)
+    if getattr(args, "overwrite", False):
+        for relpath in _bundle_relpaths(getattr(args, "include_expert_forum", False)):
+            dst = os.path.join(target, relpath)
+            if os.path.isdir(dst):
+                shutil.rmtree(dst)
+            elif os.path.exists(dst):
+                os.unlink(dst)
+
+    copied = 0
+    for relpath in _bundle_relpaths(getattr(args, "include_expert_forum", False)):
+        copied += _copy_bundle_path(source, target, relpath)
+
+    result = {"status": "ok", "target": target, "files_copied": copied}
+    print(json.dumps(result, ensure_ascii=False, indent=2))
+
+
+def cmd_export_skill(args):
+    source = _source_root(getattr(args, "source", None))
+    output = os.path.abspath(os.path.expanduser(args.output))
+    os.makedirs(os.path.dirname(output) or ".", exist_ok=True)
+    files = list(
+        _iter_bundle_files(source, getattr(args, "include_expert_forum", False))
+    )
+    if not files:
+        raise PipelineError(f"No bundle files found in {source}")
+
+    with zipfile.ZipFile(output, "w", compression=zipfile.ZIP_DEFLATED) as archive:
+        for full_path, relpath in files:
+            archive.write(full_path, relpath)
+    result = {"status": "ok", "output": output, "files": len(files)}
+    print(json.dumps(result, ensure_ascii=False, indent=2))
 
 
 # ── Original Commands ──────────────────────────────────────────────────────
@@ -3670,6 +3918,47 @@ def main():
     p.add_argument("--path", required=True, help="Path to image file or URL")
     p.add_argument("--alt", default="", help="Alt text for the image")
 
+    # doctor
+    p = sub.add_parser(
+        "doctor", help="Check whether the portable skill bundle is deployable"
+    )
+    p.add_argument("--source", default=None, help="Source repo or skill directory")
+    p.add_argument("--json", action="store_true", help="Print machine-readable JSON")
+
+    # install-skill
+    p = sub.add_parser(
+        "install-skill", help="Copy SEO Forge into an agent skill directory"
+    )
+    p.add_argument(
+        "--target",
+        required=True,
+        help="Agent skills directory or final seo-forge skill directory",
+    )
+    p.add_argument("--source", default=None, help="Source repo or skill directory")
+    p.add_argument("--name", default=SKILL_NAME, help="Installed skill directory name")
+    p.add_argument(
+        "--overwrite", action="store_true", help="Refresh an existing skill directory"
+    )
+    p.add_argument(
+        "--include-expert-forum",
+        action="store_true",
+        help="Also copy generated expert-forum artifacts",
+    )
+
+    # export-skill
+    p = sub.add_parser("export-skill", help="Create a portable SEO Forge skill zip")
+    p.add_argument(
+        "--output",
+        default=f"{SKILL_NAME}-skill.zip",
+        help="Path to write the exported zip file",
+    )
+    p.add_argument("--source", default=None, help="Source repo or skill directory")
+    p.add_argument(
+        "--include-expert-forum",
+        action="store_true",
+        help="Also include generated expert-forum artifacts",
+    )
+
     args = parser.parse_args()
     if not args.command:
         parser.print_help()
@@ -3711,6 +4000,9 @@ def main():
         "glm-ocr-verify": cmd_glm_ocr_verify,
         "image-register": cmd_image_register,
         "brand-knowledge": cmd_brand_knowledge,
+        "doctor": cmd_doctor,
+        "install-skill": cmd_install_skill,
+        "export-skill": cmd_export_skill,
     }
     fn = cmds.get(args.command)
     if fn:

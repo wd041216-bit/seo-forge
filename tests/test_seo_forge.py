@@ -3,6 +3,7 @@ import os
 import subprocess
 import sys
 import tempfile
+import zipfile
 
 import pytest
 
@@ -21,6 +22,10 @@ from scripts.seo_forge import (
     cmd_verify,
     cmd_editorial_review,
     cmd_publish,
+    build_doctor_report,
+    cmd_doctor,
+    cmd_export_skill,
+    cmd_install_skill,
     generate_id,
     ts,
     load_json,
@@ -92,6 +97,62 @@ class TestUtils:
         path = str(tmp_path / "test.md")
         write_file(path, "hello world")
         assert read_file(path) == "hello world"
+
+
+class TestPortableSkill:
+    def test_doctor_report_core_files_present(self):
+        report = build_doctor_report()
+        assert report["name"] == "seo-forge"
+        assert report["ok"] is True
+        assert all(item["ok"] for item in report["required"])
+
+    def test_doctor_json_output(self, capsys):
+        class Args:
+            source = None
+            json = True
+
+        cmd_doctor(Args())
+        output = json.loads(capsys.readouterr().out)
+        assert output["ok"] is True
+        assert output["python"]["requires"] == ">=3.8"
+
+    def test_install_skill_copies_portable_bundle(self, tmp_path, capsys):
+        class Args:
+            target = str(tmp_path / "skills")
+            source = None
+            name = "seo-forge"
+            overwrite = False
+            include_expert_forum = False
+
+        cmd_install_skill(Args())
+        result = json.loads(capsys.readouterr().out)
+        installed = tmp_path / "skills" / "seo-forge"
+        assert result["target"] == str(installed)
+        assert (installed / "SKILL.md").is_file()
+        assert (installed / "skill.json").is_file()
+        assert (installed / "scripts" / "seo_forge.py").is_file()
+        assert (installed / "templates" / "agent-capabilities.json").is_file()
+        assert not (installed / "expert-forum").exists()
+
+    def test_export_skill_creates_zip(self, tmp_path, capsys):
+        output = tmp_path / "seo-forge-skill.zip"
+
+        class Args:
+            pass
+
+        Args.source = None
+        Args.output = str(output)
+        Args.include_expert_forum = False
+
+        cmd_export_skill(Args())
+        result = json.loads(capsys.readouterr().out)
+        assert result["output"] == str(output)
+        with zipfile.ZipFile(output) as archive:
+            names = set(archive.namelist())
+        assert "SKILL.md" in names
+        assert "skill.json" in names
+        assert "scripts/seo_forge.py" in names
+        assert "expert-forum/deployment_status.json" not in names
 
 
 class TestHelpers:

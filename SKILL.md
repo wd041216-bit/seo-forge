@@ -39,6 +39,39 @@ Turn any company or industry into a blog content machine. The pipeline discovers
 4. **Template Diversity**: 8 rotating templates prevent content similarity
 5. **Auto-Push**: Finished articles deploy to GitHub + Vercel automatically
 
+## Portable Agent Contract
+
+SEO Forge should run on any capable agent runtime. Treat the tool names in the frontmatter as defaults, not as hard requirements.
+
+Required capabilities:
+- `file_read` and `file_write` for configs, drafts, reports, and target-site content
+- `shell` for `python scripts/seo_forge.py ...`, tests, builds, and git commands
+- `web_search` for keyword discovery, trend checks, SERP research, and competitor discovery
+- `web_fetch` for reading competitor pages and verifying reference URLs
+
+Optional capabilities:
+- `repo_read` for remote repository inspection when the target site is not already local
+- `pull_request` for publishing via GitHub or another code host
+- `deployment_checks` for monitoring GitHub Actions, Vercel, or equivalent deployments
+- `image_generation` for creating article visuals when requested
+
+Tool aliases:
+- `web_search`: GLM `web_search_prime`, Tavily search, Exa search, Brave Search, or native web search
+- `web_fetch`: GLM `webReader`, Tavily Extract, Fetch MCP, browser automation, or native fetch
+- `repo_read`: GLM `zread`, GitHub MCP, `gh` CLI, or `git clone`
+- `pull_request`: GitHub MCP, `gh pr create`, or host-agent PR tools
+
+If an exact MCP tool is unavailable, map the capability to the closest native equivalent. If no trustworthy `web_search` and `web_fetch` capability exists, stop and ask for those inputs instead of inventing SEO evidence.
+
+Deployment helpers:
+```bash
+python scripts/seo_forge.py doctor
+python scripts/seo_forge.py install-skill --target <agent-skills-dir>
+python scripts/seo_forge.py export-skill --output seo-forge-skill.zip
+```
+
+See `skill.json`, `templates/agent-capabilities.json`, and `docs/agent-deployment.md` for machine-readable deployment details.
+
 ## Configuration
 
 Before first use, create a blog config in your project root:
