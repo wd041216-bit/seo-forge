@@ -3,7 +3,7 @@
   "name": "seo-forge",
   "version": "1.0.0",
   "title": "SEO Forge",
-  "description": "Agent-portable SEO blog pipeline for keyword research, E-E-A-T article generation, scoring, optimization, and publishing.",
+  "description": "Agent-portable skill for evidence-based SEO content work: keyword and SERP research, competitor analysis, brand-knowledge constraints, template-driven drafting, E-E-A-T scoring, optimization, editorial gates, technical SEO validation, publishing, deployment verification, and install/export across agent runtimes.",
   "entrypoint": "SKILL.md",
   "license": "MIT",
   "portable": true,
