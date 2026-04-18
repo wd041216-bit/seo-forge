@@ -2318,17 +2318,27 @@ class TestScoreBenchmark:
 
     def test_ymyl_health_benchmark(self):
         result = _score_benchmark()
-        ymyl = [b for b in result["benchmarks"] if b["name"] == "ymyl_health_article"][0]
+        ymyl = [b for b in result["benchmarks"] if b["name"] == "ymyl_health_article"][
+            0
+        ]
         assert ymyl["passed"], "YMYL benchmark failed"
         assert ymyl["sub_checks"] is not None
-        assert ymyl["sub_checks"]["eeat_compliance"]["pass"], "YMYL should score >= 5 on E-E-A-T"
+        assert ymyl["sub_checks"]["eeat_compliance"]["pass"], (
+            "YMYL should score >= 5 on E-E-A-T"
+        )
 
     def test_seo_optimized_benchmark(self):
         result = _score_benchmark()
-        seo = [b for b in result["benchmarks"] if b["name"] == "seo_optimized_article"][0]
+        seo = [b for b in result["benchmarks"] if b["name"] == "seo_optimized_article"][
+            0
+        ]
         assert seo["passed"], "SEO optimized benchmark failed"
-        assert seo["sub_checks"]["seo_quality"]["pass"], "Should score >= 10 on SEO quality"
-        assert seo["sub_checks"]["content_depth"]["pass"], "Should score >= 8 on content depth"
+        assert seo["sub_checks"]["seo_quality"]["pass"], (
+            "Should score >= 10 on SEO quality"
+        )
+        assert seo["sub_checks"]["content_depth"]["pass"], (
+            "Should score >= 8 on content depth"
+        )
 
 
 class TestEdgeCases:
@@ -2377,8 +2387,16 @@ class TestEdgeCases:
 
     def test_image_cli_comfyui_check_offline(self):
         result = subprocess.run(
-            [sys.executable, "scripts/seo_forge.py", "comfyui-check", "--url", "http://127.0.0.1:19999"],
-            capture_output=True, text=True, cwd=PROJECT_ROOT,
+            [
+                sys.executable,
+                "scripts/seo_forge.py",
+                "comfyui-check",
+                "--url",
+                "http://127.0.0.1:19999",
+            ],
+            capture_output=True,
+            text=True,
+            cwd=PROJECT_ROOT,
         )
         data = json.loads(result.stdout)
         assert data["running"] is False
@@ -2386,10 +2404,17 @@ class TestEdgeCases:
     def test_image_cli_comfyui_generate_offline(self):
         result = subprocess.run(
             [
-                sys.executable, "scripts/seo_forge.py", "comfyui-generate",
-                "--prompt", "test image", "--url", "http://127.0.0.1:19999",
+                sys.executable,
+                "scripts/seo_forge.py",
+                "comfyui-generate",
+                "--prompt",
+                "test image",
+                "--url",
+                "http://127.0.0.1:19999",
             ],
-            capture_output=True, text=True, cwd=PROJECT_ROOT,
+            capture_output=True,
+            text=True,
+            cwd=PROJECT_ROOT,
         )
         data = json.loads(result.stdout)
         assert data["status"] == "error"
@@ -2397,8 +2422,16 @@ class TestEdgeCases:
 
     def test_image_cli_glm_ocr_check_offline(self):
         result = subprocess.run(
-            [sys.executable, "scripts/seo_forge.py", "glm-ocr-check", "--url", "http://127.0.0.1:19998"],
-            capture_output=True, text=True, cwd=PROJECT_ROOT,
+            [
+                sys.executable,
+                "scripts/seo_forge.py",
+                "glm-ocr-check",
+                "--url",
+                "http://127.0.0.1:19998",
+            ],
+            capture_output=True,
+            text=True,
+            cwd=PROJECT_ROOT,
         )
         data = json.loads(result.stdout)
         assert data["running"] is False
@@ -2406,12 +2439,19 @@ class TestEdgeCases:
     def test_image_cli_glm_ocr_verify_missing_image(self, tmp_path):
         result = subprocess.run(
             [
-                sys.executable, "scripts/seo_forge.py", "glm-ocr-verify",
-                "--image-path", str(tmp_path / "nonexistent.png"),
-                "--expected-subject", "test",
-                "--url", "http://127.0.0.1:19998",
+                sys.executable,
+                "scripts/seo_forge.py",
+                "glm-ocr-verify",
+                "--image-path",
+                str(tmp_path / "nonexistent.png"),
+                "--expected-subject",
+                "test",
+                "--url",
+                "http://127.0.0.1:19998",
             ],
-            capture_output=True, text=True, cwd=PROJECT_ROOT,
+            capture_output=True,
+            text=True,
+            cwd=PROJECT_ROOT,
         )
         data = json.loads(result.stdout)
         assert data["matches"] is False
@@ -2420,15 +2460,25 @@ class TestEdgeCases:
     def test_image_cli_register_missing_article(self, tmp_path):
         result = subprocess.run(
             [
-                sys.executable, "scripts/seo_forge.py", "image-register",
-                "--root", str(tmp_path),
-                "--article-id", "nonexistent",
-                "--slot", "cover",
-                "--source", "unsplash",
-                "--path", "https://example.com/img.jpg",
-                "--alt", "test alt",
+                sys.executable,
+                "scripts/seo_forge.py",
+                "image-register",
+                "--root",
+                str(tmp_path),
+                "--article-id",
+                "nonexistent",
+                "--slot",
+                "cover",
+                "--source",
+                "unsplash",
+                "--path",
+                "https://example.com/img.jpg",
+                "--alt",
+                "test alt",
             ],
-            capture_output=True, text=True, cwd=PROJECT_ROOT,
+            capture_output=True,
+            text=True,
+            cwd=PROJECT_ROOT,
         )
         data = json.loads(result.stdout)
         assert "error" in data or "Article not found" in result.stdout
@@ -2436,7 +2486,9 @@ class TestEdgeCases:
     def test_image_cli_help_includes_new_commands(self):
         result = subprocess.run(
             [sys.executable, "scripts/seo_forge.py", "--help"],
-            capture_output=True, text=True, cwd=PROJECT_ROOT,
+            capture_output=True,
+            text=True,
+            cwd=PROJECT_ROOT,
         )
         assert result.returncode == 0
         assert "comfyui-check" in result.stdout
@@ -2458,25 +2510,39 @@ class TestEdgeCases:
             "## FAQ\n\n### Q1?\nA1\n\n"
         )
         internal_count, _ = _count_internal_links(md, "https://example.com")
-        assert internal_count >= 2, f"Expected at least 2 internal links, got {internal_count}"
+        assert internal_count >= 2, (
+            f"Expected at least 2 internal links, got {internal_count}"
+        )
 
     def test_init_creates_images_directory(self, tmp_path):
         root = str(tmp_path / "seo-test-images")
         os.makedirs(root, exist_ok=True)
         subprocess.run(
             [
-                sys.executable, "scripts/seo_forge.py", "--root", root, "init",
-                "--domain", "Test Domain",
-                "--topic", "AI writing tools",
+                sys.executable,
+                "scripts/seo_forge.py",
+                "--root",
+                root,
+                "init",
+                "--domain",
+                "Test Domain",
+                "--topic",
+                "AI writing tools",
             ],
-            capture_output=True, text=True, cwd=PROJECT_ROOT,
+            capture_output=True,
+            text=True,
+            cwd=PROJECT_ROOT,
         )
-        assert os.path.isdir(os.path.join(root, "images")), f"images/ dir not created in {root}. dirs: {os.listdir(root)}"
+        assert os.path.isdir(os.path.join(root, "images")), (
+            f"images/ dir not created in {root}. dirs: {os.listdir(root)}"
+        )
 
 
 class TestSemanticRelevance:
     def test_exact_keyword_match(self):
-        score = _semantic_relevance("SEO tools", "Best SEO tools for content optimization")
+        score = _semantic_relevance(
+            "SEO tools", "Best SEO tools for content optimization"
+        )
         assert score > 0, f"Expected positive relevance for keyword match, got {score}"
 
     def test_partial_keyword_match(self):
@@ -2487,8 +2553,12 @@ class TestSemanticRelevance:
         assert score > 0, f"Expected positive relevance for partial match, got {score}"
 
     def test_unrelated_low_score(self):
-        score = _semantic_relevance("cooking recipes", "Cloud infrastructure deployment guide")
-        assert score < 0.15, f"Expected low relevance for unrelated content, got {score}"
+        score = _semantic_relevance(
+            "cooking recipes", "Cloud infrastructure deployment guide"
+        )
+        assert score < 0.15, (
+            f"Expected low relevance for unrelated content, got {score}"
+        )
 
     def test_empty_inputs(self):
         assert _semantic_relevance("", "some document") == 0.0
@@ -2496,10 +2566,14 @@ class TestSemanticRelevance:
         assert _semantic_relevance("", "") == 0.0
 
     def test_stop_words_ignored(self):
-        score_with_stops = _semantic_relevance("the best SEO tools", "the best SEO tools review")
+        score_with_stops = _semantic_relevance(
+            "the best SEO tools", "the best SEO tools review"
+        )
         score_without = _semantic_relevance("SEO tools", "best SEO tools review")
         assert score_with_stops > 0, "Should still score with stop words"
-        assert abs(score_with_stops - score_without) < 0.15, "Stop words should not dominate relevance"
+        assert abs(score_with_stops - score_without) < 0.15, (
+            "Stop words should not dominate relevance"
+        )
 
     def test_longer_document_dilution(self):
         short = _semantic_relevance("Python", "Python programming basics")
@@ -2517,11 +2591,23 @@ class TestSuperlativeDetection:
     def test_expanded_superlatives(self):
         md = "Our revolutionary game-changing platform delivers incredible results with groundbreaking technology."
         count = _count_superlatives(md)
-        assert count >= 4, f"Expected >= 4 expanded superlatives, got {count}: {SUPERLATIVE_WORDS}"
+        assert count >= 4, (
+            f"Expected >= 4 expanded superlatives, got {count}: {SUPERLATIVE_WORDS}"
+        )
 
     def test_all_new_words_detected(self):
-        for word in ["revolutionary", "game-changing", "incredible", "amazing", "groundbreaking",
-                      "unprecedented", "world-class", "cutting-edge", "best-in-class", "industry-leading"]:
+        for word in [
+            "revolutionary",
+            "game-changing",
+            "incredible",
+            "amazing",
+            "groundbreaking",
+            "unprecedented",
+            "world-class",
+            "cutting-edge",
+            "best-in-class",
+            "industry-leading",
+        ]:
             md = f"This is {word} technology."
             count = _count_superlatives(md)
             assert count >= 1, f"Failed to detect '{word}' in superlatives"
@@ -2570,7 +2656,10 @@ class TestDramaticPatterns:
 class TestReferenceAuthority:
     def test_with_config_domains(self):
         md = '<a href="https://www.nature.com/article/123">Research</a> and <a href="https://www.reuters.com/article/456">News</a>'
-        config = {"site_url": "https://example.com", "trusted_reference_domains": ["nature.com", "reuters.com"]}
+        config = {
+            "site_url": "https://example.com",
+            "trusted_reference_domains": ["nature.com", "reuters.com"],
+        }
         result = _validate_reference_authority(md, config)
         assert result["has_minimum_authority"] is True
         assert result["external_authority_links"] >= 2
@@ -2600,9 +2689,20 @@ class TestBrandKnowledgeCLI:
         root = str(tmp_path / "bk-test")
         os.makedirs(root, exist_ok=True)
         result = subprocess.run(
-            [sys.executable, "scripts/seo_forge.py", "brand-knowledge",
-             "--root", root, "--action", "init", "--company", "TestCorp"],
-            capture_output=True, text=True, cwd=PROJECT_ROOT,
+            [
+                sys.executable,
+                "scripts/seo_forge.py",
+                "brand-knowledge",
+                "--root",
+                root,
+                "--action",
+                "init",
+                "--company",
+                "TestCorp",
+            ],
+            capture_output=True,
+            text=True,
+            cwd=PROJECT_ROOT,
         )
         assert result.returncode == 0, f"CLI failed: {result.stderr}"
         kb_path = os.path.join(root, "brand-knowledge.json")
@@ -2616,14 +2716,34 @@ class TestBrandKnowledgeCLI:
         root = str(tmp_path / "bk-validate")
         os.makedirs(root, exist_ok=True)
         subprocess.run(
-            [sys.executable, "scripts/seo_forge.py", "brand-knowledge",
-             "--root", root, "--action", "init", "--company", "TestCorp"],
-            capture_output=True, text=True, cwd=PROJECT_ROOT,
+            [
+                sys.executable,
+                "scripts/seo_forge.py",
+                "brand-knowledge",
+                "--root",
+                root,
+                "--action",
+                "init",
+                "--company",
+                "TestCorp",
+            ],
+            capture_output=True,
+            text=True,
+            cwd=PROJECT_ROOT,
         )
         result = subprocess.run(
-            [sys.executable, "scripts/seo_forge.py", "brand-knowledge",
-             "--root", root, "--action", "validate"],
-            capture_output=True, text=True, cwd=PROJECT_ROOT,
+            [
+                sys.executable,
+                "scripts/seo_forge.py",
+                "brand-knowledge",
+                "--root",
+                root,
+                "--action",
+                "validate",
+            ],
+            capture_output=True,
+            text=True,
+            cwd=PROJECT_ROOT,
         )
         data = json.loads(result.stdout)
         assert data["valid"] is False
@@ -2633,14 +2753,34 @@ class TestBrandKnowledgeCLI:
         root = str(tmp_path / "bk-show")
         os.makedirs(root, exist_ok=True)
         subprocess.run(
-            [sys.executable, "scripts/seo_forge.py", "brand-knowledge",
-             "--root", root, "--action", "init", "--company", "TestCorp"],
-            capture_output=True, text=True, cwd=PROJECT_ROOT,
+            [
+                sys.executable,
+                "scripts/seo_forge.py",
+                "brand-knowledge",
+                "--root",
+                root,
+                "--action",
+                "init",
+                "--company",
+                "TestCorp",
+            ],
+            capture_output=True,
+            text=True,
+            cwd=PROJECT_ROOT,
         )
         result = subprocess.run(
-            [sys.executable, "scripts/seo_forge.py", "brand-knowledge",
-             "--root", root, "--action", "show"],
-            capture_output=True, text=True, cwd=PROJECT_ROOT,
+            [
+                sys.executable,
+                "scripts/seo_forge.py",
+                "brand-knowledge",
+                "--root",
+                root,
+                "--action",
+                "show",
+            ],
+            capture_output=True,
+            text=True,
+            cwd=PROJECT_ROOT,
         )
         data = json.loads(result.stdout)
         assert data["company"] == "TestCorp"

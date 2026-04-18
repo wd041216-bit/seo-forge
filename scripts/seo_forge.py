@@ -233,7 +233,10 @@ def _score_benchmark() -> dict:
                 "- https://www.capterra.com/pm-comparison\n"
             ),
             "keyword": "project management software",
-            "expected_sub_scores": {"seo_quality": {"min": 10}, "content_depth": {"min": 8}},
+            "expected_sub_scores": {
+                "seo_quality": {"min": 10},
+                "content_depth": {"min": 8},
+            },
             "description": "Well-structured SEO article should score well on SEO quality",
         },
     ]
@@ -251,7 +254,11 @@ def _score_benchmark() -> dict:
                 actual = scores.get(axis, {}).get("score", 0)
                 if "min" in expectation:
                     ok = actual >= expectation["min"]
-                    sub_checks[axis] = {"actual": actual, "min": expectation["min"], "pass": ok}
+                    sub_checks[axis] = {
+                        "actual": actual,
+                        "min": expectation["min"],
+                        "pass": ok,
+                    }
                     if not ok:
                         passed = False
         results.append(
@@ -752,19 +759,48 @@ def _validate_reference_authority(md: str, config: dict | None = None) -> dict:
         "external_authority_links": len(authority),
         "total_links": len(urls),
         "external_links": len(external),
-        "authority_ratio": round(len(authority) / max(1, len(external)), 2) if external else 0.0,
+        "authority_ratio": round(len(authority) / max(1, len(external)), 2)
+        if external
+        else 0.0,
         "has_minimum_authority": len(authority) >= 2,
-        "authority_domains": list({d for u in authority for d in all_trusted if d in u}),
+        "authority_domains": list(
+            {d for u in authority for d in all_trusted if d in u}
+        ),
     }
 
 
 SUPERLATIVE_WORDS = [
-    "best", "worst", "greatest", "most", "least", "top", "number one", "#1",
-    "leading", "premier", "ultimate",
-    "revolutionary", "game-changing", "incredible", "amazing", "groundbreaking",
-    "unprecedented", "world-class", "cutting-edge", "state-of-the-art", "next-gen",
-    "best-in-class", "industry-leading", "unmatched", "unrivaled", "unsurpassed",
-    "perfect", "flawless", "game-changer", "transformative", "disruptive",
+    "best",
+    "worst",
+    "greatest",
+    "most",
+    "least",
+    "top",
+    "number one",
+    "#1",
+    "leading",
+    "premier",
+    "ultimate",
+    "revolutionary",
+    "game-changing",
+    "incredible",
+    "amazing",
+    "groundbreaking",
+    "unprecedented",
+    "world-class",
+    "cutting-edge",
+    "state-of-the-art",
+    "next-gen",
+    "best-in-class",
+    "industry-leading",
+    "unmatched",
+    "unrivaled",
+    "unsurpassed",
+    "perfect",
+    "flawless",
+    "game-changer",
+    "transformative",
+    "disruptive",
 ]
 
 DRAMATIC_PATTERNS = [
@@ -776,7 +812,10 @@ DRAMATIC_PATTERNS = [
     (r"studies show (?:that|how)", "unsubstantiated"),
     (r"research proves (?:that|how)", "unsubstantiated"),
     (r"everyone (?:knows|agrees)", "unsubstantiated"),
-    (r"(?:it|this) (?:will|can|could) change (?:everything|the (?:world|industry|game))", "hyperbole"),
+    (
+        r"(?:it|this) (?:will|can|could) change (?:everything|the (?:world|industry|game))",
+        "hyperbole",
+    ),
     (r"nothing (?:else|comes close) (?:can|will|could|compares)", "hyperbole"),
     (r"the only (?:solution|option|choice|way)", "hyperbole"),
 ]
@@ -1127,7 +1166,11 @@ def compute_article_scores(md: str, keyword: str, config: dict | None = None) ->
     reference_authority = src_score + url_score + cred_score + cite_score
 
     # Brand knowledge penalty: check for forbidden claims
-    kb_path = f"{config.get('root', './seo-forge-data')}/brand-knowledge.json" if config else None
+    kb_path = (
+        f"{config.get('root', './seo-forge-data')}/brand-knowledge.json"
+        if config
+        else None
+    )
     forbidden_violations = 0
     forbidden_matched = []
     if kb_path and os.path.exists(kb_path):
@@ -1833,21 +1876,111 @@ def _semantic_relevance(query: str, document: str) -> float:
     more heavily than common terms. No external dependencies required.
     """
     stop_words = {
-        "a", "an", "the", "is", "are", "was", "were", "be", "been", "being",
-        "have", "has", "had", "do", "does", "did", "will", "would", "could",
-        "should", "may", "might", "shall", "can", "need", "dare", "ought",
-        "used", "to", "of", "in", "for", "on", "with", "at", "by", "from",
-        "as", "into", "through", "during", "before", "after", "above", "below",
-        "between", "out", "off", "over", "under", "again", "further", "then",
-        "once", "and", "but", "or", "nor", "not", "so", "yet", "both", "either",
-        "neither", "each", "every", "all", "any", "few", "more", "most", "other",
-        "some", "such", "no", "only", "own", "same", "than", "too", "very",
-        "just", "because", "if", "when", "where", "how", "what", "which",
-        "who", "whom", "this", "that", "these", "those", "it", "its",
+        "a",
+        "an",
+        "the",
+        "is",
+        "are",
+        "was",
+        "were",
+        "be",
+        "been",
+        "being",
+        "have",
+        "has",
+        "had",
+        "do",
+        "does",
+        "did",
+        "will",
+        "would",
+        "could",
+        "should",
+        "may",
+        "might",
+        "shall",
+        "can",
+        "need",
+        "dare",
+        "ought",
+        "used",
+        "to",
+        "of",
+        "in",
+        "for",
+        "on",
+        "with",
+        "at",
+        "by",
+        "from",
+        "as",
+        "into",
+        "through",
+        "during",
+        "before",
+        "after",
+        "above",
+        "below",
+        "between",
+        "out",
+        "off",
+        "over",
+        "under",
+        "again",
+        "further",
+        "then",
+        "once",
+        "and",
+        "but",
+        "or",
+        "nor",
+        "not",
+        "so",
+        "yet",
+        "both",
+        "either",
+        "neither",
+        "each",
+        "every",
+        "all",
+        "any",
+        "few",
+        "more",
+        "most",
+        "other",
+        "some",
+        "such",
+        "no",
+        "only",
+        "own",
+        "same",
+        "than",
+        "too",
+        "very",
+        "just",
+        "because",
+        "if",
+        "when",
+        "where",
+        "how",
+        "what",
+        "which",
+        "who",
+        "whom",
+        "this",
+        "that",
+        "these",
+        "those",
+        "it",
+        "its",
     }
 
     def tokenize(text):
-        return [w for w in re.findall(r"[a-z]+", text.lower()) if w not in stop_words and len(w) > 2]
+        return [
+            w
+            for w in re.findall(r"[a-z]+", text.lower())
+            if w not in stop_words and len(w) > 2
+        ]
 
     query_terms = tokenize(query)
     doc_terms = tokenize(document)
@@ -2535,7 +2668,12 @@ def cmd_editorial_review(args):
     declarative = _count_declarative_sentences(md)
     verifiable = _count_verifiable_claims(md)
     claim_ratio = (superlatives + dramatic_count) / max(1, verifiable)
-    exag_pass = superlatives < 5 and dramatic_count < 3 and unsubstantiated == 0 and claim_ratio <= 0.33
+    exag_pass = (
+        superlatives < 5
+        and dramatic_count < 3
+        and unsubstantiated == 0
+        and claim_ratio <= 0.33
+    )
     exag_notes = []
     if superlatives >= 5:
         exag_notes.append(f"superlatives: {superlatives} (max 5)")
@@ -2547,7 +2685,9 @@ def cmd_editorial_review(args):
         exag_notes.append(f"claim-to-fact ratio: {claim_ratio:.2f} (max 0.33)")
     checklist["exaggerationControl"] = {
         "pass": exag_pass,
-        "notes": "; ".join(exag_notes) if exag_notes else "Promotional language within limits",
+        "notes": "; ".join(exag_notes)
+        if exag_notes
+        else "Promotional language within limits",
         "details": {
             "superlatives": superlatives,
             "dramatic_patterns": dramatic_count,
@@ -2560,7 +2700,10 @@ def cmd_editorial_review(args):
 
     # Overall decision
     all_pass = all(c["pass"] for c in checklist.values())
-    any_blocked = checklist.get("factualAccuracy", {}).get("pass") is False or checklist.get("exaggerationControl", {}).get("pass") is False
+    any_blocked = (
+        checklist.get("factualAccuracy", {}).get("pass") is False
+        or checklist.get("exaggerationControl", {}).get("pass") is False
+    )
 
     if all_pass:
         decision = "approve"
@@ -2996,11 +3139,16 @@ def cmd_comfyui_generate(args):
     try:
         _comfyui_request(url, "/system_stats", timeout=3)
     except Exception as e:
-        print(json.dumps({
-            "status": "error",
-            "message": f"ComfyUI not running at {url}. Start ComfyUI first or use --url to specify a different endpoint.",
-            "detail": str(e),
-        }, indent=2))
+        print(
+            json.dumps(
+                {
+                    "status": "error",
+                    "message": f"ComfyUI not running at {url}. Start ComfyUI first or use --url to specify a different endpoint.",
+                    "detail": str(e),
+                },
+                indent=2,
+            )
+        )
         return
 
     os.makedirs(output_dir, exist_ok=True)
@@ -3009,7 +3157,10 @@ def cmd_comfyui_generate(args):
 
     # Mutate workflow parameters
     for node in wf["nodes"]:
-        if node.get("type") == "PrimitiveStringMultiline" and node.get("title") == "Prompt":
+        if (
+            node.get("type") == "PrimitiveStringMultiline"
+            and node.get("title") == "Prompt"
+        ):
             node["widgets_values"][0] = prompt_text
         elif node.get("type") == "EmptyFlux2LatentImage":
             node["widgets_values"][0] = width
@@ -3022,7 +3173,12 @@ def cmd_comfyui_generate(args):
     resp = _comfyui_request(url, "/prompt", method="POST", data=payload, timeout=10)
     prompt_id = resp.get("prompt_id")
     if not prompt_id:
-        print(json.dumps({"status": "error", "message": "No prompt_id returned", "detail": resp}, indent=2))
+        print(
+            json.dumps(
+                {"status": "error", "message": "No prompt_id returned", "detail": resp},
+                indent=2,
+            )
+        )
         return
 
     # Poll for completion
@@ -3045,20 +3201,39 @@ def cmd_comfyui_generate(args):
                     img_url = f"{url}/view?filename={urllib.parse.quote(fname)}&type={img.get('type', 'output')}"
                     dest = os.path.join(output_dir, f"{prompt_id[:8]}_{fname}")
                     urllib.request.urlretrieve(img_url, dest)
-                    print(json.dumps({
-                        "status": "completed",
-                        "prompt_id": prompt_id,
-                        "image_path": dest,
-                        "width": width,
-                        "height": height,
-                        "enhanced": enhance,
-                    }, indent=2))
+                    print(
+                        json.dumps(
+                            {
+                                "status": "completed",
+                                "prompt_id": prompt_id,
+                                "image_path": dest,
+                                "width": width,
+                                "height": height,
+                                "enhanced": enhance,
+                            },
+                            indent=2,
+                        )
+                    )
                     return
         if status.get("status_str") == "error":
-            print(json.dumps({"status": "error", "prompt_id": prompt_id, "detail": status}, indent=2))
+            print(
+                json.dumps(
+                    {"status": "error", "prompt_id": prompt_id, "detail": status},
+                    indent=2,
+                )
+            )
             return
 
-    print(json.dumps({"status": "timeout", "prompt_id": prompt_id, "message": f"Generation exceeded {timeout}s"}, indent=2))
+    print(
+        json.dumps(
+            {
+                "status": "timeout",
+                "prompt_id": prompt_id,
+                "message": f"Generation exceeded {timeout}s",
+            },
+            indent=2,
+        )
+    )
 
 
 def cmd_glm_ocr_check(args):
@@ -3081,14 +3256,23 @@ def cmd_glm_ocr_verify(args):
     expected_subject = args.expected_subject
 
     if not os.path.exists(image_path):
-        print(json.dumps({"matches": False, "error": f"Image not found: {image_path}"}, indent=2))
+        print(
+            json.dumps(
+                {"matches": False, "error": f"Image not found: {image_path}"}, indent=2
+            )
+        )
         return
 
     with open(image_path, "rb") as f:
         b64 = base64.b64encode(f.read()).decode("utf-8")
 
     ext = os.path.splitext(image_path)[1].lower()
-    mime = {"png": "image/png", "jpg": "image/jpeg", "jpeg": "image/jpeg", "webp": "image/webp"}.get(ext.lstrip("."), "image/png")
+    mime = {
+        "png": "image/png",
+        "jpg": "image/jpeg",
+        "jpeg": "image/jpeg",
+        "webp": "image/webp",
+    }.get(ext.lstrip("."), "image/png")
 
     payload = {
         "model": "glm-ocr",
@@ -3096,7 +3280,10 @@ def cmd_glm_ocr_verify(args):
             {
                 "role": "user",
                 "content": [
-                    {"type": "image_url", "image_url": {"url": f"data:{mime};base64,{b64}"}},
+                    {
+                        "type": "image_url",
+                        "image_url": {"url": f"data:{mime};base64,{b64}"},
+                    },
                     {
                         "type": "text",
                         "text": f"Describe what you see in this image in one sentence. Does this image show or relate to '{expected_subject}'? Answer YES or NO at the start of your response.",
@@ -3107,16 +3294,23 @@ def cmd_glm_ocr_verify(args):
     }
 
     try:
-        resp = _comfyui_request(url, "/v1/chat/completions", method="POST", data=payload, timeout=30)
+        resp = _comfyui_request(
+            url, "/v1/chat/completions", method="POST", data=payload, timeout=30
+        )
         content = resp.get("choices", [{}])[0].get("message", {}).get("content", "")
         matches = content.strip().upper().startswith("YES")
         confidence = "high" if matches else "low"
-        print(json.dumps({
-            "matches": matches,
-            "description": content,
-            "confidence": confidence,
-            "expected_subject": expected_subject,
-        }, indent=2))
+        print(
+            json.dumps(
+                {
+                    "matches": matches,
+                    "description": content,
+                    "confidence": confidence,
+                    "expected_subject": expected_subject,
+                },
+                indent=2,
+            )
+        )
     except Exception as e:
         print(json.dumps({"matches": False, "error": str(e)}, indent=2))
 
@@ -3141,10 +3335,22 @@ def cmd_brand_knowledge(args):
         if args.add_fact:
             kb["facts"].append({"text": args.add_fact, "verified": False})
         if args.add_forbidden:
-            kb["forbidden_claims"].append({"text": args.add_forbidden, "reason": "manual"})
+            kb["forbidden_claims"].append(
+                {"text": args.add_forbidden, "reason": "manual"}
+            )
         os.makedirs(root, exist_ok=True)
         save_json(kb_path, kb)
-        print(json.dumps({"status": "ok", "action": "init", "path": kb_path, "company": kb["company"]}, indent=2))
+        print(
+            json.dumps(
+                {
+                    "status": "ok",
+                    "action": "init",
+                    "path": kb_path,
+                    "company": kb["company"],
+                },
+                indent=2,
+            )
+        )
 
     elif action == "validate":
         if not os.path.exists(kb_path):
@@ -3152,9 +3358,13 @@ def cmd_brand_knowledge(args):
         kb = load_json(kb_path)
         issues = []
         if not kb.get("facts"):
-            issues.append("No facts defined — article claims cannot be validated against brand knowledge")
+            issues.append(
+                "No facts defined — article claims cannot be validated against brand knowledge"
+            )
         if not kb.get("forbidden_claims"):
-            issues.append("No forbidden claims defined — exaggeration control will use general superlative detection only")
+            issues.append(
+                "No forbidden claims defined — exaggeration control will use general superlative detection only"
+            )
         company = kb.get("company", "")
         if not company:
             issues.append("Company name is empty")
@@ -3164,7 +3374,12 @@ def cmd_brand_knowledge(args):
         for i, claim in enumerate(kb.get("forbidden_claims", [])):
             if not claim.get("text") and not claim.get("reason"):
                 issues.append(f"Forbidden claim {i} is empty")
-        result = {"valid": len(issues) == 0, "issues": issues, "fact_count": len(kb.get("facts", [])), "forbidden_count": len(kb.get("forbidden_claims", []))}
+        result = {
+            "valid": len(issues) == 0,
+            "issues": issues,
+            "fact_count": len(kb.get("facts", [])),
+            "forbidden_count": len(kb.get("forbidden_claims", [])),
+        }
         print(json.dumps(result, indent=2))
 
     elif action == "show":
@@ -3193,15 +3408,22 @@ def cmd_image_register(args):
     if "images" not in article:
         article["images"] = []
 
-    article["images"].append({
-        "slot": slot,
-        "source": source,
-        "path": path,
-        "alt": alt,
-        "registered_at": ts(),
-    })
+    article["images"].append(
+        {
+            "slot": slot,
+            "source": source,
+            "path": path,
+            "alt": alt,
+            "registered_at": ts(),
+        }
+    )
     save_json(article_file, article)
-    print(json.dumps({"status": "ok", "article_id": article_id, "slot": slot, "source": source}, indent=2))
+    print(
+        json.dumps(
+            {"status": "ok", "article_id": article_id, "slot": slot, "source": source},
+            indent=2,
+        )
+    )
 
 
 def main():
@@ -3373,45 +3595,78 @@ def main():
     )
 
     # comfyui-check
-    p = sub.add_parser("comfyui-check", help="Check if ComfyUI is running and workflow is valid")
+    p = sub.add_parser(
+        "comfyui-check", help="Check if ComfyUI is running and workflow is valid"
+    )
     p.add_argument("--url", default=None, help="ComfyUI API URL")
     p.add_argument("--workflow", default=None, help="Path to workflow JSON")
 
     # comfyui-generate
-    p = sub.add_parser("comfyui-generate", help="Generate image via ComfyUI ERNIE-Image-Turbo")
+    p = sub.add_parser(
+        "comfyui-generate", help="Generate image via ComfyUI ERNIE-Image-Turbo"
+    )
     p.add_argument("--prompt", required=True, help="Image generation prompt")
     p.add_argument("--width", type=int, default=1024, help="Image width")
     p.add_argument("--height", type=int, default=1024, help="Image height")
-    p.add_argument("--output-dir", default="./seo-forge-data/images", help="Output directory for generated images")
+    p.add_argument(
+        "--output-dir",
+        default="./seo-forge-data/images",
+        help="Output directory for generated images",
+    )
     p.add_argument("--url", default=None, help="ComfyUI API URL")
     p.add_argument("--workflow", default=None, help="Path to workflow JSON")
     p.add_argument("--timeout", type=int, default=120, help="Timeout in seconds")
-    p.add_argument("--no-enhance", action="store_true", help="Disable prompt enhancement")
+    p.add_argument(
+        "--no-enhance", action="store_true", help="Disable prompt enhancement"
+    )
 
     # glm-ocr-check
     p = sub.add_parser("glm-ocr-check", help="Check if GLM-OCR server is running")
     p.add_argument("--url", default=None, help="GLM-OCR server URL")
 
     # glm-ocr-verify
-    p = sub.add_parser("glm-ocr-verify", help="Verify image content matches expected subject via GLM-OCR")
+    p = sub.add_parser(
+        "glm-ocr-verify",
+        help="Verify image content matches expected subject via GLM-OCR",
+    )
     p.add_argument("--image-path", required=True, help="Path to image file")
-    p.add_argument("--expected-subject", required=True, help="Expected subject to verify")
+    p.add_argument(
+        "--expected-subject", required=True, help="Expected subject to verify"
+    )
     p.add_argument("--url", default=None, help="GLM-OCR server URL")
 
     # brand-knowledge
     p = sub.add_parser("brand-knowledge", help="Manage brand knowledge base")
     p.add_argument("--root", default="./seo-forge-data", help="Pipeline data root")
-    p.add_argument("--action", required=True, choices=["init", "validate", "show"], help="Action: init, validate, show")
+    p.add_argument(
+        "--action",
+        required=True,
+        choices=["init", "validate", "show"],
+        help="Action: init, validate, show",
+    )
     p.add_argument("--company", default="", help="Company name for init")
     p.add_argument("--add-fact", default=None, help="Add a fact to the knowledge base")
-    p.add_argument("--add-forbidden", default=None, help="Add a forbidden claim to the knowledge base")
+    p.add_argument(
+        "--add-forbidden",
+        default=None,
+        help="Add a forbidden claim to the knowledge base",
+    )
 
     # image-register
-    p = sub.add_parser("image-register", help="Register image metadata in article state")
+    p = sub.add_parser(
+        "image-register", help="Register image metadata in article state"
+    )
     p.add_argument("--root", default="./seo-forge-data", help="Pipeline data root")
     p.add_argument("--article-id", required=True, help="Article ID")
-    p.add_argument("--slot", required=True, help="Image slot: cover, inline-1, inline-2, etc.")
-    p.add_argument("--source", required=True, choices=["generate", "search", "unsplash"], help="Image source")
+    p.add_argument(
+        "--slot", required=True, help="Image slot: cover, inline-1, inline-2, etc."
+    )
+    p.add_argument(
+        "--source",
+        required=True,
+        choices=["generate", "search", "unsplash"],
+        help="Image source",
+    )
     p.add_argument("--path", required=True, help="Path to image file or URL")
     p.add_argument("--alt", default="", help="Alt text for the image")
 

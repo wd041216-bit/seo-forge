@@ -71,7 +71,9 @@ class OCRHandler(BaseHTTPRequestHandler):
             role = msg.get("role", "user")
             content = msg.get("content", "")
             if isinstance(content, str):
-                chat_messages.append({"role": role, "content": [{"type": "text", "text": content}]})
+                chat_messages.append(
+                    {"role": role, "content": [{"type": "text", "text": content}]}
+                )
             elif isinstance(content, list):
                 processed = []
                 for part in content:
@@ -88,16 +90,24 @@ class OCRHandler(BaseHTTPRequestHandler):
             return
 
         result = self._run_ocr(chat_messages)
-        self._json_response({
-            "id": "glm-ocr",
-            "object": "chat.completion",
-            "choices": [{
-                "index": 0,
-                "message": {"role": "assistant", "content": result},
-                "finish_reason": "stop",
-            }],
-            "usage": {"prompt_tokens": 0, "completion_tokens": 0, "total_tokens": 0},
-        })
+        self._json_response(
+            {
+                "id": "glm-ocr",
+                "object": "chat.completion",
+                "choices": [
+                    {
+                        "index": 0,
+                        "message": {"role": "assistant", "content": result},
+                        "finish_reason": "stop",
+                    }
+                ],
+                "usage": {
+                    "prompt_tokens": 0,
+                    "completion_tokens": 0,
+                    "total_tokens": 0,
+                },
+            }
+        )
 
     def _save_image(self, url_or_data):
         if url_or_data.startswith("data:"):
@@ -111,6 +121,7 @@ class OCRHandler(BaseHTTPRequestHandler):
             return url_or_data
         else:
             import urllib.request
+
             tmp = tempfile.NamedTemporaryFile(suffix=".jpg", delete=False)
             urllib.request.urlretrieve(url_or_data, tmp.name)
             tmp.close()
@@ -131,7 +142,7 @@ class OCRHandler(BaseHTTPRequestHandler):
                 output_ids = MODEL.generate(**inputs, max_new_tokens=4096)
 
             output_text = PROCESSOR.decode(
-                output_ids[0][inputs["input_ids"].shape[1]:],
+                output_ids[0][inputs["input_ids"].shape[1] :],
                 skip_special_tokens=False,
             )
             return output_text.strip()
@@ -152,7 +163,9 @@ class OCRHandler(BaseHTTPRequestHandler):
 def main():
     parser = argparse.ArgumentParser(description="GLM-OCR inference server")
     parser.add_argument("--port", type=int, default=8190, help="Port to serve on")
-    parser.add_argument("--model", default="zai-org/GLM-OCR", help="HuggingFace model ID or local path")
+    parser.add_argument(
+        "--model", default="zai-org/GLM-OCR", help="HuggingFace model ID or local path"
+    )
     parser.add_argument("--host", default="127.0.0.1", help="Host to bind")
     args = parser.parse_args()
 
