@@ -36,11 +36,11 @@ Generate article outlines and full blog content following assigned templates and
 6. No self-referential links in the References section
 
 ### Media and Visual Elements
-1. **Cover image**: Provide a `COVER_IMAGE_URL` field (Unsplash pattern or user-provided). Alt text goes in the `ALT` field.
+1. **Cover image**: Provide a `COVER_IMAGE_URL` field. Use the `image-architect` agent to decide whether to generate (ERNIE-Image-Turbo), search (web + GLM-OCR verify), or use Unsplash. Alt text goes in the `ALT` field.
 2. **Inline images**: Insert 1-2 contextual images within the article body using:
    ```html
    <figure>
-     <img src="https://images.unsplash.com/photo-{id}?w=800&h=450&fit=crop"
+     <img src="[local path or Unsplash URL]"
           alt="[Descriptive alt text with keyword]"
           width="800" height="450" loading="lazy" />
      <figcaption>[Brief description of image relevance]</figcaption>
@@ -50,6 +50,8 @@ Generate article outlines and full blog content following assigned templates and
    - Width/height must be specified (CLS prevention)
    - `loading="lazy"` on all non-hero images
    - Place images at meaningful points: after a key claim, illustrating a comparison, or showing a workflow step
+   - For AI-generated images: use local file paths from `comfyui-generate` output
+   - For web-searched images: use local file paths after GLM-OCR verification
 3. **SVG diagrams**: Where a comparison, process, or data visualization adds value, include 1 inline SVG:
    ```html
    <figure class="svg-diagram">

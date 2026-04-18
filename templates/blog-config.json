@@ -105,6 +105,53 @@
       "type": "string",
       "description": "YouTube channel ID for finding relevant video embeds"
     },
+    "image_mode": {
+      "type": "string",
+      "description": "Default image acquisition strategy: auto lets the AI decide per-image, generate uses ERNIE-Image-Turbo via ComfyUI, search uses web search with GLM-OCR verification, unsplash uses Unsplash URLs",
+      "enum": ["auto", "generate", "search", "unsplash"],
+      "default": "auto"
+    },
+    "comfyui": {
+      "type": "object",
+      "description": "ComfyUI connection settings for AI image generation",
+      "properties": {
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "description": "ComfyUI API endpoint URL",
+          "default": "http://127.0.0.1:8188"
+        },
+        "workflow": {
+          "type": "string",
+          "description": "Path to the ERNIE-Image-Turbo workflow JSON",
+          "default": "/Users/dawei/ComfyUI/ernie-image-turbo-gguf-workflow.json"
+        },
+        "timeout_seconds": {
+          "type": "integer",
+          "description": "Maximum seconds to wait for image generation",
+          "default": 120,
+          "minimum": 30,
+          "maximum": 600
+        }
+      }
+    },
+    "glm_ocr": {
+      "type": "object",
+      "description": "GLM-OCR connection settings for image verification",
+      "properties": {
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "description": "GLM-OCR inference server URL",
+          "default": "http://127.0.0.1:8190"
+        }
+      }
+    },
+    "brand_knowledge_file": {
+      "type": "string",
+      "description": "Path to brand knowledge JSON file. If set, article claims are validated against brand facts and forbidden claims.",
+      "default": ""
+    },
     "seo_rules": {
       "type": "object",
       "description": "Customizable SEO optimization parameters",

@@ -52,6 +52,12 @@ from scripts.seo_forge import (
     cmd_draft,
     _validate_frontmatter,
     _suggest_internal_links,
+    _semantic_relevance,
+    _count_superlatives,
+    _count_dramatic_patterns,
+    _validate_reference_authority,
+    SUPERLATIVE_WORDS,
+    DRAMATIC_PATTERNS,
     LANG_PHRASES,
     _score_benchmark,
 )
@@ -2311,6 +2317,20 @@ class TestScoreBenchmark:
         ][0]
         assert dense["score"] >= 50
 
+    def test_ymyl_health_benchmark(self):
+        result = _score_benchmark()
+        ymyl = [b for b in result["benchmarks"] if b["name"] == "ymyl_health_article"][0]
+        assert ymyl["passed"], f"YMYL benchmark failed"
+        assert ymyl["sub_checks"] is not None
+        assert ymyl["sub_checks"]["eeat_compliance"]["pass"], "YMYL should score >= 5 on E-E-A-T"
+
+    def test_seo_optimized_benchmark(self):
+        result = _score_benchmark()
+        seo = [b for b in result["benchmarks"] if b["name"] == "seo_optimized_article"][0]
+        assert seo["passed"], f"SEO optimized benchmark failed"
+        assert seo["sub_checks"]["seo_quality"]["pass"], "Should score >= 10 on SEO quality"
+        assert seo["sub_checks"]["content_depth"]["pass"], "Should score >= 8 on content depth"
+
 
 class TestEdgeCases:
     def test_article_with_only_headings(self):
@@ -2355,3 +2375,275 @@ class TestEdgeCases:
         md = "# AI写作工具评测\n\n## 最佳AI写作工具\n\n我们测试了多个AI写作工具。"
         scores = compute_article_scores(md, "AI写作工具")
         assert scores["total"] >= 0
+
+    def test_image_cli_comfyui_check_offline(self):
+        result = subprocess.run(
+            [sys.executable, "scripts/seo_forge.py", "comfyui-check", "--url", "http://127.0.0.1:19999"],
+            capture_output=True, text=True, cwd=PROJECT_ROOT,
+        )
+        data = json.loads(result.stdout)
+        assert data["running"] is False
+
+    def test_image_cli_comfyui_generate_offline(self):
+        result = subprocess.run(
+            [
+                sys.executable, "scripts/seo_forge.py", "comfyui-generate",
+                "--prompt", "test image", "--url", "http://127.0.0.1:19999",
+            ],
+            capture_output=True, text=True, cwd=PROJECT_ROOT,
+        )
+        data = json.loads(result.stdout)
+        assert data["status"] == "error"
+        assert "ComfyUI not running" in data["message"]
+
+    def test_image_cli_glm_ocr_check_offline(self):
+        result = subprocess.run(
+            [sys.executable, "scripts/seo_forge.py", "glm-ocr-check", "--url", "http://127.0.0.1:19998"],
+            capture_output=True, text=True, cwd=PROJECT_ROOT,
+        )
+        data = json.loads(result.stdout)
+        assert data["running"] is False
+
+    def test_image_cli_glm_ocr_verify_missing_image(self, tmp_path):
+        result = subprocess.run(
+            [
+                sys.executable, "scripts/seo_forge.py", "glm-ocr-verify",
+                "--image-path", str(tmp_path / "nonexistent.png"),
+                "--expected-subject", "test",
+                "--url", "http://127.0.0.1:19998",
+            ],
+            capture_output=True, text=True, cwd=PROJECT_ROOT,
+        )
+        data = json.loads(result.stdout)
+        assert data["matches"] is False
+        assert "not found" in data.get("error", "").lower() or "error" in data
+
+    def test_image_cli_register_missing_article(self, tmp_path):
+        result = subprocess.run(
+            [
+                sys.executable, "scripts/seo_forge.py", "image-register",
+                "--root", str(tmp_path),
+                "--article-id", "nonexistent",
+                "--slot", "cover",
+                "--source", "unsplash",
+                "--path", "https://example.com/img.jpg",
+                "--alt", "test alt",
+            ],
+            capture_output=True, text=True, cwd=PROJECT_ROOT,
+        )
+        data = json.loads(result.stdout)
+        assert "error" in data or "Article not found" in result.stdout
+
+    def test_image_cli_help_includes_new_commands(self):
+        result = subprocess.run(
+            [sys.executable, "scripts/seo_forge.py", "--help"],
+            capture_output=True, text=True, cwd=PROJECT_ROOT,
+        )
+        assert result.returncode == 0
+        assert "comfyui-check" in result.stdout
+        assert "comfyui-generate" in result.stdout
+        assert "glm-ocr-check" in result.stdout
+        assert "glm-ocr-verify" in result.stdout
+        assert "image-register" in result.stdout
+
+    def test_internal_link_semantic_scoring(self):
+        md = (
+            "# AI Writing Tools Guide\n\n"
+            "## Best AI Writing Tools\n\n"
+            "We tested multiple <a href='https://example.com/blog/ai-tools'>AI writing tools</a> for content creators. "
+            "See our <a href='https://example.com/blog/ai-seo-guide'>AI SEO guide</a> for optimization tips. "
+            "Also check <a href='https://example.com/pricing'>pricing plans</a>.\n\n"
+            "## AI for SEO\n\n"
+            "The best <a href='https://example.com/blog/ai-tools'>AI writing tools</a> include grammar checkers. "
+            "Our <a href='https://example.com/blog/ai-case-studies'>AI case studies</a> show real results.\n\n"
+            "## FAQ\n\n### Q1?\nA1\n\n"
+        )
+        scores = compute_article_scores(md, "AI writing tools", {"site_url": "https://example.com"})
+        seo = scores.get("seo_quality", {})
+        internal_count, _ = _count_internal_links(md, "https://example.com")
+        assert internal_count >= 2, f"Expected at least 2 internal links, got {internal_count}"
+
+    def test_init_creates_images_directory(self, tmp_path):
+        root = str(tmp_path / "seo-test-images")
+        os.makedirs(root, exist_ok=True)
+        result = subprocess.run(
+            [
+                sys.executable, "scripts/seo_forge.py", "--root", root, "init",
+                "--domain", "Test Domain",
+                "--topic", "AI writing tools",
+            ],
+            capture_output=True, text=True, cwd=PROJECT_ROOT,
+        )
+        assert os.path.isdir(os.path.join(root, "images")), f"images/ dir not created in {root}. dirs: {os.listdir(root)}"
+
+
+class TestSemanticRelevance:
+    def test_exact_keyword_match(self):
+        score = _semantic_relevance("SEO tools", "Best SEO tools for content optimization")
+        assert score > 0, f"Expected positive relevance for keyword match, got {score}"
+
+    def test_partial_keyword_match(self):
+        score = _semantic_relevance(
+            "content marketing SEO",
+            "Content strategy and SEO optimization techniques for modern websites",
+        )
+        assert score > 0, f"Expected positive relevance for partial match, got {score}"
+
+    def test_unrelated_low_score(self):
+        score = _semantic_relevance("cooking recipes", "Cloud infrastructure deployment guide")
+        assert score < 0.15, f"Expected low relevance for unrelated content, got {score}"
+
+    def test_empty_inputs(self):
+        assert _semantic_relevance("", "some document") == 0.0
+        assert _semantic_relevance("query", "") == 0.0
+        assert _semantic_relevance("", "") == 0.0
+
+    def test_stop_words_ignored(self):
+        score_with_stops = _semantic_relevance("the best SEO tools", "the best SEO tools review")
+        score_without = _semantic_relevance("SEO tools", "best SEO tools review")
+        assert score_with_stops > 0, "Should still score with stop words"
+        assert abs(score_with_stops - score_without) < 0.15, "Stop words should not dominate relevance"
+
+    def test_longer_document_dilution(self):
+        short = _semantic_relevance("Python", "Python programming basics")
+        long_doc = "Python " + "other unrelated content " * 100 + "programming basics"
+        diluted = _semantic_relevance("Python", long_doc)
+        assert short >= diluted, "Shorter focused doc should score >= diluted long doc"
+
+
+class TestSuperlativeDetection:
+    def test_basic_superlatives(self):
+        md = "This is the best product with the worst interface."
+        count = _count_superlatives(md)
+        assert count == 2, f"Expected 2 basic superlatives, got {count}"
+
+    def test_expanded_superlatives(self):
+        md = "Our revolutionary game-changing platform delivers incredible results with groundbreaking technology."
+        count = _count_superlatives(md)
+        assert count >= 4, f"Expected >= 4 expanded superlatives, got {count}: {SUPERLATIVE_WORDS}"
+
+    def test_all_new_words_detected(self):
+        for word in ["revolutionary", "game-changing", "incredible", "amazing", "groundbreaking",
+                      "unprecedented", "world-class", "cutting-edge", "best-in-class", "industry-leading"]:
+            md = f"This is {word} technology."
+            count = _count_superlatives(md)
+            assert count >= 1, f"Failed to detect '{word}' in superlatives"
+
+    def test_case_insensitive(self):
+        md = "The BEST and Most AMAZING product."
+        count = _count_superlatives(md)
+        assert count >= 3, f"Expected case-insensitive match, got {count}"
+
+    def test_no_false_positives(self):
+        md = "A simple product with standard features at a reasonable price."
+        count = _count_superlatives(md)
+        assert count == 0, f"Expected 0 superlatives in neutral text, got {count}"
+
+
+class TestDramaticPatterns:
+    def test_clickbait_detection(self):
+        md = "You won't believe what happened next."
+        total, found = _count_dramatic_patterns(md)
+        assert total >= 1, f"Expected clickbait detection, got {total}"
+
+    def test_unsubstantiated_claims(self):
+        md = "Studies show that this product works wonders."
+        total, found = _count_dramatic_patterns(md)
+        unsub = sum(1 for f in found if f["type"] == "unsubstantiated")
+        assert unsub >= 1, f"Expected unsubstantiated claim detection, got {unsub}"
+
+    def test_hedging_detection(self):
+        md = "It's important to note that this matters. It goes without saying."
+        total, found = _count_dramatic_patterns(md)
+        hedges = sum(1 for f in found if f["type"] == "hedging")
+        assert hedges >= 2, f"Expected hedging detection, got {hedges}"
+
+    def test_hyperbole_detection(self):
+        md = "This will change everything in the industry."
+        total, found = _count_dramatic_patterns(md)
+        hyper = sum(1 for f in found if f["type"] == "hyperbole")
+        assert hyper >= 1, f"Expected hyperbole detection, got {hyper}"
+
+    def test_clean_text_no_patterns(self):
+        md = "The product includes 5 features and costs $29 per month."
+        total, found = _count_dramatic_patterns(md)
+        assert total == 0, f"Expected no dramatic patterns, got {total}"
+
+
+class TestReferenceAuthority:
+    def test_with_config_domains(self):
+        md = '<a href="https://www.nature.com/article/123">Research</a> and <a href="https://www.reuters.com/article/456">News</a>'
+        config = {"site_url": "https://example.com", "trusted_reference_domains": ["nature.com", "reuters.com"]}
+        result = _validate_reference_authority(md, config)
+        assert result["has_minimum_authority"] is True
+        assert result["external_authority_links"] >= 2
+
+    def test_without_config_domains(self):
+        md = '<a href="https://www.nature.com/article/123">Research</a> and <a href="https://www.nih.gov/study/456">Study</a>'
+        config = {"site_url": "https://example.com"}
+        result = _validate_reference_authority(md, config)
+        assert result["external_authority_links"] >= 2
+        assert result["has_minimum_authority"] is True
+
+    def test_no_authority_links(self):
+        md = "Just some text with no links."
+        result = _validate_reference_authority(md, {})
+        assert result["has_minimum_authority"] is False
+        assert result["external_authority_links"] == 0
+
+    def test_self_referential_links_excluded(self):
+        md = '<a href="https://example.com/blog/post1">Our blog</a> and <a href="https://example.com/about">About us</a>'
+        config = {"site_url": "https://example.com"}
+        result = _validate_reference_authority(md, config)
+        assert result["external_authority_links"] == 0
+
+
+class TestBrandKnowledgeCLI:
+    def test_brand_knowledge_init(self, tmp_path):
+        root = str(tmp_path / "bk-test")
+        os.makedirs(root, exist_ok=True)
+        result = subprocess.run(
+            [sys.executable, "scripts/seo_forge.py", "brand-knowledge",
+             "--root", root, "--action", "init", "--company", "TestCorp"],
+            capture_output=True, text=True, cwd=PROJECT_ROOT,
+        )
+        assert result.returncode == 0, f"CLI failed: {result.stderr}"
+        kb_path = os.path.join(root, "brand-knowledge.json")
+        assert os.path.exists(kb_path), "brand-knowledge.json not created"
+        kb = json.loads(open(kb_path).read())
+        assert kb["company"] == "TestCorp"
+        assert "facts" in kb
+        assert "forbidden_claims" in kb
+
+    def test_brand_knowledge_validate_empty(self, tmp_path):
+        root = str(tmp_path / "bk-validate")
+        os.makedirs(root, exist_ok=True)
+        subprocess.run(
+            [sys.executable, "scripts/seo_forge.py", "brand-knowledge",
+             "--root", root, "--action", "init", "--company", "TestCorp"],
+            capture_output=True, text=True, cwd=PROJECT_ROOT,
+        )
+        result = subprocess.run(
+            [sys.executable, "scripts/seo_forge.py", "brand-knowledge",
+             "--root", root, "--action", "validate"],
+            capture_output=True, text=True, cwd=PROJECT_ROOT,
+        )
+        data = json.loads(result.stdout)
+        assert data["valid"] is False
+        assert len(data["issues"]) > 0
+
+    def test_brand_knowledge_show(self, tmp_path):
+        root = str(tmp_path / "bk-show")
+        os.makedirs(root, exist_ok=True)
+        subprocess.run(
+            [sys.executable, "scripts/seo_forge.py", "brand-knowledge",
+             "--root", root, "--action", "init", "--company", "TestCorp"],
+            capture_output=True, text=True, cwd=PROJECT_ROOT,
+        )
+        result = subprocess.run(
+            [sys.executable, "scripts/seo_forge.py", "brand-knowledge",
+             "--root", root, "--action", "show"],
+            capture_output=True, text=True, cwd=PROJECT_ROOT,
+        )
+        data = json.loads(result.stdout)
+        assert data["company"] == "TestCorp"

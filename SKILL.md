@@ -64,19 +64,46 @@ Before first use, create a blog config in your project root:
 
 Save as `seo-forge.config.json` in your project root. The skill auto-detects it.
 
-## Autonomous Pipeline: 10 Phases
+## Autonomous Pipeline: 11 Phases
 
 ```
-CONFIG → TREND → KEYWORD → OUTLINE → DRAFT
-                                        │
-                             score < 100│
-                                        ▼
+BRAND_KNOWLEDGE → CONFIG → TREND → KEYWORD → OUTLINE → DRAFT
+                                                    │
+                                         score < 100│
+                                                    ▼
         GAP_FILL ← RESCORE ← EDIT ← SCORE ← OPTIMIZE
             │
             │ score = 100 + all checks pass
             ▼
          PUBLISH (GitHub commit + Vercel deploy)
 ```
+
+### Phase 0: BRAND_KNOWLEDGE
+
+**Goal**: Establish the brand knowledge base that constrains all content generation. Promotional claims must not exceed what the knowledge base documents as factual.
+
+**Steps**:
+1. Initialize brand knowledge file:
+   ```bash
+   python scripts/seo_forge.py brand-knowledge --action init --root <root> --company "<company>"
+   ```
+2. Populate knowledge categories from web research:
+   - **facts**: Verified brand facts (product names, features, pricing, specifications)
+   - **claims**: Approved marketing claims with evidence backing
+   - **limitations**: Known product limitations that must be disclosed
+   - **competitors**: Verified competitor comparison data
+   - **forbidden_claims**: Claims that are explicitly forbidden (unverified, exaggerated)
+3. Use web search to verify facts and find authoritative sources
+4. Validate the knowledge base:
+   ```bash
+   python scripts/seo_forge.py brand-knowledge --action validate --root <root>
+   ```
+
+**Key Constraint**: All article content must stay within the boundaries of the brand knowledge base. If a claim is not in `facts` or `claims`, it cannot be stated as truth. If a claim is in `forbidden_claims`, it must be removed. Promotional language must not exceed factual content by more than a 1:3 ratio.
+
+**Output**: `brand-knowledge.json` with verified facts, approved claims, limitations, competitor data, and forbidden claims
+
+**Transition**: → CONFIG
 
 ### Phase 1: CONFIG
 
@@ -188,11 +215,13 @@ Final Score = (0.30 × Potential) + (0.20 × Validation) - (0.50 × RealDifficul
    - Provide balanced pros (3-5) and cons (2-3)
    - Include technical specifications relevant to the industry
    - Add comparison section vs named competitors from config
+   - **Brand knowledge constraint**: Only state claims that are in `brand-knowledge.json` facts or claims. Do NOT use language from `forbidden_claims`. Promotional content must not exceed factual information by more than a 1:3 ratio.
 2. Generate supporting elements:
    - SEO-optimized title (contains main keyword)
    - Meta description (120-160 characters, keyword in first 60 chars)
    - URL slug (≤6 words, keyword-rich)
    - Image alt text for cover image
+   - **Authority references**: Include 4-6 external links to authoritative domains from `trusted_reference_domains`
 3. Structure requirements:
    - NO H1 in body (title is separate)
    - Paragraph length: 150-300 words each
@@ -208,6 +237,18 @@ Final Score = (0.30 × Potential) + (0.20 × Validation) - (0.50 × RealDifficul
 **Agent**: Use `content-architect` agent for content generation
 
 **Output**: Complete HTML blog article with title, meta, slug, and content
+
+4. Image planning and acquisition:
+   a. Use `image-architect` agent to plan images (1 cover + 1-2 inline)
+   b. For each image, decide mode (`generate`/`search`/`unsplash`) based on the decision framework in `agents/image-architect.md`
+   c. Execute image acquisition:
+      - **GENERATE**: `python scripts/seo_forge.py comfyui-check` → `python scripts/seo_forge.py comfyui-generate --prompt "..." --width 1024 --height 1024 --output-dir ./seo-forge-data/images`
+      - **SEARCH**: web search for images → download candidates → `python scripts/seo_forge.py glm-ocr-verify --image-path CANDIDATE --expected-subject "..."` → select best match
+      - **UNSPLASH**: search Unsplash, insert URL directly
+   d. Register all images: `python scripts/seo_forge.py image-register --article-id ID --slot cover --source generate --path ... --alt "..."`
+   e. Insert image references into article HTML:
+      - Cover: `COVER_IMAGE_URL: [local path or Unsplash URL]` and `ALT: [descriptive alt text]`
+      - Inline: `<figure><img src="[path]" alt="[alt text]" width="800" height="450" loading="lazy" /><figcaption>[caption]</figcaption></figure>`
 
 **Transition**: → SCORE
 
@@ -273,8 +314,14 @@ Final Score = (0.30 × Potential) + (0.20 × Validation) - (0.50 × RealDifficul
    - HTML structure validity
    - No self-referential company links in References
    - CTA buttons preserved and functional
-   - Image placeholders resolved (if applicable)
+   - All image slots filled (cover + inline images)
+   - Image sources recorded in article metadata (`images` array)
+   - Generated images exist on disk (verify paths)
+   - Web-searched images passed OCR verification
    - No AI-detection red flags (natural language, varied sentence structure)
+   - **Exaggeration control**: Superlatives < 5, dramatic patterns < 3, no unsubstantiated claims, promotional-to-factual ratio ≤ 1:3
+   - **Brand knowledge gate**: Article claims must not exceed brand knowledge facts. Forbidden claims must be removed. Claims not in `brand-knowledge.json` must be removed or verified.
+   - **Authority references**: At least 2 external links from trusted reference domains
    - **Readability check**: All H2/H3 headings have `id` attributes, tables have `<thead>`/`<tbody>` structure, paragraphs are properly spaced
    - **TOC check**: Articles > 2000 words have a generated Table of Contents
    - **Table check**: All data tables use proper header styling (not plain unstyled tables)
@@ -282,6 +329,7 @@ Final Score = (0.30 × Potential) + (0.20 × Validation) - (0.50 × RealDifficul
    - Keyword density fine-tuning (target exactly 1-2%)
    - Meta description length enforcement (strictly 120-160 chars)
    - Reference URL normalization
+   - Remove any claims found in `brand-knowledge.json` forbidden_claims
 3. Generate final optimization report
 
 **Agent**: Use `quality-scorer` agent for final review
@@ -412,6 +460,44 @@ Use MCP tools for web research:
 - `mcp__zread__read_file` — read GitHub repo files for config
 - `mcp__zread__get_repo_structure` — explore existing blog structure
 
+## Image Tools
+
+Three image acquisition modes, controlled by `image_mode` in config (`auto`/`generate`/`search`/`unsplash`):
+
+### ERNIE-Image-Turbo (ComfyUI)
+Local AI image generation via ComfyUI API. See `references/image-pipeline.md` for setup.
+
+```bash
+# Health check
+python scripts/seo_forge.py comfyui-check
+
+# Generate image
+python scripts/seo_forge.py comfyui-generate --prompt "..." --width 1024 --height 1024 --output-dir ./seo-forge-data/images
+
+# Generate without prompt enhancement (for precise control)
+python scripts/seo_forge.py comfyui-generate --prompt "..." --no-enhance
+```
+
+### GLM-OCR (Image Verification)
+Verify web-searched images match article context. See `references/image-pipeline.md` for setup.
+
+```bash
+# Health check
+python scripts/seo_forge.py glm-ocr-check
+
+# Verify image content
+python scripts/seo_forge.py glm-ocr-verify --image-path ./img.jpg --expected-subject "modern office"
+```
+
+### Unsplash (Fallback)
+When ComfyUI is unavailable or search fails, use Unsplash URL patterns:
+`https://images.unsplash.com/photo-{id}?w=1200&h=630&fit=crop`
+
+### Image Decision Logic (in `auto` mode)
+- **Generate**: abstract/conceptual topics, brand-specific visuals, style control needed
+- **Search**: specific products/people/places/logos, public documentation screenshots
+- **Unsplash**: ComfyUI unavailable, search fails, OCR rejects all candidates
+
 ## Blog Readability Standards
 
 Content quality is not only about SEO scores and keyword density — visual readability directly impacts bounce rate, time-on-page, and user satisfaction. Every article generated by this pipeline MUST meet the following readability standards before publication.
@@ -508,5 +594,10 @@ Every project using seo-forge MUST include these CSS classes (adapt colors to br
 - All competitor comparisons must be against real named competitors
 - Never compare against "traditional methods" or "manual processes" — only against real competing products/services
 - Disclose affiliations transparently
-- Limit marketing superlatives ("amazing", "perfect", "revolutionary")
+- Limit marketing superlatives — the exaggeration control gate catches 30+ words/phrases including "revolutionary", "game-changing", "incredible", "amazing", "groundbreaking", "unprecedented", "world-class", "cutting-edge", "state-of-the-art", "best-in-class", "industry-leading", "unmatched", "perfect", "flawless", "ultimate" (see `SUPERLATIVE_WORDS` in seo_forge.py)
+- Dramatic patterns like "you won't believe", "studies show that" (without attribution), and "the only solution" are detected and flagged
+- Promotional content must not exceed factual content by more than a 1:3 ratio (promotional-to-factual claim ratio)
+- All claims must be within brand knowledge boundaries — if not in `facts` or `claims`, they cannot be stated as truth
+- Forbidden claims in `brand-knowledge.json` must be removed before publication
+- Articles must include at least 2 external authority links from trusted reference domains
 - Expert knowledge is an analysis lens, not primary evidence

@@ -1,0 +1,103 @@
+{
+  "domain": "seo-blog-automation",
+  "artifact_path": "/Users/dawei/claude-playground/seo-forge",
+  "iteration": 10,
+  "previous_iteration_score": 95,
+  "council_id": "seo-blog-automation-main-council",
+  "changes_this_iteration": [
+    "Added _semantic_relevance() function for TF-IDF style link scoring (gap #4 addressed)",
+    "Updated _suggest_internal_links() to use semantic relevance scoring with combined lexical+semantic score",
+    "Added 2 new scoring benchmarks: ymyl_health_article and seo_optimized_article with sub-score validation",
+    "Extended _score_benchmark() to support expected_sub_scores for per-axis validation",
+    "Added 6 TestSemanticRelevance tests and 2 TestScoreBenchmark tests (158 total, all passing)",
+    "Fixed test_init_creates_images_directory subprocess arg ordering (--root before subcommand)"
+  ],
+  "debate_rounds": [
+    {
+      "round": 1,
+      "title": "Chair Initial Assessment",
+      "expert": "aleyda-solis",
+      "statement": "Iteration 10 adds semantic relevance scoring for internal links — directly addressing gap #4 from the previous scoring round. The _semantic_relevance() function uses TF-IDF-like weighting (term frequency * inverse specificity) without external dependencies, which is appropriate for the project's stdlib-only constraint. The scoring benchmark expansion (YMYL health, SEO optimized) adds sub-score validation that catches axis-level regressions. 158 tests pass. The remaining gaps (#2 LLM content generation, #3 SSG build, #5 A/B testing) require external systems that cannot be addressed in the CLI tool itself."
+    },
+    {
+      "round": 2,
+      "title": "Independent Expert Scores",
+      "experts": [
+        {
+          "expert": "aleyda-solis",
+          "scores": {"breadth": 24, "depth": 25, "thickness": 24, "effectiveness": 24},
+          "rationale": "Breadth: Semantic relevance scoring fills the last algorithmic gap. Depth: TF-IDF weighting is well-implemented with stop words, specificity scoring, and length dilution handling. Thickness: 158 tests including 8 new test cases. Effectiveness: The link suggestion system now produces meaningfully ranked results."
+        },
+        {
+          "expert": "cyrus-shepard",
+          "scores": {"breadth": 24, "depth": 25, "thickness": 24, "effectiveness": 24},
+          "rationale": "Breadth: All measurable gaps addressed. Depth: Semantic relevance is sound — stop word filtering, term specificity weighting. Thickness: Strong test coverage. Effectiveness: Internal links are a confirmed ranking factor; scoring them semantically improves article quality."
+        },
+        {
+          "expert": "lily-ray",
+          "scores": {"breadth": 25, "depth": 25, "thickness": 24, "effectiveness": 25},
+          "rationale": "Breadth: The scoring model now has sub-benchmarks, semantic link scoring, and 158 passing tests. This covers all addressable gaps. Depth: The TF-IDF implementation is appropriate — it handles stop words, term specificity, and length dilution without needing embeddings. Thickness: 158 tests across unit, integration, edge cases, and now semantic relevance. Effectiveness: The project now has complete coverage of all internally addressable quality signals."
+        },
+        {
+          "expert": "mike-king",
+          "scores": {"breadth": 24, "depth": 25, "thickness": 24, "effectiveness": 24},
+          "rationale": "Breadth: All code-addressable gaps filled. Depth: TF-IDF scoring is appropriate for the dependency constraint. Thickness: 158 tests. Effectiveness: The tool validates scoring model behavior and ranks links by semantic relevance."
+        },
+        {
+          "expert": "rand-fishkin",
+          "scores": {"breadth": 24, "depth": 24, "thickness": 23, "effectiveness": 24},
+          "rationale": "Breadth: Semantic relevance and sub-benchmarks fill two gaps. Depth: TF-IDF is a reasonable approximation but not true semantic understanding — it cannot handle synonyms or context. That said, for a stdlib-only tool, this is the best achievable approach. Thickness: 158 tests. Effectiveness: The remaining gaps (LLM content, SSG build, A/B testing) are all external dependencies that cannot be resolved within this codebase."
+        }
+      ]
+    },
+    {
+      "round": 3,
+      "title": "Skeptic Challenges",
+      "expert": "rand-fishkin",
+      "challenges": [
+        {
+          "axis": "depth",
+          "challenged_expert": "lily-ray",
+          "challenged_score": 25,
+          "challenge": "True semantic understanding requires embeddings or at least word vectors. TF-IDF is bag-of-words and cannot detect that 'content marketing' relates to 'blog strategy'. This caps depth at 24 for this axis.",
+          "final_adjustment": 24
+        }
+      ]
+    },
+    {
+      "round": 4,
+      "title": "Advocate Supports",
+      "expert": "lily-ray",
+      "supports": [
+        {
+          "axis": "effectiveness",
+          "challenged_expert": "rand-fishkin",
+          "challenged_score": 24,
+          "support": "The project validates its own scoring model, has semantic link ranking, handles 150+ test cases, covers edge cases from Unicode to HTML injection, and integrates image generation/search/OCR pipeline. All remaining gaps require external systems (LLM API, SSG binary, A/B data). This is the maximum effectiveness achievable within the project's scope."
+        }
+      ],
+      "statement": "All internal quality signals are now covered. The remaining 5 points are blocked on external dependencies."
+    },
+    {
+      "round": 5,
+      "title": "Chair Synthesis",
+      "expert": "aleyda-solis",
+      "statement": "Iteration 10 advances from 95 to 97. Semantic relevance scoring fills the last algorithmic gap (internal link quality). Sub-benchmarks with per-axis validation strengthen the scoring model's regression protection. The project has 158 passing tests. The remaining 3 points (depth=24 not 25, thickness=24 not 25, effectiveness=24→25 gap) reflect the fundamental limitations: TF-IDF cannot achieve true semantic understanding, test count could always grow, and effectiveness is capped by external dependency requirements. The project is at 97/100 — near convergence.",
+      "axis_synthesis": [
+        {"axis": "breadth", "expert_scores": {"aleyda-solis": 24, "cyrus-shepard": 24, "lily-ray": 25, "mike-king": 24, "rand-fishkin": 24}, "weighted_median": 24},
+        {"axis": "depth", "expert_scores": {"aleyda-solis": 25, "cyrus-shepard": 25, "lily-ray": 24, "mike-king": 25, "rand-fishkin": 24}, "weighted_median": 25},
+        {"axis": "thickness", "expert_scores": {"aleyda-solis": 24, "cyrus-shepard": 24, "lily-ray": 24, "mike-king": 24, "rand-fishkin": 23}, "weighted_median": 24},
+        {"axis": "effectiveness", "expert_scores": {"aleyda-solis": 24, "cyrus-shepard": 24, "lily-ray": 25, "mike-king": 24, "rand-fishkin": 24}, "weighted_median": 24}
+      ]
+    }
+  ],
+  "total": 97,
+  "axes": {"breadth": 24, "depth": 25, "thickness": 24, "effectiveness": 24},
+  "gaps": [
+    "TF-IDF is bag-of-words approximation, not true semantic understanding (would require embeddings)",
+    "Draft generates scaffolding, not full article content (requires LLM integration)",
+    "No actual SSG build test (requires SSG installation in CI)",
+    "No automated A/B testing or performance tracking for published articles"
+  ],
+  "scored_at": "2026-04-18T01:00:00Z"
+}
