@@ -1,16 +1,17 @@
 ---
 name: seo-forge
 description: >-
-  Universal autonomous SEO blog forge for any company and any industry.
-  Auto-discovers trending keywords via web search, generates SEO-optimized
-  blog articles with E-E-A-T compliance, 8 rotating content templates,
-  competitor analysis, keyword density tuning, authority references, and
-  auto-pushes finished blog to GitHub / Vercel.
-  Combines expert-distiller pipeline patterns with industrial-grade SEO
-  optimization distilled from production-grade SEO systems.
-  TRIGGER when: user says "seo blog", "write blog", "blog forge",
-  "auto blog", "seo optimize", "keyword research blog", "generate article",
-  or provides a company/industry name wanting SEO content.
+  Use when the user wants an AI agent to research, generate, score,
+  optimize, or publish SEO blog content for a company, product, or
+  industry. Covers keyword discovery, SERP and competitor analysis,
+  brand-knowledge constraints, outline and draft generation, 8 article
+  templates, E-E-A-T and reference-quality checks, technical SEO/schema
+  validation, editorial review gates, image support, and GitHub/Vercel
+  publishing or verification. Also use when installing, exporting, or
+  adapting SEO Forge as a portable skill for Codex, Claude Code, OpenCode,
+  or another agent runtime. Requires trustworthy web search/fetch evidence;
+  do not use for generic copywriting that does not need SEO research,
+  quality gates, or publishing workflow.
 allowed-tools:
   - Read
   - Write
