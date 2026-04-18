@@ -14,16 +14,13 @@ API endpoints:
 
 import argparse
 import base64
-import io
 import json
 import os
 import socketserver
-import sys
 import tempfile
 from http.server import HTTPServer, BaseHTTPRequestHandler
 
 import torch
-from PIL import Image
 from transformers import AutoProcessor, AutoModelForImageTextToText
 
 MODEL = None
@@ -166,8 +163,8 @@ def main():
 
     server = ThreadedHTTPServer((args.host, args.port), OCRHandler)
     print(f"GLM-OCR server running at http://{args.host}:{args.port}")
-    print(f"  GET  /health            - Health check")
-    print(f"  POST /v1/chat/completions - Vision OCR (OpenAI-compatible)")
+    print("  GET  /health            - Health check")
+    print("  POST /v1/chat/completions - Vision OCR (OpenAI-compatible)")
     try:
         server.serve_forever()
     except KeyboardInterrupt:
